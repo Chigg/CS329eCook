@@ -82,8 +82,9 @@ demo.state2.prototype = {
         
         for (var i = 0; i < 5; i++)
             {
-                //the i at the end randomizes the animation they spawn in with
-                var baddie = baddies.create(game.world.randomX, game.world.randomY, 'baddie', i);
+                var baddie = baddies.create(game.world.randomX, game.world.randomY, 'baddie');
+                baddie.animations.add('walk',[5,6,7], 16, true);
+                baddie.animations.play("walk", 10, true);
             }
         
         //baddie animations
@@ -257,6 +258,8 @@ function spawnEnemy() {
     for (var i = 0; i < Math.random(0,100); i++)
             {
                 var baddie = baddies.create(game.world.randomX, game.world.randomY, 'baddie');
+                baddie.animations.add('walk',[5,6,7], 16, true);
+                baddie.animations.play("walk", 10, true);
             }
     spawning = false;
     
