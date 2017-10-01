@@ -16,6 +16,7 @@ var look_left = false;
 var baddies;
 var enemyspeed = 0.9;
 var baddiesHP = 25;
+var attackDistance = 200;
 var attackTimer = 0;
 var attackButton;
 var timer;
@@ -225,11 +226,24 @@ function loseHealth (player, baddies) {
     
 }
 
-
-function move(baddie) {
-    game.physics.arcade.moveToObject(baddie,player,60,enemyspeed*2000);
-    baddie.animations.play("bRight");
+function move (baddie) {
+   if (game.physics.arcade.distanceBetween(baddie, player) <= attackDistance) {
+       game.physics.arcade.moveToObject(baddie,player,50);
+       
+//       // moving right
+//       if (baddie.x.velocity >= 0) {
+//           baddie.animations.play("bRight");
+//       // moving left    
+//       } else (baddie.x.velocity <= 0) {
+//           baddie.animations.play("bLeft");
+//       }
+    }
 }
+
+//function move(baddie) {
+//    game.physics.arcade.moveToObject(baddie,player,60,enemyspeed*2000);
+//    baddie.animations.play("bRight");
+//}
 
 function resetGame() {
     //once a carrot touches a player, it'll activate resetGame() function.
