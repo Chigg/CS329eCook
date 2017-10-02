@@ -86,15 +86,16 @@ demo.state2.prototype = {
         for (var i = 0; i < 5; i++)
             {
                 var baddie = baddies.create(game.world.randomX, game.world.randomY, 'baddie');
-                baddie.animations.add('walk',[5,6,7], 16, true);
-                baddie.animations.play("walk", 10, true);
+                //baddie animations
+                baddie.animations.add('bRight',[5,6,7], 16, true);
+                baddie.animations.add('bLeft',[8,9,10], 16, true);
+                baddie.animations.add('meleeRight', [0,1,2], true);
+                baddie.animations.add('meleeLeft', [13,14,15], true);
+//                baddie.animations.add('walk',[5,6,7], 16, true);
+//                baddie.animations.play("walk", 10, true);
             }
         
-        //baddie animations
-        baddie.animations.add('bRight',[5,6,7], 16, true);
-        baddie.animations.add('bLeft',[8,9,10], 16, true);
-        baddie.animations.add('meleeRight', [0,1,2], true);
-        baddie.animations.add('meleeLeft', [13,14,15], true);
+        
         
     //this is where we establish projectiles
         bullets = game.add.group();
@@ -264,16 +265,20 @@ function loseHealth (player, baddies) {
 }
 
 function move (baddie) {
+    baddie.animations.play ("bRight");
+    
    if (game.physics.arcade.distanceBetween(baddie, player) <= attackDistance) {
        game.physics.arcade.moveToObject(baddie,player,200);
        
-//       // moving right
-//       if (baddie.x.velocity >= 0) {
-//           baddie.animations.play("bRight");
-//       // moving left    
-//       } else (baddie.x.velocity <= 0) {
-//           baddie.animations.play("bLeft");
-//       }
+       // moving left
+       if (baddie.body.velocity.x < 0) {
+           baddie.animations.play("bLeft");
+           
+       // moving right   
+       } else if (baddie.body.velocity.x > 0) {
+           baddie.animations.play("bRight");
+           
+       }
     }
 }
 
@@ -309,8 +314,13 @@ function spawnEnemy() {
     for (var i = 0; i < Math.random(0,100); i++)
             {
                 var baddie = baddies.create(game.world.randomX, game.world.randomY, 'baddie');
-                baddie.animations.add('walk',[5,6,7], 16, true);
-                baddie.animations.play("walk", 10, true);
+                //baddie animations
+                baddie.animations.add('bRight',[5,6,7], 16, true);
+                baddie.animations.add('bLeft',[8,9,10], 16, true);
+                baddie.animations.add('meleeRight', [0,1,2], true);
+                baddie.animations.add('meleeLeft', [13,14,15], true);
+//                baddie.animations.add('walk',[5,6,7], 16, true);
+//                baddie.animations.play("walk", 10, true);
             }
     spawning = false;
     
