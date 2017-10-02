@@ -3,7 +3,7 @@ var scoreText;
 var score = 0;
 var player;
 var bullets;
-var fireRate = 100;
+var fireRate = 1000;
 var nextFire = 0;
 var meleeSound;
 var gameOverText;
@@ -14,7 +14,7 @@ var trees;
 var tree;
 var look_left = false;
 var baddies;
-var enemyspeed = 0.9;
+var enemyspeed = .9;
 var baddiesHP = 25;
 var attackDistance = 200;
 var attackTimer = 0;
@@ -27,9 +27,10 @@ demo.state2.prototype = {
         game.load.image('grass', 'assets/grass.png');
         game.load.spritesheet('player', 'assets/Chef.png', 50, 62);
         game.load.spritesheet('baddie', 'assets/Carrot.png', 50, 50);
-        game.load.image('bullet', 'assets/pan.png', 25, 25);
+        game.load.image('bullet', 'assets/knife.png', 25, 25);
         game.load.audio('melee_sound', 'assets/audio/melee_sound.mp3');
         game.load.image('tree', 'assets/tree.png', 50, 100);
+        game.load.image('crosshair', 'assets/crosshair.png', 1, 1);
         playerHP = 100;
         
     },
@@ -45,8 +46,8 @@ demo.state2.prototype = {
         
         attackButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
         baddies = game.add.physicsGroup(Phaser.Physics.ARCADE);
-        
-        player = game.add.sprite(game.world.centerX, game.world.centerY, 'player')
+       
+        player = game.add.sprite(game.world.centerX, game.world.centerY, 'player');
         player.enableBody = true;
         player.physicsBodyType = Phaser.Physics.ARCADE;
         
@@ -65,6 +66,7 @@ demo.state2.prototype = {
         
         //physics
         game.physics.arcade.enable(player);
+        
         game.camera.follow(player);
         
         player.body.bounce.y = 0;
@@ -97,8 +99,8 @@ demo.state2.prototype = {
     //this is where we establish projectiles
         bullets = game.add.group();
         bullets.enableBody = true;
-        bullets.physicsBodyType = Phaser.Physics.ARCADE;      
-        bullets.createMultiple(50, 'bullet')
+        bullets.physicsBodyType = Phaser.Physics.ARCADE;
+        bullets.createMultiple(50, 'bullet');
         bullets.setAll('checkWorldBounds', true);
         bullets.setAll('outOfBoundsKill', true);
 
@@ -121,6 +123,8 @@ demo.state2.prototype = {
         d=game.input.keyboard.addKey(Phaser.Keyboard.D);
         spawning = true;
         
+        crosshair = game.add.sprite(game.world.centerX, game.world.centerY, 'crosshair');
+        game.physics.arcade.enable(crosshair);
             
         cursors = game.input.keyboard.createCursorKeys();
     },
@@ -133,7 +137,15 @@ demo.state2.prototype = {
         // text is locked in upper left corner
         HPText.fixedToCamera = true;
         HPText.cameraOffset.setTo(0,0);
-
+        
+        if(game.physics.arcade.distanceToPointer(crosshair, game.input.activePointer)>10)
+            {
+                game.physics.arcade.moveToPointer(crosshair, 500);
+            }
+        else
+            {
+                crosshair.body.velocity.set(0);
+            }
         
         baddies.forEach(move);
         
@@ -195,29 +207,41 @@ demo.state2.prototype = {
         if (playerHP <= 0) {
             resetGame();
         }
+        
+        if (game.input.activePointer.isDown)
+        {
+            fire();
+        }
+
+
     }
 };
 
-//        if (game.input.activePointer.isDown)
-//        {
-//            fire();
-//        }
 
-//
-//function fire(){
-//    
-//    if(game.time.now > nextFire && bullets.countDead() > 0)
-//    {
-//        nextFire = game.time.now + fireRate;
-//        
-//        var bullet = bullets.getFirstDead();
-//        
-//        //initial firing position. Right now it is centered on player.
-//        bullet.reset(player.x, player.y);
-//    
-//        game.physics.arcade.moveToPointer(bullet, 300);
-//    }
-//}
+function fire(){
+    
+    if(game.time.now > nextFire && bullets.countDead() > 0)
+    {
+        nextFire = game.time.now + fireRate;
+        
+        var bullet = bullets.getFirstDead();
+        
+        //initial firing position. Right now it is centered on player.
+        bullet.reset(player.x + 35, player.y + 30);
+        bullet.anchor.setTo(0.5,0.5);
+        bullet.rotation = game.physics.arcade.angleToPointer(bullet);
+        game.physics.arcade.moveToPointer(bullet, 800);
+        
+        if (look_left){
+                player.animations.play('meleeLeft');
+                meleeSound.play()
+                }
+        else {
+                player.animations.play('meleeRight');
+                meleeSound.play()
+             }
+    }
+}
 
 // player loses health when hit by enemy
 function loseHealth (player, baddies) {
@@ -228,7 +252,7 @@ function loseHealth (player, baddies) {
 
 function move (baddie) {
    if (game.physics.arcade.distanceBetween(baddie, player) <= attackDistance) {
-       game.physics.arcade.moveToObject(baddie,player,50);
+       game.physics.arcade.moveToObject(baddie,player,200);
        
 //       // moving right
 //       if (baddie.x.velocity >= 0) {
