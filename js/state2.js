@@ -216,11 +216,20 @@ demo.state2.prototype = {
         {
             fire();
         }
+        
+      game.physics.arcade.overlap(bullets, baddies, collisionHandler, null, this);
 
 
     }
 };
 
+function collisionHandler (bullet, baddie) {
+
+    //  When a bullet hits an alien we kill them both
+    bullet.kill();
+    baddie.kill();
+    score += 20;
+}
 
 function fire(){
     
