@@ -138,11 +138,15 @@ demo.state2.prototype = {
         HPText.fixedToCamera = true;
         HPText.cameraOffset.setTo(0,0);
         
-        if(game.physics.arcade.distanceToPointer(crosshair, game.input.activePointer)>10)
+        //if the distance to pointer is greater than 50, the sprite while move to the new cursor position
+        if(game.physics.arcade.distanceToPointer(crosshair, game.input.activePointer)> 50)
             {
-                game.physics.arcade.moveToPointer(crosshair, 500);
+                //crosshair refers to the sprite, while 1000 refers to the speed at which the sprite moves
+                game.physics.arcade.moveToPointer(crosshair, 1000);
             }
         else
+        //if the cursor is within 50, it will not move. This is likely redundant, but I didn't want to take any chances
+        //since it's a peripheral
             {
                 crosshair.body.velocity.set(0);
             }
