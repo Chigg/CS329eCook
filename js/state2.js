@@ -75,7 +75,8 @@ demo.state2.prototype = {
         
         
         HPText = game.add.text(16, 16, 'Health: ' + playerHP, {fontSize: '32px', fill: '#000'});
-       
+        scoreText = game.add.text(16, 16, 'Score: ' + score, {fontSize: '32px', fill: '#000'});
+        
         // enemy spawns and behavior
         baddies = game.add.group();
         baddies.enableBody = true;
@@ -139,6 +140,8 @@ demo.state2.prototype = {
         HPText.fixedToCamera = true;
         HPText.cameraOffset.setTo(0,0);
         
+        scoreText.fixedToCamera = true;
+        scoreText.cameraOffset.setTo(0,40);
         //if the distance to pointer is greater than 50, the sprite while move to the new cursor position
         if(game.physics.arcade.distanceToPointer(crosshair, game.input.activePointer)> 50)
             {
@@ -229,7 +232,8 @@ function collisionHandler (bullet, baddie) {
     //  When a bullet hits an alien we kill them both
     bullet.kill();
     baddie.kill();
-    score += 20;
+    score += 10;
+    scoreText.text = 'Score: ' + score;
 }
 
 function fire(){
