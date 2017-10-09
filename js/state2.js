@@ -32,6 +32,7 @@ demo.state2.prototype = {
         game.load.image('tree', 'assets/tree.png', 50, 100);
         game.load.image('crosshair', 'assets/crosshair.png', 1, 1);
         playerHP = 100;
+        score = 0;
         
     },
     
@@ -73,10 +74,6 @@ demo.state2.prototype = {
         player.body.gravity.y = 0;
         player.body.collideWorldBounds = true;
         
-        
-        HPText = game.add.text(16, 16, 'Health: ' + playerHP, {fontSize: '32px', fill: '#000'});
-        scoreText = game.add.text(16, 16, 'Score: ' + score, {fontSize: '32px', fill: '#000'});
-        
         // enemy spawns and behavior
         baddies = game.add.group();
         baddies.enableBody = true;
@@ -84,7 +81,7 @@ demo.state2.prototype = {
         xCoord = Math.random(0, 1920);
         yCoord = Math.random(0, 1920);
         
-        for (var i = 0; i < 5; i++)
+        for (var i = 0; i < 15; i++)
             {
                 var baddie = baddies.create(game.world.randomX, game.world.randomY, 'baddie');
                 //baddie animations
@@ -92,8 +89,8 @@ demo.state2.prototype = {
                 baddie.animations.add('bLeft',[8,9,10], 16, true);
                 baddie.animations.add('meleeRight', [0,1,2], true);
                 baddie.animations.add('meleeLeft', [13,14,15], true);
-//                baddie.animations.add('walk',[5,6,7], 16, true);
-//                baddie.animations.play("walk", 10, true);
+                
+                baddie.animations.play("bRight");
             }
         
         
@@ -119,13 +116,20 @@ demo.state2.prototype = {
                 yCoord = Math.random(0, yCoord + 100)
             }
         
+        HPText = game.add.text(16, 16, 'Health: ' + playerHP, {fontSize: '32px', fill: '#000'});
+        scoreText = game.add.text(16, 16, 'Score: ' + score, {fontSize: '32px', fill: '#000'});
+        
         w=game.input.keyboard.addKey(Phaser.Keyboard.W);
         a=game.input.keyboard.addKey(Phaser.Keyboard.A);
         s=game.input.keyboard.addKey(Phaser.Keyboard.S);
         d=game.input.keyboard.addKey(Phaser.Keyboard.D);
         spawning = true;
         
+        
         crosshair = game.add.sprite(game.world.centerX, game.world.centerY, 'crosshair');
+        crosshair.fixedToCamera = true;
+        crosshair.cameraOffset.setTo(0,0);
+        
         game.physics.arcade.enable(crosshair);
             
         cursors = game.input.keyboard.createCursorKeys();
@@ -142,7 +146,8 @@ demo.state2.prototype = {
         
         scoreText.fixedToCamera = true;
         scoreText.cameraOffset.setTo(0,40);
-        //if the distance to pointer is greater than 50, the sprite while move to the new cursor position
+       
+        /*//if the distance to pointer is greater than 50, the sprite while move to the new cursor position
         if(game.physics.arcade.distanceToPointer(crosshair, game.input.activePointer)> 50)
             {
                 //crosshair refers to the sprite, while 1000 refers to the speed at which the sprite moves
@@ -153,7 +158,11 @@ demo.state2.prototype = {
         //since it's a peripheral
             {
                 crosshair.body.velocity.set(0);
-            }
+            }*/
+        
+        // crosshair moves with mouse
+        crosshair.fixedtoCamera = true;
+        crosshair.cameraOffset.setTo(game.input.mousePointer.x, game.input.mousePointer.y);
         
         baddies.forEach(move);
         
@@ -269,10 +278,13 @@ function loseHealth (player, baddies) {
 }
 
 function move (baddie) {
-    baddie.animations.play ("bRight");
+    if (baddie.body.velocity == 0) {
+           baddie.animations.play ("bRight");
+    }
     
    if (game.physics.arcade.distanceBetween(baddie, player) <= attackDistance) {
        game.physics.arcade.moveToObject(baddie,player,200);
+       
        
        // moving left
        if (baddie.body.velocity.x < 0) {
@@ -292,7 +304,6 @@ function move (baddie) {
 //}
 
 function resetGame() {
-    //once a carrot touches a player, it'll activate resetGame() function.
     //We should make a state 3 which is essentially the same as state1, only with a title screen that says "Game Over. (newline) Hit spacebar to continue."
     //that will take the player to state1, this giving them the option to play again.
     
@@ -323,9 +334,12 @@ function spawnEnemy() {
                 baddie.animations.add('bLeft',[8,9,10], 16, true);
                 baddie.animations.add('meleeRight', [0,1,2], true);
                 baddie.animations.add('meleeLeft', [13,14,15], true);
-//                baddie.animations.add('walk',[5,6,7], 16, true);
-//                baddie.animations.play("walk", 10, true);
+                
+                
+                baddie.animations.play("bRight");
             }
+    
+    
     spawning = false;
     
 }

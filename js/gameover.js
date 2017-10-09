@@ -7,7 +7,7 @@ demo.gameover.prototype = {
         
         var bar = game.add.graphics();
         bar.beginFill(0x000000, 0.2);
-        bar.drawRect(0, 100, 800, 100);
+        bar.drawRect(0, 100, 600, 100);
 
         var style = { font: "bold 32px Arial", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" };
 
@@ -16,7 +16,7 @@ demo.gameover.prototype = {
         text.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
 
         //  We'll set the bounds to be from x0, y100 and be 800px wide by 100px high
-        text.setTextBounds(0, 100, 800, 100);
+        text.setTextBounds(0, 100, 600, 100);
         
         game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR).onDown.add(changeState, null, null, 2);
 
