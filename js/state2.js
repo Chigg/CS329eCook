@@ -8,7 +8,7 @@ var nextFire = 0;
 var meleeSound;
 var gameOverText;
 var HPText
-var playerHP = 100;
+var playerHP = 50;
 
 var trees;
 var tree;
@@ -16,6 +16,7 @@ var look_left = false;
 var baddies;
 var enemyspeed = .9;
 var baddiesHP = 25;
+var HPFrame = 0;
 var attackDistance = 200;
 var attackTimer = 0;
 var attackButton;
@@ -27,11 +28,14 @@ demo.state2.prototype = {
         game.load.image('grass', 'assets/grass.png');
         game.load.spritesheet('player', 'assets/Chef.png', 50, 62);
         game.load.spritesheet('baddie', 'assets/Carrot.png', 50, 50);
+        game.load.spritesheet('health_bar', 'assets/health_bar.png', 124, 20);
         game.load.image('bullet', 'assets/knife.png', 25, 25);
         game.load.audio('melee_sound', 'assets/audio/melee_sound.mp3');
         game.load.image('tree', 'assets/tree.png', 50, 100);
         game.load.image('crosshair', 'assets/crosshair.png', 1, 1);
-        playerHP = 100;
+       
+        playerHP = 50;
+        HPFrame = 0;
         score = 0;
         
     },
@@ -116,8 +120,9 @@ demo.state2.prototype = {
                 yCoord = Math.random(0, yCoord + 100)
             }
         
-        HPText = game.add.text(16, 16, 'Health: ' + playerHP, {fontSize: '32px', fill: '#000'});
-        scoreText = game.add.text(16, 16, 'Score: ' + score, {fontSize: '32px', fill: '#000'});
+        HPText = game.add.text(16, 16, 'Health: ' + playerHP, {fontSize: '15px', fill: '#000'});
+        scoreText = game.add.text(16, 16, 'Score: ' + score, {fontSize: '15px', fill: '#000'});
+        health_bar = game.add.sprite(16, 16, 'health_bar');
         
         w=game.input.keyboard.addKey(Phaser.Keyboard.W);
         a=game.input.keyboard.addKey(Phaser.Keyboard.A);
@@ -142,7 +147,10 @@ demo.state2.prototype = {
         
         // text is locked in upper left corner
         HPText.fixedToCamera = true;
-        HPText.cameraOffset.setTo(0,0);
+        HPText.cameraOffset.setTo(135, 15);
+        
+        health_bar.fixedToCamera = true;
+        health_bar.cameraOffset.setTo(0, 15);
         
         scoreText.fixedToCamera = true;
         scoreText.cameraOffset.setTo(0,40);
@@ -273,6 +281,8 @@ function fire(){
 // player loses health when hit by enemy
 function loseHealth (player, baddies) {
     playerHP -= 1;
+    HPFrame += 1;
+    health_bar.frame = HPFrame;
     HPText.text = 'Health: ' + playerHP;
     
 }
@@ -304,12 +314,6 @@ function move (baddie) {
 //}
 
 function resetGame() {
-    //We should make a state 3 which is essentially the same as state1, only with a title screen that says "Game Over. (newline) Hit spacebar to continue."
-    //that will take the player to state1, this giving them the option to play again.
-    
-    //gameOverText = game.add.text(100, 100, 'GAME OVER',{fontSize: '32px', fill: '#000'});
-//    newText(game, 200, 200, 'Press spacebar to restart');
-//    
     game.state.start('gameover');
     
 }
