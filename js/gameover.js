@@ -19,6 +19,8 @@ demo.gameover.prototype = {
         text.setTextBounds(0, 100, 600, 100);
         
         game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR).onDown.add(changeState, null, null, 2);
+        
+        music.mute = true;
 
     },
 
@@ -27,5 +29,5 @@ demo.gameover.prototype = {
 };
 
 function changeState(i, stateNum){
-    game.state.start('state2',true, false);
+    game.state.start('menu',true, false);
 }

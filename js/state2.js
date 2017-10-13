@@ -1,42 +1,9 @@
 //This is the core game area
-var scoreText;
-var score = 0;
-var player;
-var bullets;
-var fireRate = 1000;
-var nextFire = 0;
-var meleeSound;
-var gameOverText;
-var HPText
-var playerHP = 50;
-
-var trees;
-var tree;
-var look_left = false;
-var baddies;
-var enemyspeed = .9;
-var baddiesHP = 25;
-var HPFrame = 0;
-var attackDistance = 200;
-var attackTimer = 0;
-var attackButton;
-var timer;
 
 demo.state2 = function(){};
 demo.state2.prototype = {
     preload: function(){
-        game.load.image('grass', 'assets/grass.png');
-        game.load.spritesheet('player', 'assets/Chef.png', 50, 62);
-        game.load.spritesheet('baddie', 'assets/Carrot.png', 50, 50);
-        game.load.spritesheet('health_bar', 'assets/health_bar.png', 124, 20);
-        game.load.image('bullet', 'assets/knife.png', 25, 25);
-        game.load.audio('melee_sound', 'assets/audio/melee_sound.mp3');
-        game.load.image('tree', 'assets/tree.png', 50, 100);
-        game.load.image('crosshair', 'assets/crosshair.png', 1, 1);
-       
-        playerHP = 50;
-        HPFrame = 0;
-        score = 0;
+
         
     },
     
@@ -44,11 +11,13 @@ demo.state2.prototype = {
         timer = game.time.create(false);
         timer.loop(4000,spawnEnemy, this);
         timer.start();
+        //creates the floor
         background = game.add.tileSprite(0, 0, 1920, 1920, 'grass');
         game.world.setBounds(0, 0, 1920, 1920);
         game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
         game.stage.backgroundColor = '#008000';
         
+        //spacebar is for melee but it's not implemented currently
         attackButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
         baddies = game.add.physicsGroup(Phaser.Physics.ARCADE);
        
@@ -234,7 +203,7 @@ demo.state2.prototype = {
         }
         
         if (game.input.activePointer.isDown)
-        {
+        {   
             fire();
         }
         
