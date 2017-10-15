@@ -53,6 +53,12 @@ demo.load.prototype = {
         
         var loadingLabel = game.add.text(80, 150, 'loading...',
                                         {  font: '30px Courier', fill: '#fff'});
+        
+        
+        // JSON TILE MAP PRELOAD
+        game.load.tilemap ('garden', 'assets/garden.json', null, Phaser.Tilemap.TILED_JSON);
+        game.load.image('terrain', 'assets/terrain_atlas.png');
+        
         game.load.image('grass', 'assets/grass.png');
         game.load.spritesheet('player', 'assets/Chef.png', 50, 62);
         game.load.spritesheet('baddie', 'assets/Carrot.png', 50, 50);
