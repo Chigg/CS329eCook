@@ -2,13 +2,36 @@ var scoreText;
 var score = 0;
 var player;
 var bullets;
-var ammo1 = 25;
+
+//for the knife
 var fireRate = 1000;
 var nextFire = 0;
+
+//for the shotgun
+var Wep2nextFire = 0;
+var Wep2fireRate = 1000;
+
+//for the wep3
+var Wep3nextFire = 0;
+var Wep3fireRate = 00;
+
+
 var meleeSound;
 var gameOverText;
 var HPText
 var playerHP = 50;
+
+//ammo
+var ammo1 = 25;
+var ammo2 = 0;
+var ammo3 = 10;
+
+//weapon states
+//true determines whether the weapon is currently out
+//therefore, the player starts with the knife out
+knifeOut = true;
+wep2Out = false;
+wep3Out = false;
 
 var trees;
 var tree;

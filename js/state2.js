@@ -19,6 +19,11 @@ demo.state2.prototype = {
         
         //spacebar is for melee but it's not implemented currently
         attackButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+        
+        //weapon selection goes here
+        wep1 = game.input.keyboard.addKey(Phaser.Keyboard.ONE);
+        wep2 = game.input.keyboard.addKey(Phaser.Keyboard.TWO);
+        wep3 = game.input.keyboard.addKey(Phaser.Keyboard.THREE);
         baddies = game.add.physicsGroup(Phaser.Physics.ARCADE);
        
         player = game.add.sprite(game.world.centerX, game.world.centerY, 'player');
@@ -68,7 +73,7 @@ demo.state2.prototype = {
         
         
         
-    //this is where we establish projectiles
+    //this is where we establish knife projectiles
         bullets = game.add.group();
         bullets.enableBody = true;
         bullets.physicsBodyType = Phaser.Physics.ARCADE;
@@ -77,6 +82,12 @@ demo.state2.prototype = {
         bullets.setAll('outOfBoundsKill', true);
 
         trees = game.add.group();
+        
+    //this is where we establish shotgun projectiles
+        shells = game.add.group();
+        shells.enableBody = true;
+        bullets.physicsBodyType = Phaser.Physics.ARCADE;
+        bullets.createMultiple(50, 'bullet');
         
         xCoord = Math.random(0, 1920);
         yCoord = Math.random(0, 1920);
@@ -90,7 +101,9 @@ demo.state2.prototype = {
             }
         
         HPText = game.add.text(16, 16, 'Health: ' + playerHP, {fontSize: '15px', fill: '#000'});
-        scoreText = game.add.text(16, 16, 'Score: ' + score, {fontSize: '15px', fill: '#000'});
+        scoreText = game.add.text(16, 16, 'Score: ' + score, {fontSize: '15px', fill: '#000'});    
+        ammoText = game.add.text(16, 16, 'Ammo: ' + '∞', {fontSize: '15px', fill: '#000'});
+        
         health_bar = game.add.sprite(16, 16, 'health_bar');
         
         w=game.input.keyboard.addKey(Phaser.Keyboard.W);
@@ -123,6 +136,10 @@ demo.state2.prototype = {
         
         scoreText.fixedToCamera = true;
         scoreText.cameraOffset.setTo(0,40);
+        
+        ammoText.fixedToCamera = true;
+        ammoText.cameraOffset.setTo(500, 370);
+        
        
         /*//if the distance to pointer is greater than 50, the sprite while move to the new cursor position
         if(game.physics.arcade.distanceToPointer(crosshair, game.input.activePointer)> 50)
@@ -177,8 +194,10 @@ demo.state2.prototype = {
         }
         else {
             player.animations.stop(null, true)
-            baddies.setAll('body.velocity.x',0);
-            baddies.setAll('body.velocity.y',0);
+            //uncommenting these below lines will cause the enemies to stop with the player
+            //for debugging purposes
+//            baddies.setAll('body.velocity.x',0);
+//            baddies.setAll('body.velocity.y',0);
         }
         
        // console.log(player.meleeRight.animations.currentAnim.isPlaying); 
@@ -202,9 +221,45 @@ demo.state2.prototype = {
             resetGame();
         }
         
+        //if number one is pressed, it pulls the knife out and puts away the other weapons
+        
+        if (wep1.isDown){
+            knifeOut = true;
+            wep2Out = false;
+            wep3Out = false;
+            
+        }
+        
+        if (wep2.isDown){
+            knifeOut = false;
+            wep2Out = true;
+            wep3Out = false;
+            
+        }
+        
+        if (wep3.isDown){
+            knifeOut = false;
+            wep2Out = false;
+            wep3Out = true;
+            
+        }
+        
         if (game.input.activePointer.isDown)
         {   
-            fire();
+            if(knifeOut & ammo1 > 0){
+                throwKnife();
+            }
+            
+            if(wep2Out & ammo2 > 0){
+                shotgunFire();
+                //weapon 2 function
+            }
+            
+            if(wep3Out & ammo3 > 0){
+                //weapon 3 function
+                throwGrenade();
+            }
+            
         }
         
       game.physics.arcade.overlap(bullets, baddies, collisionHandler, null, this);
@@ -222,7 +277,7 @@ function collisionHandler (bullet, baddie) {
     scoreText.text = 'Score: ' + score;
 }
 
-function fire(){
+function throwKnife(){
     
     if(game.time.now > nextFire && bullets.countDead() > 0)
     {
@@ -235,6 +290,8 @@ function fire(){
         bullet.anchor.setTo(0.5,0.5);
         bullet.rotation = game.physics.arcade.angleToPointer(bullet);
         game.physics.arcade.moveToPointer(bullet, 800);
+        ammo1 -= 1;
+        ammoText.text = 'Knives: ' + ammo1;
         
         if (look_left){
                 player.animations.play('meleeLeft');
@@ -245,6 +302,68 @@ function fire(){
                 meleeSound.play()
              }
     }
+}
+
+function shotgunFire(){
+    
+    if(game.time.now > nextFire && bullets.countDead() > 0)
+    {
+        nextFire = game.time.now + fireRate;
+        
+        var bullet = bullets.getFirstDead();
+        
+        //initial firing position. Right now it is centered on player.
+        bullet.reset(player.x + 35, player.y + 30);
+        bullet.anchor.setTo(0.5,0.5);
+        bullet.rotation = game.physics.arcade.angleToPointer(bullet);
+        game.physics.arcade.moveToPointer(bullet, 800);
+        ammo2 -= 1;
+        ammoText.text = 'Shotgun Ammo: ' + ammo2;
+        
+        if (look_left){
+                player.animations.play('meleeLeft');
+                meleeSound.play()
+                }
+        else {
+                player.animations.play('meleeRight');
+                meleeSound.play()
+             }
+    }
+}
+
+function throwGrenade(){
+    
+    if(game.time.now > nextFire && bullets.countDead() > 0)
+    {
+        nextFire = game.time.now + fireRate;
+        
+        var bullet = bullets.getFirstDead();
+        
+        //initial firing position. Right now it is centered on player.
+        bullet.reset(player.x + 35, player.y + 30);
+        bullet.anchor.setTo(0.5,0.5);
+        bullet.rotation = game.physics.arcade.angleToPointer(bullet);
+        game.physics.arcade.moveToPointer(bullet, 350);
+        
+        game.time.events.add(Phaser.Timer.SECOND*1, this.explode, this);
+        ammo3 -= 1;
+        ammoText.text = 'Grenades: ' + ammo3;
+        
+        if (look_left){
+                player.animations.play('meleeLeft');
+                meleeSound.play()
+                }
+        else {
+                player.animations.play('meleeRight');
+                meleeSound.play()
+             }
+    }
+}
+
+function explode () {
+    //whenever 1 second is passed, this function is called
+    //create an explosion at this object's location
+    
 }
 
 // player loses health when hit by enemy
