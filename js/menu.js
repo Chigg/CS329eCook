@@ -12,8 +12,6 @@ demo.menu.prototype = {
         music = game.add.audio('music');
         music.play()
         
-        difficulty = 4000
-        
         background = game.add.tileSprite(0, 0, 600, 400, 'startscreen')
         
         easy = game.add.button(game.world.centerX - 295, 300, 'easy', easyClick, this, 2, 1, 0);
@@ -39,16 +37,19 @@ function startGame(i, stateNum){
 }
 
 function easyClick() {
-    difficulty = 4000;
+    difficulty = 2000;
+    game.state.start('state2');
     
 }
 
 function mediumClick() {
-    difficulty = 2000;
+    difficulty = 1000;
+    game.state.start('state2');
     
 }
 function hardClick() {
-    difficulty = 400;
+    difficulty = 100;
+    game.state.start('state2');
     
 }
 

@@ -29,5 +29,5 @@ demo.gameover.prototype = {
 };
 
 function changeState(i, stateNum){
-    game.state.start('menu',true, false);
+    game.state.start('menu');
 }
