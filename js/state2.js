@@ -47,11 +47,11 @@ demo.state2.prototype = {
         wep3 = game.input.keyboard.addKey(Phaser.Keyboard.THREE);
         baddies = game.add.physicsGroup(Phaser.Physics.ARCADE);
         
-        emitter = game.add.emitter(0, 0, 100);
-
-        emitter.makeParticles('diamond');
-        emitter.gravity = 200;
-       
+//        emitter = game.add.emitter(0, 0, 100);
+//
+//        emitter.makeParticles('diamond');
+//        emitter.gravity = 200;
+//       
         player = game.add.sprite(game.world.centerX, game.world.centerY, 'player');
         player.enableBody = true;
         player.physicsBodyType = Phaser.Physics.ARCADE;
@@ -97,9 +97,19 @@ demo.state2.prototype = {
 //                
 //                baddie.animations.play("bRight");
 //            }
-        
-        
-        
+    //this is where we establish ammo refilling
+        ammos = game.add.group();
+
+    //  We will enable physics for any star that is created in this group
+        ammos.enableBody = true;
+
+    //  Here we'll create 12 of them evenly spaced apart
+        for (var i = 0; i < 12; i++)
+        {
+        //  Create a star inside of the 'stars' group
+            var ammo = ammos.create(game.world.randomX, game.world.randomY, 'grocery_bag');
+
+        }
     //this is where we establish knife projectiles
         bullets = game.add.group();
         bullets.enableBody = true;
@@ -174,6 +184,8 @@ demo.state2.prototype = {
         
         ammoText.fixedToCamera = true;
         ammoText.cameraOffset.setTo(500, 370);
+        
+        game.physics.arcade.overlap(player, ammos, collectAmmo, null, this);
         
         //for debugging difficulty
         //difficultyText.fixedToCamera = true;
@@ -481,6 +493,27 @@ function spawnEnemy() {
     
     spawning = false;
     
+}
+
+function collectAmmo (player, ammo) {
+
+    // Removes the ammo from the screen
+    ammo.kill();
+    
+    if(knifeOut){
+        ammo1 += 20;
+    }
+        
+    if(wep2Out){
+        ammo2 += 10;
+    }
+
+        
+    if(wep3Out){
+        ammo3 += 2;
+    }
+
+
 }
 
 // function particleBurst(baddie) {
