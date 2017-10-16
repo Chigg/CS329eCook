@@ -12,6 +12,10 @@ demo.menu.prototype = {
         
         music = game.add.audio('music');
         music.play()
+        
+        ammo1 = 25;
+        ammo2 = 0;
+        ammo3 = 10;
 
         playerHP = 50;
         HPFrame = 0;
