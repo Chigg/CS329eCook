@@ -23,7 +23,7 @@ demo.menu.prototype = {
         hard = game.add.button(game.world.centerX + 105, 300, 'hard', hardClick, this, 2, 1, 0);
         
         ammo1 = 25;
-        ammo2 = 0;
+        ammo2 = 100;
         ammo3 = 10;
         
 
@@ -48,7 +48,7 @@ function mediumClick() {
     
 }
 function hardClick() {
-    difficulty = 100;
+    difficulty = 400;
     
 }
 

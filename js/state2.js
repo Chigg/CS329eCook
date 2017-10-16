@@ -1,4 +1,5 @@
 //This is the core game area
+var emitter;
 
 demo.state2 = function(){};
 demo.state2.prototype = {
@@ -45,6 +46,11 @@ demo.state2.prototype = {
         wep2 = game.input.keyboard.addKey(Phaser.Keyboard.TWO);
         wep3 = game.input.keyboard.addKey(Phaser.Keyboard.THREE);
         baddies = game.add.physicsGroup(Phaser.Physics.ARCADE);
+        
+        emitter = game.add.emitter(0, 0, 100);
+
+        emitter.makeParticles('diamond');
+        emitter.gravity = 200;
        
         player = game.add.sprite(game.world.centerX, game.world.centerY, 'player');
         player.enableBody = true;
@@ -62,6 +68,7 @@ demo.state2.prototype = {
         
         //audio
         meleeSound = game.add.audio('melee_sound');
+        ar_sound = game.add.audio('ar_sound');
         
         //physics
         game.physics.arcade.enable(player);
@@ -79,17 +86,17 @@ demo.state2.prototype = {
         xCoord = Math.random(0, 1920);
         yCoord = Math.random(0, 1920);
         
-        for (var i = 0; i < 15; i++)
-            {
-                var baddie = baddies.create(game.world.randomX, game.world.randomY, 'baddie');
-                //baddie animations
-                baddie.animations.add('bRight',[5,6,7], 16, true);
-                baddie.animations.add('bLeft',[8,9,10], 16, true);
-                baddie.animations.add('meleeRight', [0,1,2], true);
-                baddie.animations.add('meleeLeft', [13,14,15], true);
-                
-                baddie.animations.play("bRight");
-            }
+//        for (var i = 0; i < 15; i++)
+//            {
+//                var baddie = baddies.create(game.world.randomX, game.world.randomY, 'baddie');
+//                //baddie animations
+//                baddie.animations.add('bRight',[5,6,7], 16, true);
+//                baddie.animations.add('bLeft',[8,9,10], 16, true);
+//                baddie.animations.add('meleeRight', [0,1,2], true);
+//                baddie.animations.add('meleeLeft', [13,14,15], true);
+//                
+//                baddie.animations.play("bRight");
+//            }
         
         
         
@@ -103,11 +110,18 @@ demo.state2.prototype = {
 
         trees = game.add.group();
         
+    //this is where we establish AR projectiles
+        
+        AR = game.add.group();
+        AR.enableBody = true;
+        AR.physicsBodyType = Phaser.Physics.ARCADE;
+        AR.createMultiple(100, 'assault_round');
+        AR.setAll('checkWorldBounds', true);
+        AR.setAll('outOfBoundsKill', true);
+        
     //this is where we establish shotgun projectiles
-        shells = game.add.group();
-        shells.enableBody = true;
-        bullets.physicsBodyType = Phaser.Physics.ARCADE;
-        bullets.createMultiple(50, 'bullet');
+//        shells = game.add.group();
+//        shells.enableBody = true;
         
         xCoord = Math.random(0, 1920);
         yCoord = Math.random(0, 1920);
@@ -231,11 +245,17 @@ demo.state2.prototype = {
             // attackTimer = game.time.now + 300;
             if (look_left){
                 player.animations.play('meleeLeft');
-                meleeSound.play()
+//                if(knifeOut){
+//                    meleeSound.play()
+//                }
+//                if(wep2Out){
+//                    ar_sound.play()
+//                }
+                
             }
              else {
                 player.animations.play('meleeRight');
-                meleeSound.play()
+//                meleeSound.play()
              }
                     
                 }
@@ -275,7 +295,7 @@ demo.state2.prototype = {
             }
             
             if(wep2Out & ammo2 > 0){
-                shotgunFire();
+                ARFire();
                 //weapon 2 function
             }
             
@@ -286,16 +306,18 @@ demo.state2.prototype = {
             
         }
         
-      game.physics.arcade.overlap(bullets, baddies, collisionHandler, null, this);
+      game.physics.arcade.overlap(bullets, baddies, AR, collisionHandler, null, this);
 
 
     }
 };
 
-function collisionHandler (bullet, baddie) {
+function collisionHandler (bullet, carrotAmmo, baddie) {
 
     //  When a bullet hits an alien we kill them both
+    carrotAmmo.kill();
     bullet.kill();
+    particleBurst(baddie);
     baddie.kill();
     score += 10;
     scoreText.text = 'Score: ' + score;
@@ -328,29 +350,29 @@ function throwKnife(){
     }
 }
 
-function shotgunFire(){
-    
-    if(game.time.now > nextFire && bullets.countDead() > 0)
+function ARFire(){
+    //for the AR
+    if(game.time.now > Wep2nextFire && AR.countDead() > 0)
     {
-        nextFire = game.time.now + fireRate;
+        Wep2nextFire = game.time.now + Wep2fireRate;
         
-        var bullet = bullets.getFirstDead();
+        var carrotAmmo = AR.getFirstDead();
         
         //initial firing position. Right now it is centered on player.
-        bullet.reset(player.x + 35, player.y + 30);
-        bullet.anchor.setTo(0.5,0.5);
-        bullet.rotation = game.physics.arcade.angleToPointer(bullet);
-        game.physics.arcade.moveToPointer(bullet, 800);
+        carrotAmmo.reset(player.x + 35, player.y + 30);
+        carrotAmmo.anchor.setTo(0.5,0.5);
+        carrotAmmo.rotation = game.physics.arcade.angleToPointer(carrotAmmo);
+        game.physics.arcade.moveToPointer(carrotAmmo, 1500);
         ammo2 -= 1;
-        ammoText.text = 'Shotgun Ammo: ' + ammo2;
+        ammoText.text = 'AR Ammo: ' + ammo2;
         
         if (look_left){
                 player.animations.play('meleeLeft');
-                meleeSound.play()
+                ar_sound.play()
                 }
         else {
                 player.animations.play('meleeRight');
-                meleeSound.play()
+                ar_sound.play()
              }
     }
 }
@@ -459,4 +481,18 @@ function spawnEnemy() {
     
     spawning = false;
     
+}
+
+function particleBurst(baddie) {
+
+    //  Position the emitter where the mouse/touch event was
+    emitter.x = baddie.x;
+    emitter.y = baddie.y;
+
+    //  The first parameter sets the effect to "explode" which means all particles are emitted at once
+    //  The second gives each particle a 2000ms lifespan
+    //  The third is ignored when using burst/explode mode
+    //  The final parameter (10) is how many particles will be emitted in this single burst
+    emitter.start(true, 2000, null, 10);
+
 }
