@@ -313,7 +313,8 @@ demo.state2.prototype = {
             
         }
         
-      game.physics.arcade.overlap(bullets, baddies, collisionHandler, null, this);
+    game.physics.arcade.overlap(bullets, baddies, collisionHandler, null, this);
+    game.physics.arcade.overlap(AR, baddies, ARcollisionHandler, null, this);
 
 
     }
@@ -321,9 +322,19 @@ demo.state2.prototype = {
 
 function collisionHandler (bullet, baddie) {
 
-    //  When a bullet hits an alien we kill them both
-    //carrotAmmo.kill();
+    //  When a bullet hits an carrot we kill them both
     bullet.kill();
+    baddie.kill();
+    particleBurst(baddie.x,baddie.y);
+    score += 10;
+    scoreText.text = 'Score: ' + score;
+}
+
+//this should be temporary, i don't think it's best practice
+function ARcollisionHandler (carrotAmmo, baddie) {
+
+    //  When a bullet hits a carrot we kill them both
+    carrotAmmo.kill();
     baddie.kill();
     particleBurst(baddie.x,baddie.y);
     score += 10;

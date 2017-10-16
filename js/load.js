@@ -75,7 +75,7 @@ demo.load.prototype = {
         game.load.spritesheet('onion', 'assets/Onion.png', 50, 50);
         game.load.spritesheet('health_bar', 'assets/health_bar.png', 124, 20);
         game.load.image('bullet', 'assets/knife.png', 25, 25);
-        game.load.image('assault_round', 'assets/assault.png', 25, 25);
+        game.load.image('assault_round', 'assets/assault.png', 10, 10);
         game.load.image('grocery_bag', 'assets/grocery_bag.png');
         game.load.audio('melee_sound', 'assets/audio/melee_sound.mp3');
         game.load.audio('ar_sound', 'assets/audio/ar_sound.mp3');
