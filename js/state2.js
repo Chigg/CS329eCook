@@ -306,16 +306,16 @@ demo.state2.prototype = {
             
         }
         
-      game.physics.arcade.overlap(bullets, baddies, AR, collisionHandler, null, this);
+      game.physics.arcade.overlap(bullets, baddies, collisionHandler, null, this);
 
 
     }
 };
 
-function collisionHandler (bullet, carrotAmmo, baddie) {
+function collisionHandler (bullet, baddie) {
 
     //  When a bullet hits an alien we kill them both
-    carrotAmmo.kill();
+    //carrotAmmo.kill();
     bullet.kill();
     //particleBurst(baddie);
     baddie.kill();
