@@ -47,11 +47,11 @@ demo.state2.prototype = {
         wep3 = game.input.keyboard.addKey(Phaser.Keyboard.THREE);
         baddies = game.add.physicsGroup(Phaser.Physics.ARCADE);
         
-//        emitter = game.add.emitter(0, 0, 100);
-//
-//        emitter.makeParticles('diamond');
-//        emitter.gravity = 200;
-//       
+        emitter = game.add.emitter(0, 0, 100);
+
+        emitter.makeParticles('chunk');
+        emitter.gravity = 0;
+       
         player = game.add.sprite(game.world.centerX, game.world.centerY, 'player');
         player.enableBody = true;
         player.physicsBodyType = Phaser.Physics.ARCADE;
@@ -69,6 +69,9 @@ demo.state2.prototype = {
         //audio
         meleeSound = game.add.audio('melee_sound');
         ar_sound = game.add.audio('ar_sound');
+        smash = game.add.audio('smash');
+        whack = game.add.audio('whack');
+        splat = game.add.audio('splat');
         
         //physics
         game.physics.arcade.enable(player);
@@ -97,10 +100,9 @@ demo.state2.prototype = {
 //                
 //                baddie.animations.play("bRight");
 //            }
+        
     //this is where we establish ammo refilling
         ammos = game.add.group();
-
-    //  We will enable physics for any star that is created in this group
         ammos.enableBody = true;
 
     //  Here we'll create 12 of them evenly spaced apart
@@ -183,7 +185,7 @@ demo.state2.prototype = {
         scoreText.cameraOffset.setTo(0,40);
         
         ammoText.fixedToCamera = true;
-        ammoText.cameraOffset.setTo(500, 370);
+        ammoText.cameraOffset.setTo(490, 370);
         
         game.physics.arcade.overlap(player, ammos, collectAmmo, null, this);
         
@@ -257,17 +259,10 @@ demo.state2.prototype = {
             // attackTimer = game.time.now + 300;
             if (look_left){
                 player.animations.play('meleeLeft');
-//                if(knifeOut){
-//                    meleeSound.play()
-//                }
-//                if(wep2Out){
-//                    ar_sound.play()
-//                }
                 
             }
              else {
                 player.animations.play('meleeRight');
-//                meleeSound.play()
              }
                     
                 }
@@ -329,8 +324,8 @@ function collisionHandler (bullet, baddie) {
     //  When a bullet hits an alien we kill them both
     //carrotAmmo.kill();
     bullet.kill();
-    //particleBurst(baddie);
     baddie.kill();
+    particleBurst(baddie.x,baddie.y);
     score += 10;
     scoreText.text = 'Score: ' + score;
 }
@@ -516,16 +511,28 @@ function collectAmmo (player, ammo) {
 
 }
 
-// function particleBurst(baddie) {
+ function particleBurst(x, y) {
 
-//     //  Position the emitter where the mouse/touch event was
-//     emitter.x = baddie.x;
-//     emitter.y = baddie.y;
+     //  Position the emitter where the mouse/touch event was
+     emitter.x = x;
+     emitter.y = y;
 
-//     //  The first parameter sets the effect to "explode" which means all particles are emitted at once
-//     //  The second gives each particle a 2000ms lifespan
-//     //  The third is ignored when using burst/explode mode
-//     //  The final parameter (10) is how many particles will be emitted in this single burst
-//     emitter.start(true, 2000, null, 10);
+     //  The first parameter sets the effect to "explode" which means all particles are emitted at once
+     //  The second gives each particle a 2000ms lifespan
+     //  The third is ignored when using burst/explode mode
+     //  The final parameter (10) is how many particles will be emitted in this single burst
+     emitter.start(true, 1000, null, 5);
+     var randSound = Math.random(0,3);
+     
+     if(randSound = 1){
+         smash.play()
+     }
+     if(randSound = 2){
+         whack.play()
+     }
+     if(randSound = 3){
+         splat.play()
+     }
+     
 
-// }
+ }

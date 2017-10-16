@@ -79,10 +79,14 @@ demo.load.prototype = {
         game.load.image('grocery_bag', 'assets/grocery_bag.png');
         game.load.audio('melee_sound', 'assets/audio/melee_sound.mp3');
         game.load.audio('ar_sound', 'assets/audio/ar_sound.mp3');
+        game.load.audio('smash', 'assets/audio/smash.mp3');
+        game.load.audio('splat', 'assets/audio/splat.mp3');
+        game.load.audio('whack', 'assets/audio/whack.mp3');
         game.load.image('tree', 'assets/tree.png', 50, 100);
         game.load.image('crosshair', 'assets/crosshair.png', 1, 1);
         game.load.image('startscreen','assets/game_start_screen.jpg');
         game.load.audio('music','assets/audio/go_to_picnic.mp3');
+        game.load.image('chunk', 'assets/carrot_chunk.png');
         
         
         playerHP = 50;
