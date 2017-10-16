@@ -9,7 +9,7 @@ demo.state2.prototype = {
     
     create: function(){
         timer = game.time.create(false);
-        timer.loop(4000,spawnEnemy, this);
+        timer.loop(difficulty, spawnEnemy, this);
         timer.start();
         
         // JSON TILE MAP
@@ -123,6 +123,7 @@ demo.state2.prototype = {
         HPText = game.add.text(16, 16, 'Health: ' + playerHP, {fontSize: '15px', fill: '#000'});
         scoreText = game.add.text(16, 16, 'Score: ' + score, {fontSize: '15px', fill: '#000'});    
         ammoText = game.add.text(16, 16, 'Ammo: ' + '∞', {fontSize: '15px', fill: '#000'});
+        //difficultyText = game.add.text(16, 16, 'difficulty: ' + difficulty, {fontSize: '15px', fill: '#000'});  
         
         health_bar = game.add.sprite(16, 16, 'health_bar');
         
@@ -160,6 +161,9 @@ demo.state2.prototype = {
         ammoText.fixedToCamera = true;
         ammoText.cameraOffset.setTo(500, 370);
         
+        //for debugging difficulty
+        //difficultyText.fixedToCamera = true;
+        //difficultyText.cameraOffset.setTo(135, 60);
        
         /*//if the distance to pointer is greater than 50, the sprite while move to the new cursor position
         if(game.physics.arcade.distanceToPointer(crosshair, game.input.activePointer)> 50)
@@ -440,6 +444,7 @@ function spawnEnemy() {
     
     for (var i = 0; i < Math.random(0,100); i++)
             {
+                var baddie = baddies.create(game.world.randomX, game.world.randomY, 'baddie');
                 var baddie = baddies.create(game.world.randomX, game.world.randomY, 'baddie');
                 //baddie animations
                 baddie.animations.add('bRight',[5,6,7], 16, true);

@@ -3,6 +3,8 @@ var score = 0;
 var player;
 var bullets;
 
+var difficulty = 4000
+
 //for the knife
 var fireRate = 1000;
 var nextFire = 0;
@@ -58,6 +60,12 @@ demo.load.prototype = {
         // JSON TILE MAP PRELOAD
         game.load.tilemap ('garden', 'assets/garden.json', null, Phaser.Tilemap.TILED_JSON);
         game.load.image('terrain', 'assets/terrain_atlas.png');
+        
+        //menu buttons for difficulty
+        game.load.spritesheet('easy', 'assets/menu/easy_button_sprite_sheet.png',193,71);
+        game.load.spritesheet('medium', 'assets/menu/medium_button_sprite_sheet.png',193,71);
+        game.load.spritesheet('hard', 'assets/menu/hard_button_sprite_sheet.png',193,71);
+        
         
         game.load.image('grass', 'assets/grass.png');
         game.load.spritesheet('player', 'assets/Chef.png', 50, 62);
