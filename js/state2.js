@@ -208,7 +208,7 @@ demo.state2.prototype = {
         
         // crosshair moves with mouse
         crosshair.fixedtoCamera = true;
-        crosshair.cameraOffset.setTo(game.input.mousePointer.x, game.input.mousePointer.y);
+        crosshair.cameraOffset.setTo((game.input.mousePointer.x)-25, (game.input.mousePointer.y)-25);
         
         baddies.forEach(move);
         
