@@ -4,6 +4,7 @@ var player;
 var bullets;
 
 var ammos;
+var emitter;
 
 var difficulty = 4000
 
@@ -70,29 +71,30 @@ demo.load.prototype = {
         
         
         game.load.image('grass', 'assets/grass.png');
+        game.load.image('checkered_tile', 'assets/checkered_tile.jpg');
+        
         game.load.spritesheet('player', 'assets/Chef.png', 50, 62);
         game.load.spritesheet('baddie', 'assets/Carrot.png', 50, 50);
         game.load.spritesheet('onion', 'assets/Onion.png', 50, 50);
         game.load.spritesheet('health_bar', 'assets/health_bar.png', 124, 20);
+        
         game.load.image('bullet', 'assets/knife.png', 25, 25);
         game.load.image('assault_round', 'assets/assault.png', 10, 10);
         game.load.image('grocery_bag', 'assets/grocery_bag.png');
         game.load.image('extra_life', 'assets/extra_life.png');
+        game.load.image('tree', 'assets/tree.png', 50, 100);
+        game.load.image('crosshair', 'assets/crosshair.png', 1, 1);
+        game.load.image('startscreen','assets/game_start_screen.jpg');
+        game.load.image('chunk', 'assets/carrot_chunk.png');
+        //placeholder for grocery store
+        game.load.image('med_center', 'assets/med_center.png');
+        
+        game.load.audio('music','assets/audio/go_to_picnic.mp3');
         game.load.audio('melee_sound', 'assets/audio/melee_sound.mp3');
         game.load.audio('ar_sound', 'assets/audio/ar_sound.mp3');
         game.load.audio('smash', 'assets/audio/smash.mp3');
         game.load.audio('splat', 'assets/audio/splat.mp3');
         game.load.audio('whack', 'assets/audio/whack.mp3');
-        game.load.image('tree', 'assets/tree.png', 50, 100);
-        game.load.image('crosshair', 'assets/crosshair.png', 1, 1);
-        game.load.image('startscreen','assets/game_start_screen.jpg');
-        game.load.audio('music','assets/audio/go_to_picnic.mp3');
-        game.load.image('chunk', 'assets/carrot_chunk.png');
-        
-        
-        playerHP = 50;
-        HPFrame = 0;
-        score = 0;
         
     },
     

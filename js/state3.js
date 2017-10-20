@@ -1,117 +1,90 @@
-//This is the core game area
-//var emitter;
-
-demo.state2 = function(){};
-demo.state2.prototype = {
+demo.state3 = function(){};
+demo.state3.prototype = {
     preload: function(){
 
         
     },
     
     create: function(){
-        
         timer = game.time.create(false);
         timer.loop(difficulty, spawnEnemy, this);
         timer.start();
-
-        // JSON TILE MAP
-        game.map = game.add.tilemap('garden');
-
-        //the first parameter is the tileset name as specified in Tiled, the second is the key to the asset
-        game.map.addTilesetImage('terrain_atlas', 'terrain');
-
-        //create layer
-        game.backgroundlayer = game.map.createLayer('backgroundLayer');
-        game.blockedLayer = game.map.createLayer('blockedLayer');
-
-        //collision on blockedLayer
         
-        game.map.setCollisionBetween(1, 1000, true, 'blockedLayer');
-
-        //resizes the game world to match the layer dimensions
-        game.backgroundlayer.resizeWorld();
-
+        
+        //creates the floor
+        background = game.add.tileSprite(0, 0, 1920, 1920, 'checkered_tile');
+        game.world.setBounds(0, 0, 1920, 1920);
         game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
         game.stage.backgroundColor = '#008000';
 
-    //        //creates the floor
-    //        background = game.add.tileSprite(0, 0, 1920, 1920, 'grass');
-    //        game.world.setBounds(0, 0, 1920, 1920);
-    //        game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-    //        game.stage.backgroundColor = '#008000';
-
-        //spacebar is for melee but it's not implemented currently    
         
+        //spacebar is for melee but it's not implemented currently
         attackButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-
+        
         //weapon selection goes here
         wep1 = game.input.keyboard.addKey(Phaser.Keyboard.ONE);
         wep2 = game.input.keyboard.addKey(Phaser.Keyboard.TWO);
         wep3 = game.input.keyboard.addKey(Phaser.Keyboard.THREE);
         baddies = game.add.physicsGroup(Phaser.Physics.ARCADE);
-
+        
         emitter = game.add.emitter(0, 0, 100);
 
         emitter.makeParticles('chunk');
         emitter.gravity = 0;
-
+       
         player = game.add.sprite(game.world.centerX, game.world.centerY, 'player');
         player.enableBody = true;
         player.physicsBodyType = Phaser.Physics.ARCADE;
-
+        
         //animations  
         //player animations
         player.animations.add('right', [0,1,2,3,4,5,6], 13, true);
         player.animations.add('left', [7,8,9,10,11,12,13], 13, true);
-
+        
         player.frame = 0;
         player.animations.add('meleeRight', [14,15,16], 0, false);
         player.animations.add('meleeLeft', [17,18,19], 0, false);
 
-
+        
         //audio
         meleeSound = game.add.audio('melee_sound');
         ar_sound = game.add.audio('ar_sound');
         smash = game.add.audio('smash');
         whack = game.add.audio('whack');
         splat = game.add.audio('splat');
-
+        
         //physics
         game.physics.arcade.enable(player);
-
+        
         game.camera.follow(player);
-
+        
         player.body.bounce.y = 0;
         player.body.gravity.y = 0;
         player.body.collideWorldBounds = true;
-
+        
         // enemy spawns and behavior
         baddies = game.add.group();
         baddies.enableBody = true;
-
+        
         xCoord = Math.random(0, 1920);
         yCoord = Math.random(0, 1920);
-
-        med_center = game.add.sprite(150, 150, 'med_center');
-        game.physics.arcade.enable(med_center);
-        med_center.enableBody = true;
-
-    //        for (var i = 0; i < 15; i++)
-    //            {
-    //                var baddie = baddies.create(game.world.randomX, game.world.randomY, 'baddie');
-    //                //baddie animations
-    //                baddie.animations.add('bRight',[5,6,7], 16, true);
-    //                baddie.animations.add('bLeft',[8,9,10], 16, true);
-    //                baddie.animations.add('meleeRight', [0,1,2], true);
-    //                baddie.animations.add('meleeLeft', [13,14,15], true);
-    //                
-    //                baddie.animations.play("bRight");
-    //            }
-
+        
+//        for (var i = 0; i < 15; i++)
+//            {
+//                var baddie = baddies.create(game.world.randomX, game.world.randomY, 'baddie');
+//                //baddie animations
+//                baddie.animations.add('bRight',[5,6,7], 16, true);
+//                baddie.animations.add('bLeft',[8,9,10], 16, true);
+//                baddie.animations.add('meleeRight', [0,1,2], true);
+//                baddie.animations.add('meleeLeft', [13,14,15], true);
+//                
+//                baddie.animations.play("bRight");
+//            }
+        
     //this is where we establish ammo refilling
         ammos = game.add.group();
         ammos.enableBody = true;
-
+        
         HPDrops = game.add.group();
         HPDrops.enableBody = true;
 
@@ -123,7 +96,6 @@ demo.state2.prototype = {
             var HPDrop = HPDrops.create(game.world.randomX, game.world.randomY, 'extra_life');
 
         }
-
     //this is where we establish knife projectiles
         bullets = game.add.group();
         bullets.enableBody = true;
@@ -132,58 +104,45 @@ demo.state2.prototype = {
         bullets.setAll('checkWorldBounds', true);
         bullets.setAll('outOfBoundsKill', true);
 
-        trees = game.add.group();
-        trees.enableBody = true;
-        game.physics.arcade.enable(trees);
         
-
     //this is where we establish AR projectiles
-
+        
         AR = game.add.group();
         AR.enableBody = true;
         AR.physicsBodyType = Phaser.Physics.ARCADE;
         AR.createMultiple(100, 'assault_round');
         AR.setAll('checkWorldBounds', true);
         AR.setAll('outOfBoundsKill', true);
-
+        
     //this is where we establish shotgun projectiles
-    //        shells = game.add.group();
-    //        shells.enableBody = true;
-
+//        shells = game.add.group();
+//        shells.enableBody = true;
+        
         xCoord = Math.random(0, 1920);
         yCoord = Math.random(0, 1920);
-
-        for (var i = 0; i < 5; i++)
-            {
-
-                tree = game.add.sprite(game.world.centerX * xCoord, game.world.centerY * yCoord, 'tree');
-                xCoord = Math.random(0, xCoord + 100)
-                yCoord = Math.random(0, yCoord + 100)
-                
-            }
-
+        
+        
         HPText = game.add.text(16, 16, 'Health: ' + playerHP, {fontSize: '15px', fill: '#000'});
         scoreText = game.add.text(16, 16, 'Score: ' + score, {fontSize: '15px', fill: '#000'});    
         ammoText = game.add.text(16, 16, 'Ammo: ' + '∞', {fontSize: '15px', fill: '#000'});
         //difficultyText = game.add.text(16, 16, 'difficulty: ' + difficulty, {fontSize: '15px', fill: '#000'});  
-
+        
         health_bar = game.add.sprite(16, 16, 'health_bar');
-
+        
         w=game.input.keyboard.addKey(Phaser.Keyboard.W);
         a=game.input.keyboard.addKey(Phaser.Keyboard.A);
         s=game.input.keyboard.addKey(Phaser.Keyboard.S);
         d=game.input.keyboard.addKey(Phaser.Keyboard.D);
         spawning = true;
-
-
+        
+        
         crosshair = game.add.sprite(game.world.centerX, game.world.centerY, 'crosshair');
         crosshair.fixedToCamera = true;
         crosshair.cameraOffset.setTo(0,0);
-
-        game.physics.arcade.enable(crosshair);
-
-        cursors = game.input.keyboard.createCursorKeys();
         
+        game.physics.arcade.enable(crosshair);
+            
+        cursors = game.input.keyboard.createCursorKeys();
     },
     
     
@@ -206,15 +165,6 @@ demo.state2.prototype = {
         
         game.physics.arcade.overlap(player, ammos, collectAmmo, null, this);
         game.physics.arcade.overlap(player, HPDrops, collectHP, null, this);
-        
-        game.physics.arcade.collide(player, 'blockedLayer');
-        
-        game.physics.arcade.collide(player, trees);
-        
-        
-        game.physics.arcade.overlap(player, med_center, goToMedCenter);
-        
-        console.log(game.physics.arcade.overlap(player, med_center));
         
         //for debugging difficulty
         //difficultyText.fixedToCamera = true;
