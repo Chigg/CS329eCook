@@ -168,6 +168,29 @@ demo.state2.prototype = {
         //difficultyText = game.add.text(16, 16, 'difficulty: ' + difficulty, {fontSize: '15px', fill: '#000'});  
 
         health_bar = game.add.sprite(16, 16, 'health_bar');
+        
+        //0 UnSelected, 1 Selected, 2 No Ammo, 3 No Ammo, 4Locked
+        //knife
+        k_ui = game.add.sprite(0,10, 'knife_ui');
+        k_ui.animations.add('us', [0], 0, true);
+        k_ui.animations.add('s', [1], 1, true);
+        k_ui.animations.add('na', [2], 2, true);
+        k_ui.animations.add('nas', [3], 3, true);
+        k_ui.animations.add('l', [4], 4, true);
+        //Assult Rifle
+        ar_ui = game.add.sprite(0,10, 'ar_ui');
+        ar_ui.animations.add('us', [0], 0, true);
+        ar_ui.animations.add('s', [1], 1, true);
+        ar_ui.animations.add('na', [2], 2, true);
+        ar_ui.animations.add('nas', [3], 3, true);
+        ar_ui.animations.add('l', [4], 4, true);
+        //Grenade
+        g_ui = game.add.sprite(0,10, 'grenade_ui');
+        g_ui.animations.add('us', [0], 0, true);
+        g_ui.animations.add('s', [1], 1, true);
+        g_ui.animations.add('na', [2], 2, true);
+        g_ui.animations.add('nas', [3], 3, true);
+        g_ui.animations.add('l', [4], 4, true);
 
         w=game.input.keyboard.addKey(Phaser.Keyboard.W);
         a=game.input.keyboard.addKey(Phaser.Keyboard.A);
@@ -203,6 +226,15 @@ demo.state2.prototype = {
         
         ammoText.fixedToCamera = true;
         ammoText.cameraOffset.setTo(490, 370);
+        
+        k_ui.fixedToCamera = true;
+        k_ui.cameraOffset.setTo(5, 370);
+        
+        ar_ui.fixedToCamera = true;
+        ar_ui.cameraOffset.setTo(30, 370);
+        
+        g_ui.fixedToCamera = true;
+        g_ui.cameraOffset.setTo(55, 370);
         
         game.physics.arcade.overlap(player, ammos, collectAmmo, null, this);
         game.physics.arcade.overlap(player, HPDrops, collectHP, null, this);
@@ -302,6 +334,26 @@ demo.state2.prototype = {
         //if number one is pressed, it pulls the knife out and puts away the other weapons
         
         if (wep1.isDown){
+            ammoText.text = 'Knives: ' + ammo1;
+            if (ammo1 == 0){
+                k_ui.animations.play('nas');
+            }
+            else{
+                k_ui.animations.play('s');
+            }
+            if (ammo2 == 0){
+                ar_ui.animations.play('na');
+            }
+            else{
+                ar_ui.animations.play('us');
+            }
+            
+            if (ammo3 == 0){
+                g_ui.animations.play('na');
+            }
+            else{
+                g_ui.animations.play('us');
+            }
             knifeOut = true;
             wep2Out = false;
             wep3Out = false;
@@ -309,6 +361,26 @@ demo.state2.prototype = {
         }
         
         if (wep2.isDown){
+            ammoText.text = 'AR Ammo: ' + ammo2;
+            if (ammo2 == 0){
+                ar_ui.animations.play('nas');
+            }
+            else{
+                ar_ui.animations.play('s');
+            }
+            if (ammo1 == 0){
+                k_ui.animations.play('na');
+            }
+            else{
+                k_ui.animations.play('us');
+            }
+            
+            if (ammo3 == 0){
+                g_ui.animations.play('na');
+            }
+            else{
+                g_ui.animations.play('us');
+            }
             knifeOut = false;
             wep2Out = true;
             wep3Out = false;
@@ -316,10 +388,29 @@ demo.state2.prototype = {
         }
         
         if (wep3.isDown){
+            if (ammo3 == 0){
+                g_ui.animations.play('nas');
+            }
+            else{
+                g_ui.animations.play('s');
+            }
+            if (ammo2 == 0){
+                ar_ui.animations.play('na');
+            }
+            else{
+                ar_ui.animations.play('us');
+            }
+            
+            if (ammo1 == 0){
+                k_ui.animations.play('na');
+            }
+            else{
+                k_ui.animations.play('us');
+            }
             knifeOut = false;
             wep2Out = false;
             wep3Out = true;
-            
+            ammoText.text = 'Grenades: ' + ammo3; 
         }
         
         if (game.input.activePointer.isDown)
