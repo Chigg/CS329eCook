@@ -334,9 +334,29 @@ demo.state2.prototype = {
         //if number one is pressed, it pulls the knife out and puts away the other weapons
         
         if (wep1.isDown){
+            knifeOut = true;
+            wep2Out = false;
+            wep3Out = false;
+            
+        }
+        
+        if (wep2.isDown){
+            knifeOut = false;
+            wep2Out = true;
+            wep3Out = false;
+            
+        }
+        
+        if (wep3.isDown){
+            knifeOut = false;
+            wep2Out = false;
+            wep3Out = true;
+        }
+        
+        if (knifeOut){
             ammoText.text = 'Knives: ' + ammo1;
             if (ammo1 == 0){
-                k_ui.animations.play('nas');
+            k_ui.animations.play('nas');
             }
             else{
                 k_ui.animations.play('s');
@@ -354,25 +374,21 @@ demo.state2.prototype = {
             else{
                 g_ui.animations.play('us');
             }
-            knifeOut = true;
-            wep2Out = false;
-            wep3Out = false;
             
         }
-        
-        if (wep2.isDown){
+        if(wep2Out){
             ammoText.text = 'AR Ammo: ' + ammo2;
-            if (ammo2 == 0){
-                ar_ui.animations.play('nas');
-            }
-            else{
-                ar_ui.animations.play('s');
-            }
             if (ammo1 == 0){
                 k_ui.animations.play('na');
             }
             else{
                 k_ui.animations.play('us');
+            }
+            if (ammo2 == 0){
+                ar_ui.animations.play('nas');
+            }
+            else{
+                ar_ui.animations.play('s');
             }
             
             if (ammo3 == 0){
@@ -381,18 +397,14 @@ demo.state2.prototype = {
             else{
                 g_ui.animations.play('us');
             }
-            knifeOut = false;
-            wep2Out = true;
-            wep3Out = false;
-            
         }
-        
-        if (wep3.isDown){
-            if (ammo3 == 0){
-                g_ui.animations.play('nas');
+        if(wep3Out){
+            ammoText.text = 'Grenades: ' + ammo3;
+            if (ammo1 == 0){
+                k_ui.animations.play('na');
             }
             else{
-                g_ui.animations.play('s');
+                k_ui.animations.play('us');
             }
             if (ammo2 == 0){
                 ar_ui.animations.play('na');
@@ -401,16 +413,12 @@ demo.state2.prototype = {
                 ar_ui.animations.play('us');
             }
             
-            if (ammo1 == 0){
-                k_ui.animations.play('na');
+            if (ammo3 == 0){
+                g_ui.animations.play('nas');
             }
             else{
-                k_ui.animations.play('us');
+                g_ui.animations.play('s');
             }
-            knifeOut = false;
-            wep2Out = false;
-            wep3Out = true;
-            ammoText.text = 'Grenades: ' + ammo3; 
         }
         
         if (game.input.activePointer.isDown)
@@ -460,6 +468,10 @@ function ARcollisionHandler (carrotAmmo, baddie) {
     scoreText.text = 'Score: ' + score;
 }
 
+function goToMedCenter () {
+    game.state.start ('state3');
+}
+
 function throwKnife(){
     
     if(game.time.now > nextFire && bullets.countDead() > 0)
@@ -474,18 +486,8 @@ function throwKnife(){
         bullet.rotation = game.physics.arcade.angleToPointer(bullet);
         game.physics.arcade.moveToPointer(bullet, 800);
         this.checkWorldBounds = true;
-        this.outOfBoundsKill = true;
-        
-  
-        
+        this.outOfBoundsKill = true; 
         ammo1 -= 1;
-        if (ammo1 == 0){
-            k_ui.animations.play('nas');
-        }
-        else{
-            k_ui.animations.play('s');
-        }
-        ammoText.text = 'Knives: ' + ammo1;
         
         if (look_left){
                 player.animations.play('meleeLeft');
@@ -514,13 +516,6 @@ function ARFire(){
         this.checkWorldBounds = true;
         this.outOfBoundsKill = true;
         ammo2 -= 1;
-        if (ammo2 == 0){
-            ar_ui.animations.play('nas');
-        }
-        else{
-            ar_ui.animations.play('s');
-        }
-        ammoText.text = 'AR Ammo: ' + ammo2;
         
         if (look_left){
                 player.animations.play('meleeLeft');
@@ -549,14 +544,6 @@ function throwGrenade(){
         
         game.time.events.add(Phaser.Timer.SECOND*1, this.explode, this);
         ammo3 -= 1;
-        if (ammo3 == 0){
-            g_ui.animations.play('nas');
-        }
-        else{
-            g_ui.animations.play('s');
-        }
-        ammoText.text = 'Grenades: ' + ammo3;
-        
         if (look_left){
                 player.animations.play('meleeLeft');
                 meleeSound.play()
@@ -652,36 +639,13 @@ function collectAmmo (player, ammo) {
     
     if(knifeOut){
         ammo1 += 20;
-        if (ammo1 == 0){
-            k_ui.animations.play('na');
-        }
-        else{
-            k_ui.animations.play('s');
-        }
-        ammoText.text = 'Knives: ' + ammo1;
     }
         
     if(wep2Out){
         ammo2 += 10;
-        if (ammo2 == 0){
-            ar_ui.animations.play('na');
-        }
-        else{
-            ar_ui.animations.play('s');
-        }
-        ammoText.text = 'AR Ammo: ' + ammo2;
-    }
-
-        
+    }   
+    
     if(wep3Out){
-        ammo3 += 2;
-        if (ammo3 == 0){
-            g_ui.animations.play('na');
-        }
-        else{
-            g_ui.animations.play('s');
-        }
-        ammoText.text = 'Grenades: ' + ammo3;
     }
 
 
