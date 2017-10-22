@@ -49,7 +49,8 @@ demo.state2.prototype = {
         wep2 = game.input.keyboard.addKey(Phaser.Keyboard.TWO);
         wep3 = game.input.keyboard.addKey(Phaser.Keyboard.THREE);
         baddies = game.add.physicsGroup(Phaser.Physics.ARCADE);
-
+        explosions = game.add.physicsGroup(Phaser.Physics.ARCADE);
+        
         emitter = game.add.emitter(0, 0, 100);
 
         emitter.makeParticles('chunk');
@@ -67,7 +68,7 @@ demo.state2.prototype = {
         player.frame = 0;
         player.animations.add('meleeRight', [14,15,16], 0, false);
         player.animations.add('meleeLeft', [17,18,19], 0, false);
-
+        
 
         //audio
         meleeSound = game.add.audio('melee_sound');
@@ -140,7 +141,8 @@ demo.state2.prototype = {
         explosions = game.add.group();
         explosions.enableBody = true;
         explosions.physicsBodyType = Phaser.Physics.ARCADE;
-        explosions.createMultiple(50, 'bullet');
+        explosions.createMultiple(50, 'explosion');
+        player.animations.add('explode', [0,1,2,3,4,5,6,7,8,9], 0, true);
 
     //this is where we establish AR projectiles
 
@@ -262,10 +264,6 @@ demo.state2.prototype = {
         
         console.log(game.physics.arcade.overlap(player, med_center));
         
-        //for debugging difficulty
-        //difficultyText.fixedToCamera = true;
-        //difficultyText.cameraOffset.setTo(135, 60);
-       
         /*//if the distance to pointer is greater than 50, the sprite while move to the new cursor position
         if(game.physics.arcade.distanceToPointer(crosshair, game.input.activePointer)> 50)
             {
@@ -548,6 +546,7 @@ function ARFire(){
         carrotAmmo.anchor.setTo(0.5,0.5);
         carrotAmmo.rotation = game.physics.arcade.angleToPointer(carrotAmmo);
         game.physics.arcade.moveToPointer(carrotAmmo, 1500);
+        carrotAmmo.lifespan = 300;
         this.checkWorldBounds = true;
         this.outOfBoundsKill = true;
         ammo2 -= 1;
@@ -597,7 +596,9 @@ function explode (x, y) {
         //initial firing position. Right now it is centered on player.
     explosion.x = x
     explosion.y = y
+    explosion.animations.play('explode');
     explosion.reset(explosion.x, explosion.y);
+    explosion.lifespan = 2000;
     
 }
 

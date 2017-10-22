@@ -74,9 +74,11 @@ demo.load.prototype = {
         game.load.image('checkered_tile', 'assets/checkered_tile.jpg');
         
         game.load.spritesheet('player', 'assets/Chef.png', 50, 62);
+        game.load.spritesheet('AR_player', 'assets/Chef_AR.png', 50, 62);
         game.load.spritesheet('baddie', 'assets/Carrot.png', 50, 50);
         game.load.spritesheet('onion', 'assets/Onion.png', 50, 50);
         game.load.spritesheet('health_bar', 'assets/health_bar.png', 124, 20);
+        game.load.spritesheet('explosion', 'assets/blender-grenade/explosion.png', 50, 51);
         
         game.load.image('bullet', 'assets/knife.png', 25, 25);
         game.load.image('assault_round', 'assets/assault.png', 10, 10);

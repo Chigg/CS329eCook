@@ -48,7 +48,7 @@ function mediumClick() {
     
 }
 function hardClick() {
-    difficulty = 100;
+    difficulty = 250;
     game.state.start('state2');
     
 }
