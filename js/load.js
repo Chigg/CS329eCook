@@ -92,6 +92,7 @@ demo.load.prototype = {
         game.load.image('med_center', 'assets/med_center.png');
         
         game.load.audio('music','assets/audio/go_to_picnic.mp3');
+        game.load.audio('explosion','assets/audio/explosion.mp3');
         game.load.audio('melee_sound', 'assets/audio/melee_sound.mp3');
         game.load.audio('ar_sound', 'assets/audio/ar_sound.mp3');
         game.load.audio('smash', 'assets/audio/smash.mp3');

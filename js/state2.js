@@ -1,6 +1,5 @@
 //This is the core game area
 //var emitter;
-
 demo.state2 = function(){};
 demo.state2.prototype = {
     preload: function(){
@@ -73,6 +72,7 @@ demo.state2.prototype = {
         //audio
         meleeSound = game.add.audio('melee_sound');
         ar_sound = game.add.audio('ar_sound');
+        explosion_sound = game.add.audio('explosion');
         smash = game.add.audio('smash');
         whack = game.add.audio('whack');
         splat = game.add.audio('splat');
@@ -142,7 +142,7 @@ demo.state2.prototype = {
         explosions.enableBody = true;
         explosions.physicsBodyType = Phaser.Physics.ARCADE;
         explosions.createMultiple(50, 'explosion');
-        player.animations.add('explode', [0,1,2,3,4,5,6,7,8,9], 0, true);
+        
 
     //this is where we establish AR projectiles
 
@@ -596,8 +596,11 @@ function explode (x, y) {
         //initial firing position. Right now it is centered on player.
     explosion.x = x
     explosion.y = y
+    explosion.animations.add('explode', [0,1,2,3,4,5,6,7,8,9], 0, true);
     explosion.animations.play('explode');
+    explosion.animations.getAnimation('explode').delay = 100;
     explosion.reset(explosion.x, explosion.y);
+    explosion.play()
     explosion.lifespan = 2000;
     
 }
