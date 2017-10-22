@@ -18,7 +18,7 @@ var Wep2fireRate = 100;
 
 //for the wep3
 var Wep3nextFire = 0;
-var Wep3fireRate = 00;
+var GfireRate = 1000;
 
 
 var meleeSound;

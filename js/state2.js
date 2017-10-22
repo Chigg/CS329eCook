@@ -136,6 +136,11 @@ demo.state2.prototype = {
         trees.enableBody = true;
         game.physics.arcade.enable(trees);
         
+    //explosions
+        explosions = game.add.group();
+        explosions.enableBody = true;
+        explosions.physicsBodyType = Phaser.Physics.ARCADE;
+        explosions.createMultiple(50, 'bullet');
 
     //this is where we establish AR projectiles
 
@@ -145,6 +150,15 @@ demo.state2.prototype = {
         AR.createMultiple(100, 'assault_round');
         AR.setAll('checkWorldBounds', true);
         AR.setAll('outOfBoundsKill', true);
+        
+    //this is where we establish AR projectiles
+
+        grenades = game.add.group();
+        grenades.enableBody = true;
+        grenades.physicsBodyType = Phaser.Physics.ARCADE;
+        grenades.createMultiple(100, 'assault_round');
+        grenades.setAll('checkWorldBounds', true);
+        grenades.setAll('outOfBoundsKill', true);
 
     //this is where we establish shotgun projectiles
     //        shells = game.add.group();
@@ -441,6 +455,8 @@ demo.state2.prototype = {
         
     game.physics.arcade.overlap(bullets, baddies, collisionHandler, null, this);
     game.physics.arcade.overlap(AR, baddies, ARcollisionHandler, null, this);
+    game.physics.arcade.overlap(grenades, baddies, GcollisionHandler, null, this);
+    game.physics.arcade.overlap(explosions, baddies, explosionCollisionHandler, null, this);
 
 
     }
@@ -457,6 +473,15 @@ function collisionHandler (bullet, baddie) {
     scoreText.text = 'Score: ' + score;
 }
 
+function explosionCollisionHandler (explosion, baddie) {
+    
+    //  When a bullet hits an carrot we kill them both
+    baddie.kill();
+    particleBurst(baddie.x,baddie.y);
+    score += 10;
+    scoreText.text = 'Score: ' + score;
+}
+
 //this should be temporary, i don't think it's best practice
 function ARcollisionHandler (carrotAmmo, baddie) {
 
@@ -464,6 +489,16 @@ function ARcollisionHandler (carrotAmmo, baddie) {
     carrotAmmo.kill();
     baddie.kill();
     particleBurst(baddie.x,baddie.y);
+    score += 10;
+    scoreText.text = 'Score: ' + score;
+}
+
+function GcollisionHandler (grenade, baddie) {
+
+    //  When a bullet hits an carrot we kill them both
+    grenade.kill();
+    baddie.kill();
+    explode(baddie.x,baddie.y);
     score += 10;
     scoreText.text = 'Score: ' + score;
 }
@@ -530,19 +565,19 @@ function ARFire(){
 
 function throwGrenade(){
     
-    if(game.time.now > nextFire && bullets.countDead() > 0)
+    if(game.time.now > nextFire && grenades.countDead() > 0)
     {
-        nextFire = game.time.now + fireRate;
+        nextFire = game.time.now + GfireRate;
         
-        var bullet = bullets.getFirstDead();
+        var grenade = grenades.getFirstDead();
         
         //initial firing position. Right now it is centered on player.
-        bullet.reset(player.x + 35, player.y + 30);
-        bullet.anchor.setTo(0.5,0.5);
-        bullet.rotation = game.physics.arcade.angleToPointer(bullet);
-        game.physics.arcade.moveToPointer(bullet, 350);
+        grenade.reset(player.x + 35, player.y + 30);
+        grenade.anchor.setTo(0.5,0.5);
+        grenade.rotation = game.physics.arcade.angleToPointer(grenade);
+        game.physics.arcade.moveToPointer(grenade, 350);
         
-        game.time.events.add(Phaser.Timer.SECOND*1, this.explode, this);
+//        game.time.events.add(Phaser.Timer.SECOND*1, this.explode, this);
         ammo3 -= 1;
         if (look_left){
                 player.animations.play('meleeLeft');
@@ -555,11 +590,17 @@ function throwGrenade(){
     }
 }
 
-function explode () {
-    //whenever 1 second is passed, this function is called
-    //create an explosion at this object's location
+function explode (x, y) {
+    
+    var explosion = explosions.getFirstDead();
+        
+        //initial firing position. Right now it is centered on player.
+    explosion.x = x
+    explosion.y = y
+    explosion.reset(explosion.x, explosion.y);
     
 }
+
 
 // player loses health when hit by enemy
 function loseHealth (player, baddies) {
