@@ -75,6 +75,7 @@ demo.state2.prototype = {
         ar_sound = game.add.audio('ar_sound');
         explosion_sound = game.add.audio('explosion');
         smash = game.add.audio('smash');
+        grunt = game.add.audio('grunt');
         whack = game.add.audio('whack');
         splat = game.add.audio('splat');
 
@@ -185,6 +186,7 @@ demo.state2.prototype = {
         HPText = game.add.text(16, 16, 'Health: ' + playerHP, {fontSize: '15px', fill: '#000'});
         scoreText = game.add.text(16, 16, 'Score: ' + score, {fontSize: '15px', fill: '#000'});    
         ammoText = game.add.text(16, 16, 'Ammo: ' + '∞', {fontSize: '15px', fill: '#000'});
+        weaponsText = game.add.text(16, 16, '1    2    3', {fontSize: '15px', fill: '#000'});
         //difficultyText = game.add.text(16, 16, 'difficulty: ' + difficulty, {fontSize: '15px', fill: '#000'});  
 
         health_bar = game.add.sprite(16, 16, 'health_bar');
@@ -246,6 +248,9 @@ demo.state2.prototype = {
         
         ammoText.fixedToCamera = true;
         ammoText.cameraOffset.setTo(490, 370);
+        
+        weaponsText.fixedToCamera = true;
+        weaponsText.cameraOffset.setTo(10, 350);
         
         k_ui.fixedToCamera = true;
         k_ui.cameraOffset.setTo(5, 370);
@@ -584,7 +589,6 @@ function throwGrenade(){
         //initial firing position. Right now it is centered on player.
         grenade.reset(player.x + 35, player.y + 30);
         grenade.anchor.setTo(0.5,0.5);
-        grenade.rotation = game.physics.arcade.angleToPointer(grenade);
         game.physics.arcade.moveToPointer(grenade, 350);
         
 //        game.time.events.add(Phaser.Timer.SECOND*1, this.explode, this);
@@ -624,6 +628,7 @@ function explode (x, y) {
 function loseHealth (player, baddies) {
     playerHP -= 1;
     HPFrame += 1;
+    grunt.play()
     health_bar.frame = HPFrame;
     HPText.text = 'Health: ' + playerHP;
     
@@ -691,7 +696,6 @@ function spawnEnemy() {
     for (var i = 0; i < Math.random(0,100); i++)
             {
                 var baddie = baddies.create(game.world.randomX, game.world.randomY, 'baddie');
-                var baddie = baddies.create(game.world.randomX, game.world.randomY, 'baddie');
                 //baddie animations
                 baddie.animations.add('bRight',[5,6,7], 16, true);
                 baddie.animations.add('bLeft',[8,9,10], 16, true);
@@ -705,7 +709,7 @@ function spawnEnemy() {
     for (var i = 0; i < Math.random(0,100); i++)
             {
                 var broccoli = broccolis.create(game.world.randomX, game.world.randomY, 'broccoli');
-                var broccoli = broccolis.create(game.world.randomX, game.world.randomY, 'broccoli');
+//                var broccoli = broccolis.create(game.world.randomX, game.world.randomY, 'broccoli');
                 //broccoli animations
                 broccoli.animations.add('broRight', [4,5,6,7], 0, true);
                 broccoli.animations.add('broLeft', [0,1,2,3], 0, true);

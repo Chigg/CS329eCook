@@ -21,8 +21,8 @@ function collectHP (player, HPDrop) {
     if (playerHP < 50) {
         
         HPDrop.kill();
-        playerHP += 1;
-        HPFrame -= 1;
+        playerHP += 5;
+        HPFrame -= 5;
         health_bar.frame = HPFrame;
         HPText.text = 'Health: ' + playerHP;
         
