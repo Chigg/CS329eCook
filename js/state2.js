@@ -496,6 +496,7 @@ function GcollisionHandler (grenade, baddie) {
     //  When a bullet hits an carrot we kill them both
     grenade.kill();
     baddie.kill();
+    particleBurst(baddie.x,baddie.y);
     explode(baddie.x,baddie.y);
     score += 10;
     scoreText.text = 'Score: ' + score;
@@ -596,11 +597,14 @@ function explode (x, y) {
         //initial firing position. Right now it is centered on player.
     explosion.x = x
     explosion.y = y
+    
     explosion.animations.add('explode', [0,1,2,3,4,5,6,7,8,9], 0, true);
     explosion.animations.play('explode');
     explosion.animations.getAnimation('explode').delay = 100;
+    
     explosion.reset(explosion.x, explosion.y);
     explosion.play()
+    //controls how long the explosion exists
     explosion.lifespan = 2000;
     
 }
