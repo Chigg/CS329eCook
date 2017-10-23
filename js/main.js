@@ -29,7 +29,10 @@ function collectHP (player, HPDrop) {
     }
 }
 
-
 function goToMedCenter () {
     game.state.start ('state3');
+}
+
+function goToGarden () {
+    game.state.start ('state2');
 }

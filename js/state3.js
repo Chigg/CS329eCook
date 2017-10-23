@@ -32,7 +32,7 @@ demo.state3.prototype = {
         emitter.makeParticles('chunk');
         emitter.gravity = 0;
        
-        player = game.add.sprite(game.world.centerX, game.world.centerY, 'player');
+        player = game.add.sprite(game.world.centerX, game.world.height - 200, 'player');
         player.enableBody = true;
         player.physicsBodyType = Phaser.Physics.ARCADE;
         
@@ -127,6 +127,11 @@ demo.state3.prototype = {
         ammoText = game.add.text(16, 16, 'Ammo: ' + '∞', {fontSize: '15px', fill: '#000'});
         //difficultyText = game.add.text(16, 16, 'difficulty: ' + difficulty, {fontSize: '15px', fill: '#000'});  
         
+        GardenText = game.add.text(game.world.centerX, game.world.height - 150, 'Go To Garden', {fontSize:'20px', fill: '#000'});
+        
+        succulent = game.add.sprite(game.world.centerX, game.world.height - 100, 'succulent');
+        game.physics.enable(succulent);
+        
         health_bar = game.add.sprite(16, 16, 'health_bar');
         
         w=game.input.keyboard.addKey(Phaser.Keyboard.W);
@@ -165,6 +170,8 @@ demo.state3.prototype = {
         
         game.physics.arcade.overlap(player, ammos, collectAmmo, null, this);
         game.physics.arcade.overlap(player, HPDrops, collectHP, null, this);
+        
+        game.physics.arcade.overlap(player, succulent, goToGarden);
         
         //for debugging difficulty
         //difficultyText.fixedToCamera = true;
