@@ -48,6 +48,7 @@ demo.state2.prototype = {
         wep2 = game.input.keyboard.addKey(Phaser.Keyboard.TWO);
         wep3 = game.input.keyboard.addKey(Phaser.Keyboard.THREE);
         baddies = game.add.physicsGroup(Phaser.Physics.ARCADE);
+        broccolis = game.add.physicsGroup(Phaser.Physics.ARCADE);
         explosions = game.add.physicsGroup(Phaser.Physics.ARCADE);
         
         emitter = game.add.emitter(0, 0, 100);
@@ -89,6 +90,9 @@ demo.state2.prototype = {
         // enemy spawns and behavior
         baddies = game.add.group();
         baddies.enableBody = true;
+        
+        broccolis = game.add.group();
+        broccolis.enableBody = true;
 
         xCoord = Math.random(0, 1920);
         yCoord = Math.random(0, 1920);
@@ -158,7 +162,7 @@ demo.state2.prototype = {
         grenades = game.add.group();
         grenades.enableBody = true;
         grenades.physicsBodyType = Phaser.Physics.ARCADE;
-        grenades.createMultiple(100, 'assault_round');
+        grenades.createMultiple(100, 'grenade');
         grenades.setAll('checkWorldBounds', true);
         grenades.setAll('outOfBoundsKill', true);
 
@@ -282,10 +286,12 @@ demo.state2.prototype = {
         crosshair.cameraOffset.setTo((game.input.mousePointer.x)-25, (game.input.mousePointer.y)-25);
         
         baddies.forEach(move);
+        broccolis.forEach(b_move);
         
         cursors = game.input.keyboard.createCursorKeys();
 
         game.physics.arcade.overlap(player, baddies, loseHealth, null, this);
+        game.physics.arcade.overlap(player, broccolis, loseHealth, null, this);
         
         
         if (w.isDown || a.isDown || s.isDown || d.isDown)
@@ -455,7 +461,11 @@ demo.state2.prototype = {
     game.physics.arcade.overlap(AR, baddies, ARcollisionHandler, null, this);
     game.physics.arcade.overlap(grenades, baddies, GcollisionHandler, null, this);
     game.physics.arcade.overlap(explosions, baddies, explosionCollisionHandler, null, this);
-
+        
+    game.physics.arcade.overlap(bullets, broccolis, collisionHandler, null, this);
+    game.physics.arcade.overlap(AR, broccolis, ARcollisionHandler, null, this);
+    game.physics.arcade.overlap(grenades, broccolis, GcollisionHandler, null, this);
+    game.physics.arcade.overlap(explosions, broccolis, explosionCollisionHandler, null, this);
 
     }
 };
@@ -600,7 +610,7 @@ function explode (x, y) {
     
     explosion.animations.add('explode', [0,1,2,3,4,5,6,7,8,9], 0, true);
     explosion.animations.play('explode');
-    explosion.animations.getAnimation('explode').delay = 100;
+    explosion.animations.getAnimation('explode').delay = 120;
     
     explosion.reset(explosion.x, explosion.y);
     explosion.play()
@@ -640,10 +650,26 @@ function move (baddie) {
     }
 }
 
-//function move(baddie) {
-//    game.physics.arcade.moveToObject(baddie,player,60,enemyspeed*2000);
-//    baddie.animations.play("bRight");
-//}
+function b_move (broccoli) {
+    if (broccoli.body.velocity == 0) {
+           broccoli.animations.play ("broRight");
+    }
+    
+   if (game.physics.arcade.distanceBetween(broccoli, player) <= attackDistance) {
+       game.physics.arcade.moveToObject(broccoli,player,100);
+       
+       
+       // moving left
+       if (broccoli.body.velocity.x < 0) {
+           broccoli.animations.play("broLeft");
+           
+       // moving right   
+       } else if (broccoli.body.velocity.x > 0) {
+           broccoli.animations.play("broRight");
+           
+       }
+    }
+}
 
 function resetGame() {
     game.state.start('gameover');
@@ -675,6 +701,19 @@ function spawnEnemy() {
                 
                 baddie.animations.play("bRight");
             }
+    
+    for (var i = 0; i < Math.random(0,100); i++)
+            {
+                var broccoli = broccolis.create(game.world.randomX, game.world.randomY, 'broccoli');
+                var broccoli = broccolis.create(game.world.randomX, game.world.randomY, 'broccoli');
+                //broccoli animations
+                broccoli.animations.add('broRight', [4,5,6,7], 0, true);
+                broccoli.animations.add('broLeft', [0,1,2,3], 0, true);
+                
+                
+                broccoli.animations.play("broRight");
+            }
+    
     
     
     spawning = false;
