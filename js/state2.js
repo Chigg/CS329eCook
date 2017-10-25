@@ -51,10 +51,10 @@ demo.state2.prototype = {
         broccolis = game.add.physicsGroup(Phaser.Physics.ARCADE);
         explosions = game.add.physicsGroup(Phaser.Physics.ARCADE);
         
-        emitter = game.add.emitter(0, 0, 100);
+        emitter = game.add.emitter(0, 0, 50);
 
         emitter.makeParticles('chunk');
-        emitter.gravity = 0;
+        emitter.gravity = -10;
 
         player = game.add.sprite(game.world.centerX, game.world.centerY, 'player');
         player.enableBody = true;
@@ -481,7 +481,7 @@ function collisionHandler (bullet, baddie) {
     //  When a bullet hits an carrot we kill them both
     bullet.kill();
     baddie.kill();
-    particleBurst(baddie.x,baddie.y);
+    particleBurst(baddie, baddie.x,baddie.y);
     score += 10;
     scoreText.text = 'Score: ' + score;
 }
@@ -558,7 +558,7 @@ function ARFire(){
         var carrotAmmo = AR.getFirstDead();
         
         //initial firing position. Right now it is centered on player.
-        carrotAmmo.reset(player.x + 35, player.y + 30);
+        carrotAmmo.reset(player.x + 30, player.y + 30);
         carrotAmmo.anchor.setTo(0.5,0.5);
         carrotAmmo.rotation = game.physics.arcade.angleToPointer(carrotAmmo);
         game.physics.arcade.moveToPointer(carrotAmmo, 1500);
@@ -582,8 +582,7 @@ function throwGrenade(){
     
     if(game.time.now > nextFire && grenades.countDead() > 0)
     {
-        nextFire = game.time.now + GfireRate;
-        
+        nextExplode = 1000;
         var grenade = grenades.getFirstDead();
         
         //initial firing position. Right now it is centered on player.
@@ -591,7 +590,8 @@ function throwGrenade(){
         grenade.anchor.setTo(0.5,0.5);
         game.physics.arcade.moveToPointer(grenade, 350);
         
-//        game.time.events.add(Phaser.Timer.SECOND*1, this.explode, this);
+        game.time.events.add(Phaser.Timer.SECOND*1, grenade.kill, grenade);
+
         ammo3 -= 1;
         if (look_left){
                 player.animations.play('meleeLeft');
@@ -614,6 +614,7 @@ function explode (x, y) {
     
     explosion.animations.add('explode', [0,1,2,3,4,5,6,7,8,9], 0, true);
     explosion.animations.play('explode');
+    explosion_sound.play()
     explosion.animations.getAnimation('explode').delay = 120;
     
     explosion.reset(explosion.x, explosion.y);
@@ -753,7 +754,7 @@ function collectAmmo (player, ammo) {
      //  The second gives each particle a 2000ms lifespan
      //  The third is ignored when using burst/explode mode
      //  The final parameter (10) is how many particles will be emitted in this single burst
-     emitter.start(true, 1000, null, 5);
+     emitter.start(true, 500, null, 5);
      var randSound = Math.random(0,3);
      
      if(randSound = 1){
