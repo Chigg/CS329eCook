@@ -139,15 +139,25 @@ demo.state2.prototype = {
         game.physics.arcade.overlap(player, baddies, loseHealth, null, this);
         game.physics.arcade.overlap(player, broccolis, loseHealth, null, this);
         
+    //collision detection for carrots
+    //
+    //
     game.physics.arcade.overlap(bullets, baddies, collisionHandler, null, this);
     game.physics.arcade.overlap(AR, baddies, ARcollisionHandler, null, this);
     game.physics.arcade.overlap(grenades, baddies, GcollisionHandler, null, this);
     game.physics.arcade.overlap(explosions, baddies, explosionCollisionHandler, null, this);
-        
+    game.physics.arcade.overlap(mines, baddies, GcollisionHandler, null, this);
+    game.physics.arcade.overlap(flamefuel, baddies, FcollisionHandler, null, this);
+    //collision detection for broccolis
+    //
+    //
     game.physics.arcade.overlap(bullets, broccolis, collisionHandler, null, this);
     game.physics.arcade.overlap(AR, broccolis, ARcollisionHandler, null, this);
     game.physics.arcade.overlap(grenades, broccolis, GcollisionHandler, null, this);
     game.physics.arcade.overlap(explosions, broccolis, explosionCollisionHandler, null, this);
+    game.physics.arcade.overlap(mines, broccolis, GcollisionHandler, null, this);
+    game.physics.arcade.overlap(flamefuel, broccolis, FcollisionHandler, null, this);
+    
 
     }
 };

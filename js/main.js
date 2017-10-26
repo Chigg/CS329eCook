@@ -54,6 +54,13 @@ function collectAmmo (player, ammo) {
     
     if(wep3Out){
     }
+    
+    if(wep4Out){
+    }
+    
+    if(wep5Out){
+        ammo5 += 5;
+    }
 
 
 }
@@ -99,6 +106,16 @@ function GcollisionHandler (grenade, baddie) {
     baddie.kill();
     particleBurst(baddie.x,baddie.y);
     explode(baddie.x,baddie.y);
+    score += 10;
+    scoreText.text = 'Score: ' + score;
+}
+
+function FcollisionHandler (flame, baddie) {
+
+    //  When a bullet hits an carrot we kill them both
+    flame.kill();
+    baddie.kill();
+    particleBurst(baddie.x,baddie.y);
     score += 10;
     scoreText.text = 'Score: ' + score;
 }
@@ -235,6 +252,52 @@ function throwGrenade(){
     }
 }
 
+function throwMine(){
+    
+    if(game.time.now > nextFire && grenades.countDead() > 0)
+    {
+        nextFire = game.time.now + GfireRate;
+        
+        var mine = mines.getFirstDead();
+        
+        //initial firing position. Right now it is centered on player.
+        mine.reset(player.x + 35, player.y + 30);
+        mine.anchor.setTo(0.5,0.5);
+        game.physics.arcade.moveToPointer(mine, 0);
+
+        ammo4 -= 1;
+        if (look_left){
+                player.animations.play('meleeLeft');
+                meleeSound.play()
+                }
+        else {
+                player.animations.play('meleeRight');
+                meleeSound.play()
+             }
+    }
+}
+
+function FTFire(){
+    
+    if(game.time.now > nextFire && flamefuel.countDead() > 0)
+    {
+        nextFire = game.time.now + FfireRate;
+        
+        var flame = flamefuel.getFirstDead();
+        
+        //initial firing position. Right now it is centered on player.
+        if(look_left){flame.reset(player.x - 10, player.y + 28);}
+        else{flame.reset(player.x + 50, player.y + 28);}
+        
+        flame.anchor.setTo(0.5,0.5);
+        flame.lifespan = 500;
+        flame.rotation = game.physics.arcade.angleToPointer(flame);
+        game.physics.arcade.moveToPointer(flame, 200);
+
+        ammo4 -= 1;
+        FTsound.play()
+    }
+}
 //ENEMY BEHAVIOR
 //
 //
@@ -341,6 +404,9 @@ function Player(){
     
         player.animations.add('AR_right', [24,25,26,27,28,29,30], 13, true);
         player.animations.add('AR_left', [31,32,33,34,35,36,37], 13, true);
+    
+        player.animations.add('FT_right', [38,39,40,41,42,43,44], 13, true);
+        player.animations.add('FT_left', [45,46,47,48,49,50,51], 13, true);
 
         player.frame = 0;
         player.animations.add('meleeRight', [14,15,16], 0, false);
@@ -400,19 +466,19 @@ function playerHUDUpdate(){
         scoreText.cameraOffset.setTo(0,40);
         
         ammoText.fixedToCamera = true;
-        ammoText.cameraOffset.setTo(490, 370);
+        ammoText.cameraOffset.setTo(470, 370);
         
         weaponsText.fixedToCamera = true;
         weaponsText.cameraOffset.setTo(10, 350);
         
         k_ui.fixedToCamera = true;
-        k_ui.cameraOffset.setTo(5, 350);
+        k_ui.cameraOffset.setTo(5, 370);
         
         ar_ui.fixedToCamera = true;
-        ar_ui.cameraOffset.setTo(50, 350);
+        ar_ui.cameraOffset.setTo(30, 370);
         
         g_ui.fixedToCamera = true;
-        g_ui.cameraOffset.setTo(95, 350);
+        g_ui.cameraOffset.setTo(55, 370);
 }
 
 function PlayerControls(){
@@ -429,6 +495,8 @@ function PlayerControls(){
         wep1 = game.input.keyboard.addKey(Phaser.Keyboard.ONE);
         wep2 = game.input.keyboard.addKey(Phaser.Keyboard.TWO);
         wep3 = game.input.keyboard.addKey(Phaser.Keyboard.THREE);
+        wep4 = game.input.keyboard.addKey(Phaser.Keyboard.FOUR);
+        wep5 = game.input.keyboard.addKey(Phaser.Keyboard.FIVE);
 
             
         if (w.isDown || a.isDown || s.isDown || d.isDown)
@@ -439,7 +507,10 @@ function PlayerControls(){
                 if(wep2Out){
                     player.animations.play('AR_right');
                 }
-                if(knifeOut || wep3Out){
+                if(wep5Out){
+                    player.animations.play('FT_right');
+                }
+                if(knifeOut || wep3Out || wep4Out){
                 player.animations.play('right');
                 }
                 look_left = false;
@@ -450,7 +521,10 @@ function PlayerControls(){
                 if(wep2Out){
                     player.animations.play('AR_left');
                 }
-                if(knifeOut || wep3Out){
+                if(wep5Out){
+                    player.animations.play('FT_left');
+                }
+                if(knifeOut || wep3Out || wep4Out){
                 player.animations.play('left');
                 }
                 look_left = true;
@@ -462,7 +536,11 @@ function PlayerControls(){
                     if(look_left){player.animations.play('AR_left');}
                     else{player.animations.play('AR_right');}
                 }
-                if(knifeOut || wep3Out){
+                if(wep5Out){
+                    if(look_left){player.animations.play('FT_left');}
+                    else{player.animations.play('FT_right');}
+                }
+                if(knifeOut || wep3Out || wep4Out){
                     if(look_left){player.animations.play('left');}
                     else{player.animations.play('right');}
                 }
@@ -474,7 +552,11 @@ function PlayerControls(){
                     if(look_left){player.animations.play('AR_left');}
                     else{player.animations.play('AR_right');}
                 }
-                if(knifeOut || wep3Out){
+                if(wep5Out){
+                    if(look_left){player.animations.play('FT_left');}
+                    else{player.animations.play('FT_right');}
+                }
+                if(knifeOut || wep3Out || wep4Out){
                     if(look_left){player.animations.play('left');}
                     else{player.animations.play('right');}
                 }
@@ -514,20 +596,40 @@ function PlayerControls(){
             knifeOut = true;
             wep2Out = false;
             wep3Out = false;
-            
+            wep4Out = false;
+            wep5Out = false;  
         }
         
         if (wep2.isDown){
             knifeOut = false;
             wep2Out = true;
             wep3Out = false;
-            
+            wep4Out = false;
+            wep5Out = false;           
         }
         
         if (wep3.isDown){
             knifeOut = false;
             wep2Out = false;
             wep3Out = true;
+            wep4Out = false;
+            wep5Out = false;
+        }
+        
+        if (wep4.isDown){
+            knifeOut = false;
+            wep2Out = false;
+            wep3Out = false;
+            wep4Out = true;
+            wep5Out = false;
+        }
+    
+        if (wep5.isDown){
+            knifeOut = false;
+            wep2Out = false;
+            wep3Out = false;
+            wep4Out = false;
+            wep5Out = true;
         }
         
         if (knifeOut){
@@ -597,6 +699,50 @@ function PlayerControls(){
                 g_ui.animations.play('s');
             }
         }
+        if(wep4Out){
+            ammoText.text = 'Mines: ' + ammo4;
+            if (ammo1 == 0){
+                k_ui.animations.play('na');
+            }
+            else{
+                k_ui.animations.play('us');
+            }
+            if (ammo2 == 0){
+                ar_ui.animations.play('na');
+            }
+            else{
+                ar_ui.animations.play('us');
+            }
+            
+            if (ammo3 == 0){
+                g_ui.animations.play('nas');
+            }
+            else{
+                g_ui.animations.play('s');
+            }
+        }
+        if(wep5Out){
+            ammoText.text = 'Flamethrower: ' + ammo5;
+            if (ammo1 == 0){
+                k_ui.animations.play('na');
+            }
+            else{
+                k_ui.animations.play('us');
+            }
+            if (ammo2 == 0){
+                ar_ui.animations.play('na');
+            }
+            else{
+                ar_ui.animations.play('us');
+            }
+            
+            if (ammo3 == 0){
+                g_ui.animations.play('nas');
+            }
+            else{
+                g_ui.animations.play('s');
+            }
+        }
         
         if (game.input.activePointer.isDown)
         {   
@@ -612,6 +758,14 @@ function PlayerControls(){
             if(wep3Out & ammo3 > 0){
                 //weapon 3 function
                 throwGrenade();
+            }
+            if(wep4Out & ammo4 > 0){
+                //weapon 3 function
+                throwMine();
+            }
+            if(wep5Out & ammo5 > 0){
+                //weapon 3 function
+                FTFire();
             }
             
         }
@@ -631,8 +785,7 @@ function weaponGroups(){
         explosions = game.add.group();
         explosions.enableBody = true;
         explosions.physicsBodyType = Phaser.Physics.ARCADE;
-        explosions.createMultiple(50, 'explosion');
-        
+        explosions.createMultiple(50, 'explosion');       
 
     //this is where we establish AR projectiles
 
@@ -643,7 +796,7 @@ function weaponGroups(){
         AR.setAll('checkWorldBounds', true);
         AR.setAll('outOfBoundsKill', true);
         
-    //this is where we establish AR projectiles
+    //this is where we establish grenades projectiles
 
         grenades = game.add.group();
         grenades.enableBody = true;
@@ -651,10 +804,29 @@ function weaponGroups(){
         grenades.createMultiple(100, 'grenade');
         grenades.setAll('checkWorldBounds', true);
         grenades.setAll('outOfBoundsKill', true);
+    
+    //this is where we establish mines projectiles
+
+        mines = game.add.group();
+        mines.enableBody = true;
+        mines.physicsBodyType = Phaser.Physics.ARCADE;
+        mines.createMultiple(100, 'mine');
+        mines.setAll('checkWorldBounds', true);
+        mines.setAll('outOfBoundsKill', true);
+    
+    //this is where we establish flameThrower projectiles
+
+        flamefuel = game.add.group();
+        flamefuel.enableBody = true;
+        flamefuel.physicsBodyType = Phaser.Physics.ARCADE;
+        flamefuel.createMultiple(100, 'flame');
+        flamefuel.setAll('checkWorldBounds', true);
+        flamefuel.setAll('outOfBoundsKill', true);
 }
 
 function gameAudio(){
         meleeSound = game.add.audio('melee_sound');
+        FTsound = game.add.audio('flamethrower');
         ar_sound = game.add.audio('ar_sound');
         explosion_sound = game.add.audio('explosion');
         smash = game.add.audio('smash');

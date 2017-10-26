@@ -2,7 +2,7 @@
 demo.menu = function(){};
 demo.menu.prototype = {
     preload: function(){
-
+        
     },
     create: function(){
         
@@ -29,7 +29,8 @@ demo.menu.prototype = {
         HPFrame = 0;
         score = 0;
     },
-    update: function(){}    
+    update: function(){
+    }    
 };
 
 function startGame(i, stateNum){

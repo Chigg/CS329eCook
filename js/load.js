@@ -25,6 +25,12 @@ var Wep2fireRate = 100;
 var Wep3nextFire = 0;
 var GfireRate = 1000;
 
+//wep4 aka the mine uses wep3
+
+//wep5
+var Wep5nextFire = 0;
+var FfireRate = 60;
+
 var meleeSound;
 var gameOverText;
 var HPText
@@ -34,6 +40,8 @@ var playerHP = 50;
 var ammo1 = 25;
 var ammo2 = 0;
 var ammo3 = 10;
+var ammo4 = 5;
+var ammo5 = 20;
 
 //weapon states
 //true determines whether the weapon is currently out
@@ -41,6 +49,8 @@ var ammo3 = 10;
 knifeOut = true;
 wep2Out = false;
 wep3Out = false;
+wep4Out = false;
+wep5Out = false;
 
 var trees;
 var tree;
@@ -86,6 +96,8 @@ demo.load.prototype = {
         game.load.image('bullet', 'assets/knife.png', 25, 25);
         game.load.image('assault_round', 'assets/assault.png', 10, 10);
         game.load.image('grenade', 'assets/blender-grenade/blender_grenade.png', 30, 30);
+        game.load.image('mine', 'assets/Mine.png', 25, 25)
+        game.load.image('flame', 'assets/flame.png', 50, 51)
         game.load.image('grocery_bag', 'assets/grocery_bag.png');
         game.load.image('extra_life', 'assets/extra_life.png');
         game.load.image('tree', 'assets/tree.png', 50, 100);
@@ -97,6 +109,7 @@ demo.load.prototype = {
         game.load.image('succulent', 'assets/succulent.png',15,15);
         game.load.audio('music','assets/audio/go_to_picnic.mp3');
         game.load.audio('explosion','assets/audio/explosion.mp3');
+        game.load.audio('flamethrower','assets/audio/flamethrower.mp3');
         game.load.audio('melee_sound', 'assets/audio/melee_sound.mp3');
         game.load.audio('ar_sound', 'assets/audio/ar_sound.mp3');
         game.load.audio('smash', 'assets/audio/smash.mp3');
@@ -104,9 +117,9 @@ demo.load.prototype = {
         game.load.audio('whack', 'assets/audio/whack.mp3');
         game.load.audio('grunt', 'assets/audio/grunt.mp3');
         // unselected, selected, out of ammo, out of ammo and selected, locked
-        game.load.spritesheet('knife_ui', 'assets/Knife_UI.png', 40, 40);
-        game.load.spritesheet('ar_ui', 'assets/AR_UI.png', 40, 40);
-        game.load.spritesheet('grenade_ui', 'assets/Grenade_UI.png', 40, 40);
+        game.load.spritesheet('knife_ui', 'assets/Knife_UI.png', 20, 20);
+        game.load.spritesheet('ar_ui', 'assets/AR_UI.png', 20, 20);
+        game.load.spritesheet('grenade_ui', 'assets/Grenade_UI.png', 20, 20);
         
     },
     
