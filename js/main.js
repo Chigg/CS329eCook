@@ -14,8 +14,9 @@ function stageCreate () {
     
 }
 
-
-
+//MATERIALS / HP / ITEM COLLECTION
+//
+//
 function collectHP (player, HPDrop) {
     
     if (playerHP < 50) {
@@ -28,8 +29,40 @@ function collectHP (player, HPDrop) {
         
     }
 }
+// player loses health when hit by enemy
+function loseHealth (player, baddies) {
+    playerHP -= 1;
+    HPFrame += 1;
+    grunt.play()
+    health_bar.frame = HPFrame;
+    HPText.text = 'Health: ' + playerHP;
+    
+}
+
+function collectAmmo (player, ammo) {
+
+    // Removes the ammo from the screen
+    ammo.kill();
+    
+    if(knifeOut){
+        ammo1 += 20;
+    }
+        
+    if(wep2Out){
+        ammo2 += 10;
+    }   
+    
+    if(wep3Out){
+    }
 
 
+}
+
+
+
+//COLLISION HANDLERS
+//
+//
 function collisionHandler (bullet, baddie) {
 
     //  When a bullet hits an carrot we kill them both
@@ -49,7 +82,6 @@ function explosionCollisionHandler (explosion, baddie) {
     scoreText.text = 'Score: ' + score;
 }
 
-//this should be temporary, i don't think it's best practice
 function ARcollisionHandler (carrotAmmo, baddie) {
 
     //  When a bullet hits a carrot we kill them both
@@ -71,6 +103,56 @@ function GcollisionHandler (grenade, baddie) {
     scoreText.text = 'Score: ' + score;
 }
 
+function particleBurst(x, y) {
+
+     //  Position the emitter where the mouse/touch event was
+     emitter.x = x;
+     emitter.y = y;
+
+     //  The first parameter sets the effect to "explode" which means all particles are emitted at once
+     //  The second gives each particle a 2000ms lifespan
+     //  The third is ignored when using burst/explode mode
+     //  The final parameter (10) is how many particles will be emitted in this single burst
+     emitter.start(true, 500, null, 5);
+     var randSound = Math.random(0,3);
+     
+     if(randSound = 1){
+         smash.play()
+     }
+     if(randSound = 2){
+         whack.play()
+     }
+     if(randSound = 3){
+         splat.play()
+     }
+     
+
+ }
+
+function explode (x, y) {
+    
+    var explosion = explosions.getFirstDead();
+        
+    explosion.x = x
+    explosion.y = y
+    
+    explosion.animations.add('explode', [0,1,2,3,4,5,6,7,8,9], 0, true);
+    explosion.animations.play('explode');
+    explosion_sound.play()
+    explosion.animations.getAnimation('explode').delay = 120;
+    
+    explosion.reset(explosion.x, explosion.y);
+    explosion.play()
+    //controls how long the explosion exists
+    explosion.lifespan = 2000;
+    
+}
+
+
+
+//WEAPON FIRING BEHAVIOR
+//
+//
 function throwKnife(){
     
     if(game.time.now > nextFire && bullets.countDead() > 0)
@@ -153,38 +235,11 @@ function throwGrenade(){
     }
 }
 
-function explode (x, y) {
-    
-    var explosion = explosions.getFirstDead();
-        
-        //initial firing position. Right now it is centered on player.
-    explosion.x = x
-    explosion.y = y
-    
-    explosion.animations.add('explode', [0,1,2,3,4,5,6,7,8,9], 0, true);
-    explosion.animations.play('explode');
-    explosion_sound.play()
-    explosion.animations.getAnimation('explode').delay = 120;
-    
-    explosion.reset(explosion.x, explosion.y);
-    explosion.play()
-    //controls how long the explosion exists
-    explosion.lifespan = 2000;
-    
-}
-
-
-// player loses health when hit by enemy
-function loseHealth (player, baddies) {
-    playerHP -= 1;
-    HPFrame += 1;
-    grunt.play()
-    health_bar.frame = HPFrame;
-    HPText.text = 'Health: ' + playerHP;
-    
-}
-
+//ENEMY BEHAVIOR
+//
+//
 function move (baddie) {
+    //baddies = carrots
     if (baddie.body.velocity == 0) {
            baddie.animations.play ("bRight");
     }
@@ -225,22 +280,6 @@ function b_move (broccoli) {
        }
     }
 }
-
-function resetGame() {
-    game.state.start('gameover');
-    
-}
-
-function meleeLeft(){
-    player.animations.play('meleeLeft');
-    meleeSound.play()
-}
-
-function meleeRight(){
-    player.animations.play('meleeRight')
-    meleeSound.play()
-}
-
 function spawnEnemy() {
     
     for (var i = 0; i < Math.random(0,100); i++)
@@ -274,47 +313,19 @@ function spawnEnemy() {
     
 }
 
-function collectAmmo (player, ammo) {
-
-    // Removes the ammo from the screen
-    ammo.kill();
-    
-    if(knifeOut){
-        ammo1 += 20;
-    }
-        
-    if(wep2Out){
-        ammo2 += 10;
-    }   
-    
-    if(wep3Out){
-    }
-
-
+//GAMEOVER / MISC.
+//
+//
+function meleeLeft(){
+    player.animations.play('meleeLeft');
+    meleeSound.play()
 }
 
- function particleBurst(x, y) {
-
-     //  Position the emitter where the mouse/touch event was
-     emitter.x = x;
-     emitter.y = y;
-
-     //  The first parameter sets the effect to "explode" which means all particles are emitted at once
-     //  The second gives each particle a 2000ms lifespan
-     //  The third is ignored when using burst/explode mode
-     //  The final parameter (10) is how many particles will be emitted in this single burst
-     emitter.start(true, 500, null, 5);
-     var randSound = Math.random(0,3);
-     
-     if(randSound = 1){
-         smash.play()
-     }
-     if(randSound = 2){
-         whack.play()
-     }
-     if(randSound = 3){
-         splat.play()
-     }
-     
-
- }
+function meleeRight(){
+    player.animations.play('meleeRight')
+    meleeSound.play()
+}
+function resetGame() {
+    game.state.start('gameover');
+    
+}

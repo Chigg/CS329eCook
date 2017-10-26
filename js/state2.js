@@ -475,6 +475,9 @@ demo.state2.prototype = {
     }
 };
 
+//STATE SPECIFIC FUNCTIONS
+//
+//
 function goToMedCenter () {
     game.state.start ('state3');
 }

@@ -442,7 +442,9 @@ demo.state3.prototype = {
 
     }
 };
-
+//STATE SPECIFIC FUNCTIONS
+//
+//
 function goToGarden () {
     game.state.start ('state2');
 }
