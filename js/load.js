@@ -6,6 +6,11 @@ var bullets;
 var ammos;
 var emitter;
 
+//crafting materials
+var carrot_mats = 0;
+var broccoli_mats = 0;
+var onion_mats = 0;
+
 var difficulty = 4000
 
 //for the knife

@@ -329,3 +329,311 @@ function resetGame() {
     game.state.start('gameover');
     
 }
+function Player(){
+    
+        player.enableBody = true;
+        player.physicsBodyType = Phaser.Physics.ARCADE;
+
+        //animations  
+        //player animations
+        player.animations.add('right', [0,1,2,3,4,5,6], 13, true);
+        player.animations.add('left', [7,8,9,10,11,12,13], 13, true);
+
+        player.frame = 0;
+        player.animations.add('meleeRight', [14,15,16], 0, false);
+        player.animations.add('meleeLeft', [17,18,19], 0, false);
+    
+        //physics
+        game.physics.arcade.enable(player);
+        player.body.bounce.y = 0;
+        player.body.gravity.y = 0;
+        player.body.collideWorldBounds = true;
+    
+}
+
+function playerHUD(){
+    
+        HPText = game.add.text(16, 16, 'Health: ' + playerHP, {fontSize: '15px', fill: '#000'});
+        scoreText = game.add.text(16, 16, 'Score: ' + score, {fontSize: '15px', fill: '#000'});    
+        ammoText = game.add.text(16, 16, 'Ammo: ' + '∞', {fontSize: '15px', fill: '#000'});
+        weaponsText = game.add.text(16, 16, '1    2    3', {fontSize: '15px', fill: '#000'});
+        //difficultyText = game.add.text(16, 16, 'difficulty: ' + difficulty, {fontSize: '15px', fill: '#000'});  
+
+        health_bar = game.add.sprite(16, 16, 'health_bar');
+        
+        //0 UnSelected, 1 Selected, 2 No Ammo, 3 No Ammo, 4Locked
+        //knife
+        k_ui = game.add.sprite(0,10, 'knife_ui');
+        k_ui.animations.add('us', [0], 0, true);
+        k_ui.animations.add('s', [1], 1, true);
+        k_ui.animations.add('na', [2], 2, true);
+        k_ui.animations.add('nas', [3], 3, true);
+        k_ui.animations.add('l', [4], 4, true);
+        //Assult Rifle
+        ar_ui = game.add.sprite(0,10, 'ar_ui');
+        ar_ui.animations.add('us', [0], 0, true);
+        ar_ui.animations.add('s', [1], 1, true);
+        ar_ui.animations.add('na', [2], 2, true);
+        ar_ui.animations.add('nas', [3], 3, true);
+        ar_ui.animations.add('l', [4], 4, true);
+        //Grenade
+        g_ui = game.add.sprite(0,10, 'grenade_ui');
+        g_ui.animations.add('us', [0], 0, true);
+        g_ui.animations.add('s', [1], 1, true);
+        g_ui.animations.add('na', [2], 2, true);
+        g_ui.animations.add('nas', [3], 3, true);
+        g_ui.animations.add('l', [4], 4, true);
+
+}
+function playerHUDUpdate(){
+        // text is locked in upper left corner
+        HPText.fixedToCamera = true;
+        HPText.cameraOffset.setTo(135, 15);
+        
+        health_bar.fixedToCamera = true;
+        health_bar.cameraOffset.setTo(0, 15);
+        
+        scoreText.fixedToCamera = true;
+        scoreText.cameraOffset.setTo(0,40);
+        
+        ammoText.fixedToCamera = true;
+        ammoText.cameraOffset.setTo(490, 370);
+        
+        weaponsText.fixedToCamera = true;
+        weaponsText.cameraOffset.setTo(10, 350);
+        
+        k_ui.fixedToCamera = true;
+        k_ui.cameraOffset.setTo(5, 370);
+        
+        ar_ui.fixedToCamera = true;
+        ar_ui.cameraOffset.setTo(30, 370);
+        
+        g_ui.fixedToCamera = true;
+        g_ui.cameraOffset.setTo(55, 370);
+}
+
+function PlayerControls(){
+    
+        w=game.input.keyboard.addKey(Phaser.Keyboard.W);
+        a=game.input.keyboard.addKey(Phaser.Keyboard.A);
+        s=game.input.keyboard.addKey(Phaser.Keyboard.S);
+        d=game.input.keyboard.addKey(Phaser.Keyboard.D);
+    
+        //spacebar is for melee but it's not implemented currently    
+        attackButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+
+        //weapon selection goes here
+        wep1 = game.input.keyboard.addKey(Phaser.Keyboard.ONE);
+        wep2 = game.input.keyboard.addKey(Phaser.Keyboard.TWO);
+        wep3 = game.input.keyboard.addKey(Phaser.Keyboard.THREE);
+
+            
+        if (w.isDown || a.isDown || s.isDown || d.isDown)
+        {
+            
+            if (d.isDown){
+                player.x += 4;
+                player.animations.play('right');
+                look_left = false;
+            }
+            
+            if (a.isDown){
+                player.x -= 4;
+                player.animations.play('left');
+                look_left = true;
+            }
+            
+            if (s.isDown){
+                player.y += 4;
+                if(look_left){player.animations.play('left');}
+                else{player.animations.play('right');}
+            }
+            
+            if (w.isDown){
+                player.y -= 4;
+                if(look_left){player.animations.play('left');}
+                else{player.animations.play('right');}
+            }
+        }
+        else {
+            player.animations.stop(null, true)
+            //uncommenting these below lines will cause the enemies to stop with the player
+            //for debugging purposes
+//            baddies.setAll('body.velocity.x',0);
+//            baddies.setAll('body.velocity.y',0);
+        }
+        
+       // console.log(player.meleeRight.animations.currentAnim.isPlaying); 
+        
+        if (attackButton.isDown) {
+            //&& game.time.now > attackTimer
+            // attackTimer = game.time.now + 300;
+            if (look_left){
+                player.animations.play('meleeLeft');
+                
+            }
+             else {
+                player.animations.play('meleeRight');
+             }
+                    
+                }
+        
+        // game over if player loses all health
+        if (playerHP <= 0) {
+            resetGame();
+        }
+        
+        //if number one is pressed, it pulls the knife out and puts away the other weapons
+        
+        if (wep1.isDown){
+            knifeOut = true;
+            wep2Out = false;
+            wep3Out = false;
+            
+        }
+        
+        if (wep2.isDown){
+            knifeOut = false;
+            wep2Out = true;
+            wep3Out = false;
+            
+        }
+        
+        if (wep3.isDown){
+            knifeOut = false;
+            wep2Out = false;
+            wep3Out = true;
+        }
+        
+        if (knifeOut){
+            ammoText.text = 'Knives: ' + ammo1;
+            if (ammo1 == 0){
+            k_ui.animations.play('nas');
+            }
+            else{
+                k_ui.animations.play('s');
+            }
+            if (ammo2 == 0){
+                ar_ui.animations.play('na');
+            }
+            else{
+                ar_ui.animations.play('us');
+            }
+            
+            if (ammo3 == 0){
+                g_ui.animations.play('na');
+            }
+            else{
+                g_ui.animations.play('us');
+            }
+            
+        }
+        if(wep2Out){
+            ammoText.text = 'AR Ammo: ' + ammo2;
+            if (ammo1 == 0){
+                k_ui.animations.play('na');
+            }
+            else{
+                k_ui.animations.play('us');
+            }
+            if (ammo2 == 0){
+                ar_ui.animations.play('nas');
+            }
+            else{
+                ar_ui.animations.play('s');
+            }
+            
+            if (ammo3 == 0){
+                g_ui.animations.play('na');
+            }
+            else{
+                g_ui.animations.play('us');
+            }
+        }
+        if(wep3Out){
+            ammoText.text = 'Grenades: ' + ammo3;
+            if (ammo1 == 0){
+                k_ui.animations.play('na');
+            }
+            else{
+                k_ui.animations.play('us');
+            }
+            if (ammo2 == 0){
+                ar_ui.animations.play('na');
+            }
+            else{
+                ar_ui.animations.play('us');
+            }
+            
+            if (ammo3 == 0){
+                g_ui.animations.play('nas');
+            }
+            else{
+                g_ui.animations.play('s');
+            }
+        }
+        
+        if (game.input.activePointer.isDown)
+        {   
+            if(knifeOut & ammo1 > 0){
+                throwKnife();
+            }
+            
+            if(wep2Out & ammo2 > 0){
+                ARFire();
+                //weapon 2 function
+            }
+            
+            if(wep3Out & ammo3 > 0){
+                //weapon 3 function
+                throwGrenade();
+            }
+            
+        }
+        
+}
+
+function weaponGroups(){
+    //this is where we establish knife projectiles
+        bullets = game.add.group();
+        bullets.enableBody = true;
+        bullets.physicsBodyType = Phaser.Physics.ARCADE;
+        bullets.createMultiple(50, 'bullet');
+        bullets.setAll('checkWorldBounds', true);
+        bullets.setAll('outOfBoundsKill', true);
+        
+    //explosions
+        explosions = game.add.group();
+        explosions.enableBody = true;
+        explosions.physicsBodyType = Phaser.Physics.ARCADE;
+        explosions.createMultiple(50, 'explosion');
+        
+
+    //this is where we establish AR projectiles
+
+        AR = game.add.group();
+        AR.enableBody = true;
+        AR.physicsBodyType = Phaser.Physics.ARCADE;
+        AR.createMultiple(100, 'assault_round');
+        AR.setAll('checkWorldBounds', true);
+        AR.setAll('outOfBoundsKill', true);
+        
+    //this is where we establish AR projectiles
+
+        grenades = game.add.group();
+        grenades.enableBody = true;
+        grenades.physicsBodyType = Phaser.Physics.ARCADE;
+        grenades.createMultiple(100, 'grenade');
+        grenades.setAll('checkWorldBounds', true);
+        grenades.setAll('outOfBoundsKill', true);
+}
+
+function gameAudio(){
+        meleeSound = game.add.audio('melee_sound');
+        ar_sound = game.add.audio('ar_sound');
+        explosion_sound = game.add.audio('explosion');
+        smash = game.add.audio('smash');
+        grunt = game.add.audio('grunt');
+        whack = game.add.audio('whack');
+        splat = game.add.audio('splat');
+}
