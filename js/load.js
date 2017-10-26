@@ -25,7 +25,6 @@ var Wep2fireRate = 100;
 var Wep3nextFire = 0;
 var GfireRate = 1000;
 
-
 var meleeSound;
 var gameOverText;
 var HPText
@@ -79,7 +78,6 @@ demo.load.prototype = {
         game.load.image('checkered_tile', 'assets/checkered_tile.jpg');
         
         game.load.spritesheet('player', 'assets/Chef.png', 50, 62);
-        game.load.spritesheet('AR_player', 'assets/Chef_AR.png', 50, 62);
         game.load.spritesheet('baddie', 'assets/Carrot.png', 50, 50);
         game.load.spritesheet('broccoli', 'assets/broccoli.png', 50, 50);
         game.load.spritesheet('health_bar', 'assets/health_bar.png', 124, 20);

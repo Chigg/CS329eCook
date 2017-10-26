@@ -162,7 +162,7 @@ function throwKnife(){
         var bullet = bullets.getFirstDead();
         
         //initial firing position. Right now it is centered on player.
-        bullet.reset(player.x + 35, player.y + 30);
+        bullet.reset(player.x + 35, player.y + 28);
         bullet.anchor.setTo(0.5,0.5);
         bullet.rotation = game.physics.arcade.angleToPointer(bullet);
         game.physics.arcade.moveToPointer(bullet, 800);
@@ -190,7 +190,9 @@ function ARFire(){
         var carrotAmmo = AR.getFirstDead();
         
         //initial firing position. Right now it is centered on player.
-        carrotAmmo.reset(player.x + 30, player.y + 30);
+        if(look_left){carrotAmmo.reset(player.x - 10, player.y + 28);}
+        else{carrotAmmo.reset(player.x + 50, player.y + 28);}
+        
         carrotAmmo.anchor.setTo(0.5,0.5);
         carrotAmmo.rotation = game.physics.arcade.angleToPointer(carrotAmmo);
         game.physics.arcade.moveToPointer(carrotAmmo, 1500);
@@ -200,11 +202,9 @@ function ARFire(){
         ammo2 -= 1;
         
         if (look_left){
-                player.animations.play('meleeLeft');
                 ar_sound.play()
                 }
         else {
-                player.animations.play('meleeRight');
                 ar_sound.play()
              }
     }
@@ -338,6 +338,9 @@ function Player(){
         //player animations
         player.animations.add('right', [0,1,2,3,4,5,6], 13, true);
         player.animations.add('left', [7,8,9,10,11,12,13], 13, true);
+    
+        player.animations.add('AR_right', [24,25,26,27,28,29,30], 13, true);
+        player.animations.add('AR_left', [31,32,33,34,35,36,37], 13, true);
 
         player.frame = 0;
         player.animations.add('meleeRight', [14,15,16], 0, false);
@@ -433,26 +436,48 @@ function PlayerControls(){
             
             if (d.isDown){
                 player.x += 4;
+                if(wep2Out){
+                    player.animations.play('AR_right');
+                }
+                if(knifeOut || wep3Out){
                 player.animations.play('right');
+                }
                 look_left = false;
             }
             
             if (a.isDown){
                 player.x -= 4;
+                if(wep2Out){
+                    player.animations.play('AR_left');
+                }
+                if(knifeOut || wep3Out){
                 player.animations.play('left');
+                }
                 look_left = true;
             }
             
             if (s.isDown){
                 player.y += 4;
-                if(look_left){player.animations.play('left');}
-                else{player.animations.play('right');}
+                if(wep2Out){
+                    if(look_left){player.animations.play('AR_left');}
+                    else{player.animations.play('AR_right');}
+                }
+                if(knifeOut || wep3Out){
+                    if(look_left){player.animations.play('left');}
+                    else{player.animations.play('right');}
+                }
             }
             
             if (w.isDown){
                 player.y -= 4;
-                if(look_left){player.animations.play('left');}
-                else{player.animations.play('right');}
+                if(wep2Out){
+                    if(look_left){player.animations.play('AR_left');}
+                    else{player.animations.play('AR_right');}
+                }
+                if(knifeOut || wep3Out){
+                    if(look_left){player.animations.play('left');}
+                    else{player.animations.play('right');}
+                }
             }
         }
         else {
