@@ -19,7 +19,7 @@ function stageCreate () {
 //
 function collectHP (player, HPDrop) {
     
-    if (playerHP < 50) {
+    if (playerHP <= 45) {
         
         HPDrop.kill();
         playerHP += 5;
@@ -27,6 +27,12 @@ function collectHP (player, HPDrop) {
         health_bar.frame = HPFrame;
         HPText.text = 'Health: ' + playerHP;
         
+    } else if ((playerHP > 45) && (playerHP < 50)) {
+        HPDrop.kill();
+        playerHP = 50;
+        HPFrame = 0;
+        health_bar.frame = HPFrame;
+        HPText.text = 'Health: ' + playerHP;
     }
 }
 // player loses health when hit by enemy

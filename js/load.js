@@ -105,7 +105,7 @@ demo.load.prototype = {
         game.load.image('startscreen','assets/game_start_screen.jpg');
         game.load.image('chunk', 'assets/carrot_chunk.png');
         //placeholder for grocery store
-        game.load.image('med_center', 'assets/med_center.png');
+        game.load.image('grocery_store', 'assets/GroceryStore.png');
         game.load.image('succulent', 'assets/succulent.png',15,15);
         game.load.audio('music','assets/audio/go_to_picnic.mp3');
         game.load.audio('explosion','assets/audio/explosion.mp3');
