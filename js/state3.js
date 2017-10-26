@@ -23,7 +23,7 @@ demo.state3.prototype = {
         emitter.gravity = 1;
         
         //spawn point & initializing player attributes
-        player = game.add.sprite(game.world.centerX, game.world.centerY, 'player');
+        player = game.add.sprite(game.world.centerX, game.world.height - 200, 'player');
         Player();
 
         //audio
@@ -41,10 +41,6 @@ demo.state3.prototype = {
         baddies = game.add.physicsGroup(Phaser.Physics.ARCADE);
         broccolis = game.add.physicsGroup(Phaser.Physics.ARCADE);
         explosions = game.add.physicsGroup(Phaser.Physics.ARCADE);
-        
-        med_center = game.add.sprite(150, 150, 'med_center');
-        game.physics.arcade.enable(med_center);
-        med_center.enableBody = true;
 
         //this is where we establish ammo refilling
         ammos = game.add.group();
@@ -63,6 +59,9 @@ demo.state3.prototype = {
 
         }
         
+        GardenText = game.add.text(game.world.centerX, game.world.height - 150, 'Go To Garden', {fontSize:'20px', fill: '#000'});
+        succulent = game.add.sprite(game.world.centerX, game.world.height - 100, 'succulent');
+        game.physics.enable(succulent);
         
         //calling all weapon groups in main.js
         weaponGroups();
@@ -93,7 +92,7 @@ demo.state3.prototype = {
         
         game.physics.arcade.overlap(player, ammos, collectAmmo, null, this);
         game.physics.arcade.overlap(player, HPDrops, collectHP, null, this);      
-        game.physics.arcade.overlap(player, med_center, goToMedCenter);
+        game.physics.arcade.overlap(player, succulent, goToGarden);
         
         game.physics.arcade.collide(player, 'blockedLayer');
         game.physics.arcade.collide(player, trees);
