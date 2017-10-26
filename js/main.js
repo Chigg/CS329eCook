@@ -19,7 +19,7 @@ function stageCreate () {
 //
 function collectHP (player, HPDrop) {
     
-    if (playerHP <= 45) {
+    if (playerHP < 50) {
         
         HPDrop.kill();
         playerHP += 5;
@@ -27,12 +27,6 @@ function collectHP (player, HPDrop) {
         health_bar.frame = HPFrame;
         HPText.text = 'Health: ' + playerHP;
         
-    } else if ((playerHP > 45) && (playerHP < 50)) {
-        HPDrop.kill();
-        playerHP = 50;
-        HPFrame = 0;
-        health_bar.frame = HPFrame;
-        HPText.text = 'Health: ' + playerHP;
     }
 }
 // player loses health when hit by enemy
@@ -121,7 +115,9 @@ function FcollisionHandler (flame, baddie) {
     //  When a bullet hits an carrot we kill them both
     flame.kill();
     baddie.kill();
-    particleBurst(baddie.x,baddie.y);
+    igniteSound.play()
+    //particleBurst(baddie.x,baddie.y);
+    enflame(baddie.x,baddie.y);
     score += 10;
     scoreText.text = 'Score: ' + score;
 }
@@ -170,6 +166,26 @@ function explode (x, y) {
     explosion.lifespan = 2000;
     
 }
+
+function enflame (x, y) {
+    
+    var fire = flames.getFirstDead();
+        
+    fire.x = x
+    fire.y = y
+    
+    fire.animations.add('enflamed', [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25], 0, true);
+    fire.animations.play('enflamed');
+    //explosion_sound.play()
+    fire.animations.getAnimation('enflamed').delay = 165;
+    
+    fire.reset(fire.x, fire.y);
+    fire.play()
+    //controls how long the fire exists
+    fire.lifespan = 4000;
+    
+}
+
 
 
 
@@ -290,7 +306,7 @@ function FTFire(){
         nextFire = game.time.now + FfireRate;
         
         var flame = flamefuel.getFirstDead();
-        
+        flame.reset();
         //initial firing position. Right now it is centered on player.
         if(look_left){flame.reset(player.x - 10, player.y + 28);}
         else{flame.reset(player.x + 50, player.y + 28);}
@@ -298,9 +314,10 @@ function FTFire(){
         flame.anchor.setTo(0.5,0.5);
         flame.lifespan = 500;
         flame.rotation = game.physics.arcade.angleToPointer(flame);
+        game.add.tween(flame.scale).to( { x: 2, y: 2 }, 1000, Phaser.Easing.Linear.None, true);
         game.physics.arcade.moveToPointer(flame, 200);
 
-        ammo4 -= 1;
+        ammo5 -= 1;
         FTsound.play()
     }
 }
@@ -811,7 +828,13 @@ function weaponGroups(){
         explosions = game.add.group();
         explosions.enableBody = true;
         explosions.physicsBodyType = Phaser.Physics.ARCADE;
-        explosions.createMultiple(50, 'explosion');       
+        explosions.createMultiple(50, 'explosion');
+    
+    //fire
+       flames = game.add.group();
+       flames.enableBody = true;
+       flames.physicsBodyType = Phaser.Physics.ARCADE;
+       flames.createMultiple(50, 'flaming');
 
     //this is where we establish AR projectiles
 
@@ -852,6 +875,7 @@ function weaponGroups(){
 
 function gameAudio(){
         meleeSound = game.add.audio('melee_sound');
+        igniteSound = game.add.audio('ignite');
         FTsound = game.add.audio('flamethrower');
         ar_sound = game.add.audio('ar_sound');
         explosion_sound = game.add.audio('explosion');

@@ -41,7 +41,7 @@ var ammo1 = 25;
 var ammo2 = 0;
 var ammo3 = 10;
 var ammo4 = 5;
-var ammo5 = 20;
+var ammo5 = 200000000;
 
 //weapon states
 //true determines whether the weapon is currently out
@@ -92,6 +92,7 @@ demo.load.prototype = {
         game.load.spritesheet('broccoli', 'assets/broccoli.png', 50, 50);
         game.load.spritesheet('health_bar', 'assets/health_bar.png', 124, 20);
         game.load.spritesheet('explosion', 'assets/blender-grenade/explosion.png', 100, 102);
+        game.load.spritesheet('flaming', 'assets/fire.png', 50, 50);
         
         game.load.image('bullet', 'assets/knife.png', 25, 25);
         game.load.image('assault_round', 'assets/assault.png', 10, 10);
@@ -105,10 +106,11 @@ demo.load.prototype = {
         game.load.image('startscreen','assets/game_start_screen.jpg');
         game.load.image('chunk', 'assets/carrot_chunk.png');
         //placeholder for grocery store
-        game.load.image('grocery_store', 'assets/GroceryStore.png');
+        game.load.image('med_center', 'assets/med_center.png');
         game.load.image('succulent', 'assets/succulent.png',15,15);
         game.load.audio('music','assets/audio/go_to_picnic.mp3');
         game.load.audio('explosion','assets/audio/explosion.mp3');
+        game.load.audio('ignite','assets/audio/ignite.mp3');
         game.load.audio('flamethrower','assets/audio/flamethrower.mp3');
         game.load.audio('melee_sound', 'assets/audio/melee_sound.mp3');
         game.load.audio('ar_sound', 'assets/audio/ar_sound.mp3');
