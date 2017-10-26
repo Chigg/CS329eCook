@@ -54,7 +54,7 @@ demo.state2.prototype = {
         emitter = game.add.emitter(0, 0, 50);
 
         emitter.makeParticles('chunk');
-        emitter.gravity = -10;
+        emitter.gravity = 1;
 
         player = game.add.sprite(game.world.centerX, game.world.centerY, 'player');
         player.enableBody = true;

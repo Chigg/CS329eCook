@@ -68,7 +68,7 @@ function collisionHandler (bullet, baddie) {
     //  When a bullet hits an carrot we kill them both
     bullet.kill();
     baddie.kill();
-    particleBurst(baddie, baddie.x,baddie.y);
+    particleBurst(baddie.x,baddie.y);
     score += 10;
     scoreText.text = 'Score: ' + score;
 }
