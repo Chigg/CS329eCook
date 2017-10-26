@@ -117,9 +117,12 @@ demo.load.prototype = {
         game.load.audio('whack', 'assets/audio/whack.mp3');
         game.load.audio('grunt', 'assets/audio/grunt.mp3');
         // unselected, selected, out of ammo, out of ammo and selected, locked
-        game.load.spritesheet('knife_ui', 'assets/Knife_UI.png', 20, 20);
-        game.load.spritesheet('ar_ui', 'assets/AR_UI.png', 20, 20);
-        game.load.spritesheet('grenade_ui', 'assets/Grenade_UI.png', 20, 20);
+        game.load.spritesheet('knife_ui', 'assets/Knife_UI.png', 40, 40);
+        game.load.spritesheet('ar_ui', 'assets/AR_UI.png', 40, 40);
+        game.load.spritesheet('grenade_ui', 'assets/Grenade_UI.png', 40, 40);
+        game.load.spritesheet('grenade_ui', 'assets/Grenade_UI.png', 40, 40);
+        game.load.spritesheet('mine_ui', 'assets/Mine_UI.png', 40, 40);
+        game.load.spritesheet('flamethrower_ui', 'assets/Flamethrower_UI.png', 40, 40);
         
     },
     

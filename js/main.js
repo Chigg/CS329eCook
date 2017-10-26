@@ -425,7 +425,7 @@ function playerHUD(){
         HPText = game.add.text(16, 16, 'Health: ' + playerHP, {fontSize: '15px', fill: '#000'});
         scoreText = game.add.text(16, 16, 'Score: ' + score, {fontSize: '15px', fill: '#000'});    
         ammoText = game.add.text(16, 16, 'Ammo: ' + '∞', {fontSize: '15px', fill: '#000'});
-        weaponsText = game.add.text(16, 16, '1    2    3', {fontSize: '15px', fill: '#000'});
+        weaponsText = game.add.text(16, 16, '   1         2         3         4         5', {fontSize: '15px', fill: '#000'});
         //difficultyText = game.add.text(16, 16, 'difficulty: ' + difficulty, {fontSize: '15px', fill: '#000'});  
 
         health_bar = game.add.sprite(16, 16, 'health_bar');
@@ -452,6 +452,20 @@ function playerHUD(){
         g_ui.animations.add('na', [2], 2, true);
         g_ui.animations.add('nas', [3], 3, true);
         g_ui.animations.add('l', [4], 4, true);
+        //mine
+        m_ui = game.add.sprite(0,10, 'mine_ui');
+        m_ui.animations.add('us', [0], 0, true);
+        m_ui.animations.add('s', [1], 1, true);
+        m_ui.animations.add('na', [2], 2, true);
+        m_ui.animations.add('nas', [3], 3, true);
+        m_ui.animations.add('l', [4], 4, true);
+        //flamethrower
+        f_ui = game.add.sprite(0,10, 'flamethrower_ui');
+        f_ui.animations.add('us', [0], 0, true);
+        f_ui.animations.add('s', [1], 1, true);
+        f_ui.animations.add('na', [2], 2, true);
+        f_ui.animations.add('nas', [3], 3, true);
+        f_ui.animations.add('l', [4], 4, true);
 
 }
 function playerHUDUpdate(){
@@ -469,16 +483,22 @@ function playerHUDUpdate(){
         ammoText.cameraOffset.setTo(470, 370);
         
         weaponsText.fixedToCamera = true;
-        weaponsText.cameraOffset.setTo(10, 350);
+        weaponsText.cameraOffset.setTo(10, 325);
         
         k_ui.fixedToCamera = true;
-        k_ui.cameraOffset.setTo(5, 370);
+        k_ui.cameraOffset.setTo(5, 350);
         
         ar_ui.fixedToCamera = true;
-        ar_ui.cameraOffset.setTo(30, 370);
+        ar_ui.cameraOffset.setTo(50, 350);
         
         g_ui.fixedToCamera = true;
-        g_ui.cameraOffset.setTo(55, 370);
+        g_ui.cameraOffset.setTo(95, 350);
+    
+        m_ui.fixedToCamera = true;
+        m_ui.cameraOffset.setTo(140, 350);
+    
+        f_ui.fixedToCamera = true;
+        f_ui.cameraOffset.setTo(185, 350);
 }
 
 function PlayerControls(){
