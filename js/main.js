@@ -26,8 +26,13 @@ function collectHP (player, HPDrop) {
         HPFrame -= 5;
         health_bar.frame = HPFrame;
         HPText.text = 'Health: ' + playerHP;
-        
-    }
+    } else if ((playerHP > 45) && (playerHP < 50)) {
+        HPDrop.kill();
+        playerHP = 50;
+        HPFrame = 0;
+        health_bar.frame = HPFrame;
+        HPText.text = 'Health: ' + playerHP;
+      }
 }
 // player loses health when hit by enemy
 function loseHealth (player, baddies) {
@@ -45,7 +50,7 @@ function collectAmmo (player, ammo) {
     ammo.kill();
     
     if(knifeOut){
-        ammo1 += 20;
+        ammo1 += 10;
     }
         
     if(wep2Out){
@@ -53,9 +58,11 @@ function collectAmmo (player, ammo) {
     }   
     
     if(wep3Out){
+        ammo3 += 5;
     }
     
     if(wep4Out){
+        ammo4 += 5;
     }
     
     if(wep5Out){
@@ -314,7 +321,7 @@ function FTFire(){
         flame.anchor.setTo(0.5,0.5);
         flame.lifespan = 500;
         flame.rotation = game.physics.arcade.angleToPointer(flame);
-        game.add.tween(flame.scale).to( { x: 2, y: 2 }, 1000, Phaser.Easing.Linear.None, true);
+        game.add.tween(flame.scale).to( { x: 2, y: 2 }, 1000, Phaser.Easing.Linear.None, false);
         game.physics.arcade.moveToPointer(flame, 200);
 
         ammo5 -= 1;

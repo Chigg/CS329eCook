@@ -14,20 +14,20 @@ demo.state2.prototype = {
         timer.start();
 
         // JSON TILE MAP
-        game.map = game.add.tilemap('garden');
+        map = game.add.tilemap('garden');
 
         //the first parameter is the tileset name as specified in Tiled, the second is the key to the asset
-        game.map.addTilesetImage('terrain_atlas', 'terrain');
+        map.addTilesetImage('terrain_atlas', 'terrain');
 
         //create layer
-        game.backgroundlayer = game.map.createLayer('backgroundLayer');
-        game.blockedLayer = game.map.createLayer('blockedLayer');
+        backgroundLayer = map.createLayer('backgroundLayer');
+        blockedLayer = map.createLayer('blockedLayer');
 
         //collision on blockedLayer
-        game.map.setCollisionBetween(1, 1000, true, 'blockedLayer');
+        map.setCollisionBetween(1, 1024, true, 'blockedLayer');
 
         //resizes the game world to match the layer dimensions
-        game.backgroundlayer.resizeWorld();
+        backgroundLayer.resizeWorld();
 
         game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
         game.stage.backgroundColor = '#008000';
@@ -57,9 +57,9 @@ demo.state2.prototype = {
         broccolis = game.add.physicsGroup(Phaser.Physics.ARCADE);
         explosions = game.add.physicsGroup(Phaser.Physics.ARCADE);
         
-        med_center = game.add.sprite(150, 150, 'med_center');
-        game.physics.arcade.enable(med_center);
-        med_center.enableBody = true;
+        grocery_store = game.add.sprite(150, 150, 'grocery_store');
+        game.physics.arcade.enable(grocery_store);
+        grocery_store.enableBody = true;
 
         //this is where we establish ammo refilling
         ammos = game.add.group();
@@ -122,9 +122,11 @@ demo.state2.prototype = {
         
         game.physics.arcade.overlap(player, ammos, collectAmmo, null, this);
         game.physics.arcade.overlap(player, HPDrops, collectHP, null, this);      
-        game.physics.arcade.overlap(player, med_center, goToMedCenter);
+        game.physics.arcade.overlap(player, grocery_store, goToMedCenter);
         
-        game.physics.arcade.collide(player, 'blockedLayer');
+        game.physics.arcade.collide(player, blockedLayer);
+        console.log(game.physics.arcade.collide(player, blockedLayer));
+        
         game.physics.arcade.collide(player, trees);
         
         // crosshair moves with mouse
