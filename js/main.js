@@ -406,13 +406,13 @@ function playerHUDUpdate(){
         weaponsText.cameraOffset.setTo(10, 350);
         
         k_ui.fixedToCamera = true;
-        k_ui.cameraOffset.setTo(5, 370);
+        k_ui.cameraOffset.setTo(5, 350);
         
         ar_ui.fixedToCamera = true;
-        ar_ui.cameraOffset.setTo(30, 370);
+        ar_ui.cameraOffset.setTo(50, 350);
         
         g_ui.fixedToCamera = true;
-        g_ui.cameraOffset.setTo(55, 370);
+        g_ui.cameraOffset.setTo(95, 350);
 }
 
 function PlayerControls(){
