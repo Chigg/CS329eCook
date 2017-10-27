@@ -703,6 +703,18 @@ function PlayerControls(){
             else{
                 g_ui.animations.play('us');
             }
+            if (ammo4 == 0){
+                m_ui.animations.play('na');
+            }
+            else{
+                m_ui.animations.play('us');
+            }
+            if (ammo5 == 0){
+                f_ui.animations.play('na');
+            }
+            else{
+                f_ui.animations.play('us');
+            }
             
         }
         if(wep2Out){
@@ -726,6 +738,18 @@ function PlayerControls(){
             else{
                 g_ui.animations.play('us');
             }
+            if (ammo4 == 0){
+                m_ui.animations.play('na');
+            }
+            else{
+                m_ui.animations.play('us');
+            }
+            if (ammo5 == 0){
+                f_ui.animations.play('na');
+            }
+            else{
+                f_ui.animations.play('us');
+            }
         }
         if(wep3Out){
             ammoText.text = 'Grenades: ' + ammo3;
@@ -748,6 +772,18 @@ function PlayerControls(){
             else{
                 g_ui.animations.play('s');
             }
+            if (ammo4 == 0){
+                m_ui.animations.play('na');
+            }
+            else{
+                m_ui.animations.play('us');
+            }
+            if (ammo5 == 0){
+                f_ui.animations.play('na');
+            }
+            else{
+                f_ui.animations.play('us');
+            }
         }
         if(wep4Out){
             ammoText.text = 'Mines: ' + ammo4;
@@ -765,32 +801,22 @@ function PlayerControls(){
             }
             
             if (ammo3 == 0){
-                g_ui.animations.play('nas');
+                g_ui.animations.play('na');
             }
             else{
-                g_ui.animations.play('s');
+                g_ui.animations.play('us');
             }
-        }
-        if(wep5Out){
-            ammoText.text = 'Flamethrower: ' + ammo5;
-            if (ammo1 == 0){
-                k_ui.animations.play('na');
+            if (ammo4 == 0){
+                m_ui.animations.play('nas');
             }
             else{
-                k_ui.animations.play('us');
+                m_ui.animations.play('s');
             }
-            if (ammo2 == 0){
-                ar_ui.animations.play('na');
-            }
-            else{
-                ar_ui.animations.play('us');
-            }
-            
-            if (ammo3 == 0){
-                g_ui.animations.play('nas');
+            if (ammo5 == 0){
+                f_ui.animations.play('na');
             }
             else{
-                g_ui.animations.play('s');
+                f_ui.animations.play('us');
             }
         }
         
