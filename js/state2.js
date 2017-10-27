@@ -47,13 +47,13 @@ demo.state2.prototype = {
         game.camera.follow(player);
 
         // enemy spawns and behavior
-        baddies = game.add.group();
-        baddies.enableBody = true;
+        carrots = game.add.group();
+        carrots.enableBody = true;
         
         broccolis = game.add.group();
         broccolis.enableBody = true;
         
-        baddies = game.add.physicsGroup(Phaser.Physics.ARCADE);
+        carrots = game.add.physicsGroup(Phaser.Physics.ARCADE);
         broccolis = game.add.physicsGroup(Phaser.Physics.ARCADE);
         explosions = game.add.physicsGroup(Phaser.Physics.ARCADE);
         
@@ -82,20 +82,20 @@ demo.state2.prototype = {
         //calling all weapon groups in main.js
         weaponGroups();
         
-        trees = game.add.group();
-        trees.enableBody = true;
-        game.physics.arcade.enable(trees);
-        xCoord = Math.random(0, 1920);
-        yCoord = Math.random(0, 1920);
-
-        for (var i = 0; i < 5; i++)
-            {
-
-                tree = game.add.sprite(game.world.centerX * xCoord, game.world.centerY * yCoord, 'tree');
-                xCoord = Math.random(0, xCoord + 100)
-                yCoord = Math.random(0, yCoord + 100)
-                
-            }
+//        trees = game.add.group();
+//        trees.enableBody = true;
+//        game.physics.arcade.enable(trees);
+//        xCoord = Math.random(0, 1920);
+//        yCoord = Math.random(0, 1920);
+//
+//        for (var i = 0; i < 5; i++)
+//            {
+//
+//                tree = game.add.sprite(game.world.centerX * xCoord, game.world.centerY * yCoord, 'tree');
+//                xCoord = Math.random(0, xCoord + 100)
+//                yCoord = Math.random(0, yCoord + 100)
+//                
+//            }
         //calling the player HUD
         playerHUD();
 
@@ -144,32 +144,33 @@ demo.state2.prototype = {
         game.physics.arcade.overlap(player, grocery_store, goToMedCenter);
         
         game.physics.arcade.collide(player, blockedLayer);
+        game.physics.arcade.collide(carrots, blockedLayer);
+        game.physics.arcade.collide(carrots, blockedLayer);
         console.log(game.physics.arcade.collide(player, blockedLayer));
         
-        game.physics.arcade.collide(player, trees);
         
         // crosshair moves with mouse
         crosshair.fixedtoCamera = true;
         crosshair.cameraOffset.setTo((game.input.mousePointer.x)-25, (game.input.mousePointer.y)-25);
         
-        baddies.forEach(move);
+        carrots.forEach(move);
         broccolis.forEach(b_move);
         
         cursors = game.input.keyboard.createCursorKeys();
 
-        game.physics.arcade.overlap(player, baddies, loseHealth, null, this);
+        game.physics.arcade.overlap(player, carrots, loseHealth, null, this);
         game.physics.arcade.overlap(player, broccolis, loseHealth, null, this);
         
         //collision detection for carrots
         //
         //
-        game.physics.arcade.overlap(bullets, baddies, collisionHandler, null, this);
-        game.physics.arcade.overlap(AR, baddies, ARcollisionHandler, null, this);
-        game.physics.arcade.overlap(grenades, baddies, GcollisionHandler, null, this);
-        game.physics.arcade.overlap(explosions, baddies, explosionCollisionHandler, null, this);
-        game.physics.arcade.overlap(mines, baddies, GcollisionHandler, null, this);
-        game.physics.arcade.overlap(flamefuel, baddies, FcollisionHandler, null, this);
-        game.physics.arcade.overlap(flames, baddies, FcollisionHandler, null, this);
+        game.physics.arcade.overlap(bullets, carrots, collisionHandler, null, this);
+        game.physics.arcade.overlap(AR, carrots, ARcollisionHandler, null, this);
+        game.physics.arcade.overlap(grenades, carrots, GcollisionHandler, null, this);
+        game.physics.arcade.overlap(explosions, carrots, explosionCollisionHandler, null, this);
+        game.physics.arcade.overlap(mines, carrots, GcollisionHandler, null, this);
+        game.physics.arcade.overlap(flamefuel, carrots, FcollisionHandler, null, this);
+        game.physics.arcade.overlap(flames, carrots, FcollisionHandler, null, this);
         //collision detection for broccolis
         //
         //

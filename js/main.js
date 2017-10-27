@@ -35,7 +35,7 @@ function collectHP (player, HPDrop) {
       }
 }
 // player loses health when hit by enemy
-function loseHealth (player, baddies) {
+function loseHealth (player, carrots) {
     playerHP -= 1;
     HPFrame += 1;
     grunt.play()
@@ -77,54 +77,54 @@ function collectAmmo (player, ammo) {
 //COLLISION HANDLERS
 //
 //
-function collisionHandler (bullet, baddie) {
+function collisionHandler (bullet, carrot) {
 
     //  When a bullet hits an carrot we kill them both
     bullet.kill();
-    baddie.kill();
-    particleBurst(baddie.x,baddie.y);
+    carrot.kill();
+    particleBurst(carrot.x,carrot.y);
     score += 10;
     scoreText.text = 'Score: ' + score;
 }
 
-function explosionCollisionHandler (explosion, baddie) {
+function explosionCollisionHandler (explosion, carrot) {
     
     //  When a bullet hits an carrot we kill them both
-    baddie.kill();
-    particleBurst(baddie.x,baddie.y);
+    carrot.kill();
+    particleBurst(carrot.x,carrot.y);
     score += 10;
     scoreText.text = 'Score: ' + score;
 }
 
-function ARcollisionHandler (carrotAmmo, baddie) {
+function ARcollisionHandler (carrotAmmo, carrot) {
 
     //  When a bullet hits a carrot we kill them both
     carrotAmmo.kill();
-    baddie.kill();
-    particleBurst(baddie.x,baddie.y);
+    carrot.kill();
+    particleBurst(carrot.x,carrot.y);
     score += 10;
     scoreText.text = 'Score: ' + score;
 }
 
-function GcollisionHandler (grenade, baddie) {
+function GcollisionHandler (grenade, carrot) {
 
     //  When a bullet hits an carrot we kill them both
     grenade.kill();
-    baddie.kill();
-    particleBurst(baddie.x,baddie.y);
-    explode(baddie.x,baddie.y);
+    carrot.kill();
+    particleBurst(carrot.x,carrot.y);
+    explode(carrot.x,carrot.y);
     score += 10;
     scoreText.text = 'Score: ' + score;
 }
 
-function FcollisionHandler (flame, baddie) {
+function FcollisionHandler (flame, carrot) {
 
     //  When a bullet hits an carrot we kill them both
     flame.kill();
-    baddie.kill();
+    carrot.kill();
     igniteSound.play()
-    //particleBurst(baddie.x,baddie.y);
-    enflame(baddie.x,baddie.y);
+    //particleBurst(carrot.x,carrot.y);
+    enflame(carrot.x,carrot.y);
     score += 10;
     scoreText.text = 'Score: ' + score;
 }
@@ -331,23 +331,23 @@ function FTFire(){
 //ENEMY BEHAVIOR
 //
 //
-function move (baddie) {
-    //baddies = carrots
-    if (baddie.body.velocity == 0) {
-           baddie.animations.play ("bRight");
+function move (carrot) {
+    //carrots = carrots
+    if (carrot.body.velocity == 0) {
+           carrot.animations.play ("bRight");
     }
     
-   if (game.physics.arcade.distanceBetween(baddie, player) <= attackDistance) {
-       game.physics.arcade.moveToObject(baddie,player,200);
+   if (game.physics.arcade.distanceBetween(carrot, player) <= attackDistance) {
+       game.physics.arcade.moveToObject(carrot,player,200);
        
        
        // moving left
-       if (baddie.body.velocity.x < 0) {
-           baddie.animations.play("bLeft");
+       if (carrot.body.velocity.x < 0) {
+           carrot.animations.play("bLeft");
            
        // moving right   
-       } else if (baddie.body.velocity.x > 0) {
-           baddie.animations.play("bRight");
+       } else if (carrot.body.velocity.x > 0) {
+           carrot.animations.play("bRight");
            
        }
     }
@@ -377,15 +377,15 @@ function spawnEnemy() {
     
     for (var i = 0; i < Math.random(0,100); i++)
             {
-                var baddie = baddies.create(game.world.randomX, game.world.randomY, 'baddie');
-                //baddie animations
-                baddie.animations.add('bRight',[5,6,7], 16, true);
-                baddie.animations.add('bLeft',[8,9,10], 16, true);
-                baddie.animations.add('meleeRight', [0,1,2], true);
-                baddie.animations.add('meleeLeft', [13,14,15], true);
+                var carrot = carrots.create(game.world.randomX, game.world.randomY, 'carrot');
+                //carrot animations
+                carrot.animations.add('bRight',[5,6,7], 16, true);
+                carrot.animations.add('bLeft',[8,9,10], 16, true);
+                carrot.animations.add('meleeRight', [0,1,2], true);
+                carrot.animations.add('meleeLeft', [13,14,15], true);
                 
                 
-                baddie.animations.play("bRight");
+                carrot.animations.play("bRight");
             }
     
     for (var i = 0; i < Math.random(0,100); i++)
@@ -541,313 +541,312 @@ function playerHUDUpdate(){
     f_ui.cameraOffset.setTo(185, 350);
     
     WASDText.fixedToCamera = true;
-    WASDText.cameraOffset.setTo (230, 180);
+    WASDText.cameraOffset.setTo (220, 180);
     
     MouseText.fixedToCamera = true;
-    MouseText.cameraOffset.setTo (240, 200);
+    MouseText.cameraOffset.setTo (230, 200);
     
     
 }
 
 function PlayerControls() {
 
-            
-        if (w.isDown || a.isDown || s.isDown || d.isDown)
-        {
-            
-            if (d.isDown){
-                player.x += 4;
-                if(wep2Out){
-                    player.animations.play('AR_right');
-                }
-                if(wep5Out){
-                    player.animations.play('FT_right');
-                }
-                if(knifeOut || wep3Out || wep4Out){
-                player.animations.play('right');
-                }
-                look_left = false;
+    if (w.isDown || a.isDown || s.isDown || d.isDown)
+    {
+
+        if (d.isDown){
+            player.body.x += 4;
+            if(wep2Out){
+                player.animations.play('AR_right');
             }
-            
-            if (a.isDown){
-                player.x -= 4;
-                if(wep2Out){
-                    player.animations.play('AR_left');
-                }
-                if(wep5Out){
-                    player.animations.play('FT_left');
-                }
-                if(knifeOut || wep3Out || wep4Out){
-                player.animations.play('left');
-                }
-                look_left = true;
+            if(wep5Out){
+                player.animations.play('FT_right');
             }
-            
-            if (s.isDown){
-                player.y += 4;
-                if(wep2Out){
-                    if(look_left){player.animations.play('AR_left');}
-                    else{player.animations.play('AR_right');}
-                }
-                if(wep5Out){
-                    if(look_left){player.animations.play('FT_left');}
-                    else{player.animations.play('FT_right');}
-                }
-                if(knifeOut || wep3Out || wep4Out){
-                    if(look_left){player.animations.play('left');}
-                    else{player.animations.play('right');}
-                }
+            if(knifeOut || wep3Out || wep4Out){
+            player.animations.play('right');
             }
-            
-            if (w.isDown){
-                player.y -= 4;
-                if(wep2Out){
-                    if(look_left){player.animations.play('AR_left');}
-                    else{player.animations.play('AR_right');}
-                }
-                if(wep5Out){
-                    if(look_left){player.animations.play('FT_left');}
-                    else{player.animations.play('FT_right');}
-                }
-                if(knifeOut || wep3Out || wep4Out){
-                    if(look_left){player.animations.play('left');}
-                    else{player.animations.play('right');}
-                }
+            look_left = false;
+        }
+
+        if (a.isDown){
+            player.body.x -= 4;
+            if(wep2Out){
+                player.animations.play('AR_left');
+            }
+            if(wep5Out){
+                player.animations.play('FT_left');
+            }
+            if(knifeOut || wep3Out || wep4Out){
+            player.animations.play('left');
+            }
+            look_left = true;
+        }
+
+        if (s.isDown){
+            player.body.y += 4;
+            if(wep2Out){
+                if(look_left){player.animations.play('AR_left');}
+                else{player.animations.play('AR_right');}
+            }
+            if(wep5Out){
+                if(look_left){player.animations.play('FT_left');}
+                else{player.animations.play('FT_right');}
+            }
+            if(knifeOut || wep3Out || wep4Out){
+                if(look_left){player.animations.play('left');}
+                else{player.animations.play('right');}
             }
         }
-        else {
-            player.animations.stop(null, true)
-            //uncommenting these below lines will cause the enemies to stop with the player
-            //for debugging purposes
-//            baddies.setAll('body.velocity.x',0);
-//            baddies.setAll('body.velocity.y',0);
-        }
-        
-       // console.log(player.meleeRight.animations.currentAnim.isPlaying); 
-        
-        if (attackButton.isDown) {
-            //&& game.time.now > attackTimer
-            // attackTimer = game.time.now + 300;
-            if (look_left){
-                player.animations.play('meleeLeft');
-                
+
+        if (w.isDown){
+            player.body.y -= 4;
+            if(wep2Out){
+                if(look_left){player.animations.play('AR_left');}
+                else{player.animations.play('AR_right');}
             }
-             else {
-                player.animations.play('meleeRight');
-             }
-                    
-                }
-        
-        // game over if player loses all health
-        if (playerHP <= 0) {
-            resetGame();
-        }
-        
-        //if number one is pressed, it pulls the knife out and puts away the other weapons
-        
-        if (wep1.isDown){
-            knifeOut = true;
-            wep2Out = false;
-            wep3Out = false;
-            wep4Out = false;
-            wep5Out = false;  
-        }
-        
-        if (wep2.isDown){
-            knifeOut = false;
-            wep2Out = true;
-            wep3Out = false;
-            wep4Out = false;
-            wep5Out = false;           
-        }
-        
-        if (wep3.isDown){
-            knifeOut = false;
-            wep2Out = false;
-            wep3Out = true;
-            wep4Out = false;
-            wep5Out = false;
-        }
-        
-        if (wep4.isDown){
-            knifeOut = false;
-            wep2Out = false;
-            wep3Out = false;
-            wep4Out = true;
-            wep5Out = false;
-        }
-    
-        if (wep5.isDown){
-            knifeOut = false;
-            wep2Out = false;
-            wep3Out = false;
-            wep4Out = false;
-            wep5Out = true;
-        }
-        
-        if (knifeOut){
-            ammoText.text = 'Knives: ' + ammo1;
-            if (ammo1 == 0){
-            k_ui.animations.play('nas');
+            if(wep5Out){
+                if(look_left){player.animations.play('FT_left');}
+                else{player.animations.play('FT_right');}
             }
-            else{
-                k_ui.animations.play('s');
-            }
-            if (ammo2 == 0){
-                ar_ui.animations.play('na');
-            }
-            else{
-                ar_ui.animations.play('us');
-            }
-            
-            if (ammo3 == 0){
-                g_ui.animations.play('na');
-            }
-            else{
-                g_ui.animations.play('us');
-            }
-            if (ammo4 == 0){
-                m_ui.animations.play('na');
-            }
-            else{
-                m_ui.animations.play('us');
-            }
-            if (ammo5 == 0){
-                f_ui.animations.play('na');
-            }
-            else{
-                f_ui.animations.play('us');
-            }
-            
-        }
-        if(wep2Out){
-            ammoText.text = 'AR Ammo: ' + ammo2;
-            if (ammo1 == 0){
-                k_ui.animations.play('na');
-            }
-            else{
-                k_ui.animations.play('us');
-            }
-            if (ammo2 == 0){
-                ar_ui.animations.play('nas');
-            }
-            else{
-                ar_ui.animations.play('s');
-            }
-            
-            if (ammo3 == 0){
-                g_ui.animations.play('na');
-            }
-            else{
-                g_ui.animations.play('us');
-            }
-            if (ammo4 == 0){
-                m_ui.animations.play('na');
-            }
-            else{
-                m_ui.animations.play('us');
-            }
-            if (ammo5 == 0){
-                f_ui.animations.play('na');
-            }
-            else{
-                f_ui.animations.play('us');
+            if(knifeOut || wep3Out || wep4Out){
+                if(look_left){player.animations.play('left');}
+                else{player.animations.play('right');}
             }
         }
-        if(wep3Out){
-            ammoText.text = 'Grenades: ' + ammo3;
-            if (ammo1 == 0){
-                k_ui.animations.play('na');
-            }
-            else{
-                k_ui.animations.play('us');
-            }
-            if (ammo2 == 0){
-                ar_ui.animations.play('na');
-            }
-            else{
-                ar_ui.animations.play('us');
-            }
-            
-            if (ammo3 == 0){
-                g_ui.animations.play('nas');
-            }
-            else{
-                g_ui.animations.play('s');
-            }
-            if (ammo4 == 0){
-                m_ui.animations.play('na');
-            }
-            else{
-                m_ui.animations.play('us');
-            }
-            if (ammo5 == 0){
-                f_ui.animations.play('na');
-            }
-            else{
-                f_ui.animations.play('us');
-            }
+    }
+    else {
+        player.animations.stop(null, true)
+        //uncommenting these below lines will cause the enemies to stop with the player
+        //for debugging purposes
+//            carrots.setAll('body.velocity.x',0);
+//            carrots.setAll('body.velocity.y',0);
+    }
+
+   // console.log(player.meleeRight.animations.currentAnim.isPlaying); 
+
+    if (attackButton.isDown) {
+        //&& game.time.now > attackTimer
+        // attackTimer = game.time.now + 300;
+        if (look_left){
+            player.animations.play('meleeLeft');
+
         }
-        if(wep4Out){
-            ammoText.text = 'Mines: ' + ammo4;
-            if (ammo1 == 0){
-                k_ui.animations.play('na');
+         else {
+            player.animations.play('meleeRight');
+         }
+
             }
-            else{
-                k_ui.animations.play('us');
-            }
-            if (ammo2 == 0){
-                ar_ui.animations.play('na');
-            }
-            else{
-                ar_ui.animations.play('us');
-            }
-            
-            if (ammo3 == 0){
-                g_ui.animations.play('na');
-            }
-            else{
-                g_ui.animations.play('us');
-            }
-            if (ammo4 == 0){
-                m_ui.animations.play('nas');
-            }
-            else{
-                m_ui.animations.play('s');
-            }
-            if (ammo5 == 0){
-                f_ui.animations.play('na');
-            }
-            else{
-                f_ui.animations.play('us');
-            }
+
+    // game over if player loses all health
+    if (playerHP <= 0) {
+        resetGame();
+    }
+
+    //if number one is pressed, it pulls the knife out and puts away the other weapons
+
+    if (wep1.isDown){
+        knifeOut = true;
+        wep2Out = false;
+        wep3Out = false;
+        wep4Out = false;
+        wep5Out = false;  
+    }
+
+    if (wep2.isDown){
+        knifeOut = false;
+        wep2Out = true;
+        wep3Out = false;
+        wep4Out = false;
+        wep5Out = false;           
+    }
+
+    if (wep3.isDown){
+        knifeOut = false;
+        wep2Out = false;
+        wep3Out = true;
+        wep4Out = false;
+        wep5Out = false;
+    }
+
+    if (wep4.isDown){
+        knifeOut = false;
+        wep2Out = false;
+        wep3Out = false;
+        wep4Out = true;
+        wep5Out = false;
+    }
+
+    if (wep5.isDown){
+        knifeOut = false;
+        wep2Out = false;
+        wep3Out = false;
+        wep4Out = false;
+        wep5Out = true;
+    }
+
+    if (knifeOut){
+        ammoText.text = 'Knives: ' + ammo1;
+        if (ammo1 == 0){
+        k_ui.animations.play('nas');
         }
-        
-        if (game.input.activePointer.isDown)
-        {   
-            if(knifeOut & ammo1 > 0){
-                throwKnife();
-            }
-            
-            if(wep2Out & ammo2 > 0){
-                ARFire();
-                //weapon 2 function
-            }
-            
-            if(wep3Out & ammo3 > 0){
-                //weapon 3 function
-                throwGrenade();
-            }
-            if(wep4Out & ammo4 > 0){
-                //weapon 3 function
-                throwMine();
-            }
-            if(wep5Out & ammo5 > 0){
-                //weapon 3 function
-                FTFire();
-            }
-            
+        else{
+            k_ui.animations.play('s');
         }
+        if (ammo2 == 0){
+            ar_ui.animations.play('na');
+        }
+        else{
+            ar_ui.animations.play('us');
+        }
+
+        if (ammo3 == 0){
+            g_ui.animations.play('na');
+        }
+        else{
+            g_ui.animations.play('us');
+        }
+        if (ammo4 == 0){
+            m_ui.animations.play('na');
+        }
+        else{
+            m_ui.animations.play('us');
+        }
+        if (ammo5 == 0){
+            f_ui.animations.play('na');
+        }
+        else{
+            f_ui.animations.play('us');
+        }
+
+    }
+    if(wep2Out){
+        ammoText.text = 'AR Ammo: ' + ammo2;
+        if (ammo1 == 0){
+            k_ui.animations.play('na');
+        }
+        else{
+            k_ui.animations.play('us');
+        }
+        if (ammo2 == 0){
+            ar_ui.animations.play('nas');
+        }
+        else{
+            ar_ui.animations.play('s');
+        }
+
+        if (ammo3 == 0){
+            g_ui.animations.play('na');
+        }
+        else{
+            g_ui.animations.play('us');
+        }
+        if (ammo4 == 0){
+            m_ui.animations.play('na');
+        }
+        else{
+            m_ui.animations.play('us');
+        }
+        if (ammo5 == 0){
+            f_ui.animations.play('na');
+        }
+        else{
+            f_ui.animations.play('us');
+        }
+    }
+    if(wep3Out){
+        ammoText.text = 'Grenades: ' + ammo3;
+        if (ammo1 == 0){
+            k_ui.animations.play('na');
+        }
+        else{
+            k_ui.animations.play('us');
+        }
+        if (ammo2 == 0){
+            ar_ui.animations.play('na');
+        }
+        else{
+            ar_ui.animations.play('us');
+        }
+
+        if (ammo3 == 0){
+            g_ui.animations.play('nas');
+        }
+        else{
+            g_ui.animations.play('s');
+        }
+        if (ammo4 == 0){
+            m_ui.animations.play('na');
+        }
+        else{
+            m_ui.animations.play('us');
+        }
+        if (ammo5 == 0){
+            f_ui.animations.play('na');
+        }
+        else{
+            f_ui.animations.play('us');
+        }
+    }
+    if(wep4Out){
+        ammoText.text = 'Mines: ' + ammo4;
+        if (ammo1 == 0){
+            k_ui.animations.play('na');
+        }
+        else{
+            k_ui.animations.play('us');
+        }
+        if (ammo2 == 0){
+            ar_ui.animations.play('na');
+        }
+        else{
+            ar_ui.animations.play('us');
+        }
+
+        if (ammo3 == 0){
+            g_ui.animations.play('na');
+        }
+        else{
+            g_ui.animations.play('us');
+        }
+        if (ammo4 == 0){
+            m_ui.animations.play('nas');
+        }
+        else{
+            m_ui.animations.play('s');
+        }
+        if (ammo5 == 0){
+            f_ui.animations.play('na');
+        }
+        else{
+            f_ui.animations.play('us');
+        }
+    }
+
+    if (game.input.activePointer.isDown)
+    {   
+        if(knifeOut & ammo1 > 0){
+            throwKnife();
+        }
+
+        if(wep2Out & ammo2 > 0){
+            ARFire();
+            //weapon 2 function
+        }
+
+        if(wep3Out & ammo3 > 0){
+            //weapon 3 function
+            throwGrenade();
+        }
+        if(wep4Out & ammo4 > 0){
+            //weapon 3 function
+            throwMine();
+        }
+        if(wep5Out & ammo5 > 0){
+            //weapon 3 function
+            FTFire();
+        }
+
+    }
         
 }
 
