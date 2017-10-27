@@ -36,6 +36,10 @@ var gameOverText;
 var HPText
 var playerHP = 50;
 
+//tutorial text
+var WASDText;
+var MouseText;
+
 //ammo
 var ammo1 = 25;
 var ammo2 = 0;

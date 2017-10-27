@@ -452,101 +452,104 @@ function Player(){
 
 function playerHUD(){
     
-        HPText = game.add.text(16, 16, 'Health: ' + playerHP, {fontSize: '15px', fill: '#000'});
-        scoreText = game.add.text(16, 16, 'Score: ' + score, {fontSize: '15px', fill: '#000'});    
-        ammoText = game.add.text(16, 16, 'Ammo: ' + '∞', {fontSize: '15px', fill: '#000'});
-        weaponsText = game.add.text(16, 16, '   1         2         3         4         5', {fontSize: '15px', fill: '#000'});
-        //difficultyText = game.add.text(16, 16, 'difficulty: ' + difficulty, {fontSize: '15px', fill: '#000'});  
+    HPText = game.add.text(16, 16, 'Health: ' + playerHP, {font: '15px', fill: '#000'});
+    scoreText = game.add.text(16, 16, 'Score: ' + score, {fontSize: '15px', fill: '#000'});    
+    ammoText = game.add.text(16, 16, 'Ammo: ' + '∞', {fontSize: '15px', fill: '#000'});
+    weaponsText = game.add.text(16, 16, '   1         2         3         4         5', {fontSize: '15px', fill: '#000'});
 
-        health_bar = game.add.sprite(16, 16, 'health_bar');
-        
-        //0 UnSelected, 1 Selected, 2 No Ammo, 3 No Ammo, 4Locked
-        //knife
-        k_ui = game.add.sprite(0,10, 'knife_ui');
-        k_ui.animations.add('us', [0], 0, true);
-        k_ui.animations.add('s', [1], 1, true);
-        k_ui.animations.add('na', [2], 2, true);
-        k_ui.animations.add('nas', [3], 3, true);
-        k_ui.animations.add('l', [4], 4, true);
-        //Assult Rifle
-        ar_ui = game.add.sprite(0,10, 'ar_ui');
-        ar_ui.animations.add('us', [0], 0, true);
-        ar_ui.animations.add('s', [1], 1, true);
-        ar_ui.animations.add('na', [2], 2, true);
-        ar_ui.animations.add('nas', [3], 3, true);
-        ar_ui.animations.add('l', [4], 4, true);
-        //Grenade
-        g_ui = game.add.sprite(0,10, 'grenade_ui');
-        g_ui.animations.add('us', [0], 0, true);
-        g_ui.animations.add('s', [1], 1, true);
-        g_ui.animations.add('na', [2], 2, true);
-        g_ui.animations.add('nas', [3], 3, true);
-        g_ui.animations.add('l', [4], 4, true);
-        //mine
-        m_ui = game.add.sprite(0,10, 'mine_ui');
-        m_ui.animations.add('us', [0], 0, true);
-        m_ui.animations.add('s', [1], 1, true);
-        m_ui.animations.add('na', [2], 2, true);
-        m_ui.animations.add('nas', [3], 3, true);
-        m_ui.animations.add('l', [4], 4, true);
-        //flamethrower
-        f_ui = game.add.sprite(0,10, 'flamethrower_ui');
-        f_ui.animations.add('us', [0], 0, true);
-        f_ui.animations.add('s', [1], 1, true);
-        f_ui.animations.add('na', [2], 2, true);
-        f_ui.animations.add('nas', [3], 3, true);
-        f_ui.animations.add('l', [4], 4, true);
+    // tutorial text
+    WASDText =  game.add.text(16, 16, 'Use WASD keys to MOVE', {fontSize: '15px', fill: '#000'});
+    WASDText.alpha = 1;
+    game.add.tween(WASDText).to( { alpha: 0 }, 5000, "Linear", true);
+    
+    MouseText =  game.add.text(16, 16, 'Use MOUSE to SHOOT', {fontSize: '15px', fill: '#000'});
+    MouseText.alpha = 1;
+    game.add.tween(MouseText).to( { alpha: 0 }, 5000, "Linear", true);
+
+    //difficultyText = game.add.text(16, 16, 'difficulty: ' + difficulty, {fontSize: '15px', fill: '#000'});  
+
+    health_bar = game.add.sprite(16, 16, 'health_bar');
+
+    //0 UnSelected, 1 Selected, 2 No Ammo, 3 No Ammo, 4Locked
+    //knife
+    k_ui = game.add.sprite(0,10, 'knife_ui');
+    k_ui.animations.add('us', [0], 0, true);
+    k_ui.animations.add('s', [1], 1, true);
+    k_ui.animations.add('na', [2], 2, true);
+    k_ui.animations.add('nas', [3], 3, true);
+    k_ui.animations.add('l', [4], 4, true);
+    //Assult Rifle
+    ar_ui = game.add.sprite(0,10, 'ar_ui');
+    ar_ui.animations.add('us', [0], 0, true);
+    ar_ui.animations.add('s', [1], 1, true);
+    ar_ui.animations.add('na', [2], 2, true);
+    ar_ui.animations.add('nas', [3], 3, true);
+    ar_ui.animations.add('l', [4], 4, true);
+    //Grenade
+    g_ui = game.add.sprite(0,10, 'grenade_ui');
+    g_ui.animations.add('us', [0], 0, true);
+    g_ui.animations.add('s', [1], 1, true);
+    g_ui.animations.add('na', [2], 2, true);
+    g_ui.animations.add('nas', [3], 3, true);
+    g_ui.animations.add('l', [4], 4, true);
+    //mine
+    m_ui = game.add.sprite(0,10, 'mine_ui');
+    m_ui.animations.add('us', [0], 0, true);
+    m_ui.animations.add('s', [1], 1, true);
+    m_ui.animations.add('na', [2], 2, true);
+    m_ui.animations.add('nas', [3], 3, true);
+    m_ui.animations.add('l', [4], 4, true);
+    //flamethrower
+    f_ui = game.add.sprite(0,10, 'flamethrower_ui');
+    f_ui.animations.add('us', [0], 0, true);
+    f_ui.animations.add('s', [1], 1, true);
+    f_ui.animations.add('na', [2], 2, true);
+    f_ui.animations.add('nas', [3], 3, true);
+    f_ui.animations.add('l', [4], 4, true);
 
 }
 function playerHUDUpdate(){
-        // text is locked in upper left corner
-        HPText.fixedToCamera = true;
-        HPText.cameraOffset.setTo(135, 15);
-        
-        health_bar.fixedToCamera = true;
-        health_bar.cameraOffset.setTo(0, 15);
-        
-        scoreText.fixedToCamera = true;
-        scoreText.cameraOffset.setTo(0,40);
-        
-        ammoText.fixedToCamera = true;
-        ammoText.cameraOffset.setTo(470, 370);
-        
-        weaponsText.fixedToCamera = true;
-        weaponsText.cameraOffset.setTo(10, 325);
-        
-        k_ui.fixedToCamera = true;
-        k_ui.cameraOffset.setTo(5, 350);
-        
-        ar_ui.fixedToCamera = true;
-        ar_ui.cameraOffset.setTo(50, 350);
-        
-        g_ui.fixedToCamera = true;
-        g_ui.cameraOffset.setTo(95, 350);
+    // text is locked in upper left corner
+    HPText.fixedToCamera = true;
+    HPText.cameraOffset.setTo(135, 15);
+
+    health_bar.fixedToCamera = true;
+    health_bar.cameraOffset.setTo(0, 15);
+
+    scoreText.fixedToCamera = true;
+    scoreText.cameraOffset.setTo(0,40);
+
+    ammoText.fixedToCamera = true;
+    ammoText.cameraOffset.setTo(470, 370);
+
+    weaponsText.fixedToCamera = true;
+    weaponsText.cameraOffset.setTo(10, 325);
+
+    k_ui.fixedToCamera = true;
+    k_ui.cameraOffset.setTo(5, 350);
+
+    ar_ui.fixedToCamera = true;
+    ar_ui.cameraOffset.setTo(50, 350);
+
+    g_ui.fixedToCamera = true;
+    g_ui.cameraOffset.setTo(95, 350);
+
+    m_ui.fixedToCamera = true;
+    m_ui.cameraOffset.setTo(140, 350);
+
+    f_ui.fixedToCamera = true;
+    f_ui.cameraOffset.setTo(185, 350);
     
-        m_ui.fixedToCamera = true;
-        m_ui.cameraOffset.setTo(140, 350);
+    WASDText.fixedToCamera = true;
+    WASDText.cameraOffset.setTo (230, 180);
     
-        f_ui.fixedToCamera = true;
-        f_ui.cameraOffset.setTo(185, 350);
+    MouseText.fixedToCamera = true;
+    MouseText.cameraOffset.setTo (240, 200);
+    
+    
 }
 
-function PlayerControls(){
-    
-        w=game.input.keyboard.addKey(Phaser.Keyboard.W);
-        a=game.input.keyboard.addKey(Phaser.Keyboard.A);
-        s=game.input.keyboard.addKey(Phaser.Keyboard.S);
-        d=game.input.keyboard.addKey(Phaser.Keyboard.D);
-    
-        //spacebar is for melee but it's not implemented currently    
-        attackButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-
-        //weapon selection goes here
-        wep1 = game.input.keyboard.addKey(Phaser.Keyboard.ONE);
-        wep2 = game.input.keyboard.addKey(Phaser.Keyboard.TWO);
-        wep3 = game.input.keyboard.addKey(Phaser.Keyboard.THREE);
-        wep4 = game.input.keyboard.addKey(Phaser.Keyboard.FOUR);
-        wep5 = game.input.keyboard.addKey(Phaser.Keyboard.FIVE);
+function PlayerControls() {
 
             
         if (w.isDown || a.isDown || s.isDown || d.isDown)
