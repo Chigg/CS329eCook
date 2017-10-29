@@ -458,13 +458,21 @@ function playerHUD(){
     weaponsText = game.add.text(16, 16, '   1         2         3         4         5', {fontSize: '15px', fill: '#000'});
 
     // tutorial text
-    WASDText =  game.add.text(16, 16, 'Use WASD keys to MOVE', {fontSize: '15px', fill: '#000'});
+    WASDText =  game.add.text(16, 16, 'Use WASD keys to MOVE', {fontSize: '15px', fontWeight: 'bold', fill: '#FFF97B', stroke: '#000000', strokeThickness: '1'});
     WASDText.alpha = 1;
     game.add.tween(WASDText).to( { alpha: 0 }, 5000, "Linear", true);
     
-    MouseText =  game.add.text(16, 16, 'Use MOUSE to SHOOT', {fontSize: '15px', fill: '#000'});
+    MouseText =  game.add.text(16, 16, 'Use MOUSE to SHOOT', {fontSize: '15px', fontWeight: 'bold', fill: '#FFF97B', stroke: '#000000', strokeThickness: '1'});
     MouseText.alpha = 1;
     game.add.tween(MouseText).to( { alpha: 0 }, 5000, "Linear", true);
+    
+    AmmoText = game.add.text(16, 16, 'Keep Track of Ammo', {fontSize: '15px', fontWeight: 'bold', fill: '#FFF97B', stroke: '#000000', strokeThickness: '1'});
+    AmmoText.alpha = 1;
+    game.add.tween(AmmoText).to( { alpha: 0 }, 6000, "Linear", true);
+    
+    WeaponText = game.add.text(16, 16, 'Switch Between Weapons with Number Keys', {fontSize: '15px', fontWeight: 'bold', fill: '#FFF97B', stroke: '#000000', strokeThickness: '1'});
+    WeaponText.alpha = 1;
+    game.add.tween(WeaponText).to( { alpha: 0 }, 6000, "Linear", true);
 
     //difficultyText = game.add.text(16, 16, 'difficulty: ' + difficulty, {fontSize: '15px', fill: '#000'});  
 
@@ -541,10 +549,17 @@ function playerHUDUpdate(){
     f_ui.cameraOffset.setTo(185, 350);
     
     WASDText.fixedToCamera = true;
-    WASDText.cameraOffset.setTo (220, 180);
+    WASDText.cameraOffset.setTo (220, 160);
     
     MouseText.fixedToCamera = true;
-    MouseText.cameraOffset.setTo (230, 200);
+    MouseText.cameraOffset.setTo (230, 180);
+    
+    AmmoText.fixedToCamera = true;
+    AmmoText.cameraOffset.setTo (440, 340);
+    
+    WeaponText.fixedToCamera = true;
+    WeaponText.cameraOffset.setTo (0, 310);
+    
     
     
 }

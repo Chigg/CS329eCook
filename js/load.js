@@ -39,6 +39,8 @@ var playerHP = 50;
 //tutorial text
 var WASDText;
 var MouseText;
+var AmmoText;
+var WeaponText;
 
 //ammo
 var ammo1 = 25;
