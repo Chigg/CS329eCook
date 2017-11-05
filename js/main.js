@@ -36,10 +36,12 @@ function collectHP (player, HPDrop) {
 }
 // player loses health when hit by enemy
 function loseHealth (player, carrots) {
-    playerHP -= 1;
-    HPFrame += 1;
+    playerHP -= .25;
     grunt.play()
-    health_bar.frame = HPFrame;
+    if (playerHP % 1 == 0){
+        HPFrame += 1;
+        health_bar.frame = HPFrame;
+    }
     HPText.text = 'Health: ' + playerHP;
     
 }
@@ -384,7 +386,7 @@ function spawnEnemy() {
                 carrot.animations.add('meleeRight', [0,1,2], true);
                 carrot.animations.add('meleeLeft', [13,14,15], true);
                 
-                
+                carrot.body.setSize(30, 50, 10, 0);
                 carrot.animations.play("bRight");
             }
     
@@ -446,6 +448,7 @@ function Player(){
         game.physics.arcade.enable(player);
         player.body.bounce.y = 0;
         player.body.gravity.y = 0;
+        player.body.setSize(26, 62, 12, 0);
         player.body.collideWorldBounds = true;
     
 }
@@ -834,6 +837,41 @@ function PlayerControls() {
         }
         else{
             f_ui.animations.play('us');
+        }
+    }
+    
+    if(wep5Out){
+        ammoText.text = 'Gas: ' + ammo4;
+        if (ammo1 == 0){
+            k_ui.animations.play('na');
+        }
+        else{
+            k_ui.animations.play('us');
+        }
+        if (ammo2 == 0){
+            ar_ui.animations.play('na');
+        }
+        else{
+            ar_ui.animations.play('us');
+        }
+
+        if (ammo3 == 0){
+            g_ui.animations.play('na');
+        }
+        else{
+            g_ui.animations.play('us');
+        }
+        if (ammo4 == 0){
+            m_ui.animations.play('na');
+        }
+        else{
+            m_ui.animations.play('us');
+        }
+        if (ammo5 == 0){
+            f_ui.animations.play('nas');
+        }
+        else{
+            f_ui.animations.play('s');
         }
     }
 
