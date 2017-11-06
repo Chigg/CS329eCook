@@ -61,8 +61,12 @@ demo.state2.prototype = {
         broccolis = game.add.group();
         broccolis.enableBody = true;
         
+        onions = game.add.group();
+        onions.enableBody = true;
+        
         carrots = game.add.physicsGroup(Phaser.Physics.ARCADE);
         broccolis = game.add.physicsGroup(Phaser.Physics.ARCADE);
+        onions = game.add.physicsGroup(Phaser.Physics.ARCADE);
         explosions = game.add.physicsGroup(Phaser.Physics.ARCADE);
         
         grocery_store = game.add.sprite(150, 150, 'grocery_store');
@@ -179,11 +183,13 @@ demo.state2.prototype = {
         
         carrots.forEach(move);
         broccolis.forEach(b_move);
+        onions.forEach(b_move);
         
         cursors = game.input.keyboard.createCursorKeys();
 
         game.physics.arcade.overlap(player, carrots, loseHealth, null, this);
         game.physics.arcade.overlap(player, broccolis, loseHealth, null, this);
+        game.physics.arcade.overlap(player, onions, loseHealth, null, this);
         
         //collision detection for carrots
         //
@@ -205,6 +211,17 @@ demo.state2.prototype = {
         game.physics.arcade.overlap(mines, broccolis, GcollisionHandler, null, this);
         game.physics.arcade.overlap(flamefuel, broccolis, FcollisionHandler, null, this);
         game.physics.arcade.overlap(flames, broccolis, FcollisionHandler, null, this);
+        
+        //collision detection for onions
+        //
+        //
+        game.physics.arcade.overlap(bullets, onions, collisionHandler, null, this);
+        game.physics.arcade.overlap(AR, onions, ARcollisionHandler, null, this);
+        game.physics.arcade.overlap(grenades, onions, GcollisionHandler, null, this);
+        game.physics.arcade.overlap(explosions, onions, explosionCollisionHandler, null, this);
+        game.physics.arcade.overlap(mines, onions, GcollisionHandler, null, this);
+        game.physics.arcade.overlap(flamefuel, onions, FcollisionHandler, null, this);
+        game.physics.arcade.overlap(flames, onions, FcollisionHandler, null, this);
         
         WASDText.fixedToCamera = true;
         WASDText.cameraOffset.setTo (220, 160);

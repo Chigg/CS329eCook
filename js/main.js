@@ -369,6 +369,27 @@ function b_move (broccoli) {
        }
     }
 }
+
+function o_move (onion) {
+    if (onion.body.velocity == 0) {
+           onion.animations.play ("ORight");
+    }
+    
+   if (game.physics.arcade.distanceBetween(onion, player) <= attackDistance) {
+       game.physics.arcade.moveToObject(onion,player,200);
+       
+       
+       // moving left
+       if (onion.body.velocity.x < 0) {
+           onion.animations.play("OLeft");
+           
+       // moving right   
+       } else if (onion.body.velocity.x > 0) {
+           onion.animations.play("ORight");
+           
+       }
+    }
+}
 function spawnEnemy() {
     
     for (var i = 0; i < Math.random(0,100); i++)
@@ -394,6 +415,17 @@ function spawnEnemy() {
                 
                 
                 broccoli.animations.play("broRight");
+            }
+    
+     for (var i = 0; i < Math.random(0,50); i++)
+            {
+                var onion = onions.create(game.world.randomX, game.world.randomY, 'onion');
+//                var onions = onions.create(game.world.randomX, game.world.randomY, 'onions');
+                //onions animations
+                onion.animations.add('ORight', [0,1,2,3,4,5], 0, true);
+                onion.animations.add('OLeft', [8,9,10,11,12,13], 0, true);
+                
+                onion.animations.play("ORight");
             }
     
     
