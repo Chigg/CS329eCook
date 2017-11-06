@@ -419,25 +419,32 @@ function resetGame() {
     player_x = player.x;
     player_y = player.y;
     
-    player.kill();
-
     dead_player.x = player_x;
     dead_player.y = player_y;
+    
+    player.kill();
     
     dead_player.alpha = 1;
     
     if (look_left) {
-        dead_player.animations.play('dead_left');
+        dead_player.animations.play('dead_left', false, true);
         
     } else {
-        dead_player.animations.play ('dead_right');
+        dead_player.animations.play ('dead_right', false, true);
     }
     
-    gameover_timer = game.time.create(false);
-    gameover_timer.add(2000, game.state.start('gameover'));
-    gameover_timer.start();
+    game.add.tween(GameOverText).to( { alpha: 1 }, 1000, "Linear", true);
+    
+    game.time.events.add(Phaser.Timer.SECOND * 1, GameOver, this);
+    
+//    gameover_timer.add(10000, game.state.start('gameover'));
+//    gameover_timer.start();
     //game.state.start('gameover');
     
+}
+
+function GameOver () {
+    game.state.start('gameover');
 }
 
 function Player(){
@@ -476,7 +483,7 @@ function Dead_Player() {
     dead_player.enableBody = true;
     dead_player.physicsBodyType = Phaser.Physics.ARCADE;
 
-    dead_player.animations.add('dead_right', [0,1,2, 3, 4, 5, 6, 7, 8, 9, 10], 13, false);
+    dead_player.animations.add('dead_right', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 13, false);
 
     dead_player.animations.add('dead_left', [11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21], 13, false);
     
@@ -494,6 +501,10 @@ function playerHUD(){
     scoreText = game.add.text(16, 16, 'Score: ' + score, {fontSize: '15px', fill: '#000'});    
     ammoText = game.add.text(16, 16, 'Ammo: ' + '∞', {fontSize: '15px', fill: '#000'});
     weaponsText = game.add.text(16, 16, '   1         2         3         4         5', {fontSize: '15px', fill: '#000'});
+    
+    GameOverText = game.add.text(16, 16, 'GAME OVER',{fontSize: '50px', fill: '#000'});
+    GameOverText.alpha = 0;
+    
 
 
     //difficultyText = game.add.text(16, 16, 'difficulty: ' + difficulty, {fontSize: '15px', fill: '#000'});  
@@ -554,6 +565,9 @@ function playerHUDUpdate(){
 
     weaponsText.fixedToCamera = true;
     weaponsText.cameraOffset.setTo(10, 325);
+    
+    GameOverText.fixedToCamera = true;
+    GameOverText.cameraOffset.setTo(130, 160);
 
     k_ui.fixedToCamera = true;
     k_ui.cameraOffset.setTo(5, 350);

@@ -12,6 +12,8 @@ demo.state2.prototype = {
         timer = game.time.create(false);
         timer.loop(difficulty, spawnEnemy, this);
         timer.start();
+        
+        gameover_timer = game.time.create(false);
 
         // JSON TILE MAP
         map = game.add.tilemap('garden');
