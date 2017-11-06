@@ -69,9 +69,9 @@ demo.state2.prototype = {
         onions = game.add.physicsGroup(Phaser.Physics.ARCADE);
         explosions = game.add.physicsGroup(Phaser.Physics.ARCADE);
         
-        grocery_store = game.add.sprite(150, 150, 'grocery_store');
-        game.physics.arcade.enable(grocery_store);
-        grocery_store.enableBody = true;
+//        grocery_store = game.add.sprite(150, 150, 'grocery_store');
+//        game.physics.arcade.enable(grocery_store);
+//        grocery_store.enableBody = true;
 
         //this is where we establish ammo refilling
         ammos = game.add.group();
@@ -169,7 +169,7 @@ demo.state2.prototype = {
         
         game.physics.arcade.overlap(player, ammos, collectAmmo, null, this);
         game.physics.arcade.overlap(player, HPDrops, collectHP, null, this);      
-        game.physics.arcade.overlap(player, grocery_store, goToMedCenter);
+//        game.physics.arcade.overlap(player, grocery_store, goToMedCenter);
         
         game.physics.arcade.collide(player, blockedLayer);
         //do carrots, blocked layer collision need to be removed?
