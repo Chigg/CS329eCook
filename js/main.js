@@ -9,11 +9,6 @@ game.state.add('gameover', demo.gameover);
 game.state.start('load');
 
 
-function stageCreate () {
-    
-    
-}
-
 //MATERIALS / HP / ITEM COLLECTION
 //
 //
@@ -169,7 +164,6 @@ function explode (x, y) {
     explosion_sound.play()
     explosion.animations.getAnimation('explode').delay = 120;
     
-    explosion.reset(explosion.x, explosion.y);
     explosion.play()
     //controls how long the explosion exists
     explosion.lifespan = 2000;
@@ -420,10 +414,32 @@ function meleeRight(){
     player.animations.play('meleeRight')
     meleeSound.play()
 }
+
 function resetGame() {
-    game.state.start('gameover');
+    player_x = player.x;
+    player_y = player.y;
+    
+    player.kill();
+
+    dead_player.x = player_x;
+    dead_player.y = player_y;
+    
+    dead_player.alpha = 1;
+    
+    if (look_left) {
+        dead_player.animations.play('dead_left');
+        
+    } else {
+        dead_player.animations.play ('dead_right');
+    }
+    
+    gameover_timer = game.time.create(false);
+    gameover_timer.add(2000, game.state.start('gameover'));
+    gameover_timer.start();
+    //game.state.start('gameover');
     
 }
+
 function Player(){
     
         player.enableBody = true;
@@ -439,6 +455,7 @@ function Player(){
     
         player.animations.add('FT_right', [38,39,40,41,42,43,44], 13, true);
         player.animations.add('FT_left', [45,46,47,48,49,50,51], 13, true);
+    
 
         player.frame = 0;
         player.animations.add('meleeRight', [14,15,16], 0, false);
@@ -451,6 +468,24 @@ function Player(){
         player.body.setSize(26, 62, 12, 0);
         player.body.collideWorldBounds = true;
     
+    
+}
+
+function Dead_Player() {
+    
+    dead_player.enableBody = true;
+    dead_player.physicsBodyType = Phaser.Physics.ARCADE;
+
+    dead_player.animations.add('dead_right', [0,1,2, 3, 4, 5, 6, 7, 8, 9, 10], 13, false);
+
+    dead_player.animations.add('dead_left', [11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21], 13, false);
+    
+    game.physics.arcade.enable(dead_player);
+    dead_player.body.bounce.y = 0;
+    dead_player.body.gravity.y = 0;
+    dead_player.body.setSize(26, 62, 12, 0);
+    dead_player.body.collideWorldBounds = true;
+    
 }
 
 function playerHUD(){
@@ -460,22 +495,6 @@ function playerHUD(){
     ammoText = game.add.text(16, 16, 'Ammo: ' + '∞', {fontSize: '15px', fill: '#000'});
     weaponsText = game.add.text(16, 16, '   1         2         3         4         5', {fontSize: '15px', fill: '#000'});
 
-    // tutorial text
-    WASDText =  game.add.text(16, 16, 'Use WASD keys to MOVE', {fontSize: '15px', fontWeight: 'bold', fill: '#FFF97B', stroke: '#000000', strokeThickness: '1'});
-    WASDText.alpha = 1;
-    game.add.tween(WASDText).to( { alpha: 0 }, 5000, "Linear", true);
-    
-    MouseText =  game.add.text(16, 16, 'Use MOUSE to SHOOT', {fontSize: '15px', fontWeight: 'bold', fill: '#FFF97B', stroke: '#000000', strokeThickness: '1'});
-    MouseText.alpha = 1;
-    game.add.tween(MouseText).to( { alpha: 0 }, 5000, "Linear", true);
-    
-    AmmoText = game.add.text(16, 16, 'Keep Track of Ammo', {fontSize: '15px', fontWeight: 'bold', fill: '#FFF97B', stroke: '#000000', strokeThickness: '1'});
-    AmmoText.alpha = 1;
-    game.add.tween(AmmoText).to( { alpha: 0 }, 6000, "Linear", true);
-    
-    WeaponText = game.add.text(16, 16, 'Switch Between Weapons with Number Keys', {fontSize: '15px', fontWeight: 'bold', fill: '#FFF97B', stroke: '#000000', strokeThickness: '1'});
-    WeaponText.alpha = 1;
-    game.add.tween(WeaponText).to( { alpha: 0 }, 6000, "Linear", true);
 
     //difficultyText = game.add.text(16, 16, 'difficulty: ' + difficulty, {fontSize: '15px', fill: '#000'});  
 
@@ -550,20 +569,6 @@ function playerHUDUpdate(){
 
     f_ui.fixedToCamera = true;
     f_ui.cameraOffset.setTo(185, 350);
-    
-    WASDText.fixedToCamera = true;
-    WASDText.cameraOffset.setTo (220, 160);
-    
-    MouseText.fixedToCamera = true;
-    MouseText.cameraOffset.setTo (230, 180);
-    
-    AmmoText.fixedToCamera = true;
-    AmmoText.cameraOffset.setTo (440, 340);
-    
-    WeaponText.fixedToCamera = true;
-    WeaponText.cameraOffset.setTo (0, 310);
-    
-    
     
 }
 

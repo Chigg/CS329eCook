@@ -40,6 +40,12 @@ demo.state2.prototype = {
         //spawn point & initializing player attributes
         player = game.add.sprite(game.world.centerX, game.world.centerY, 'player');
         Player();
+        
+        // death animations
+        dead_player = game.add.sprite(0, 0, 'dead_player');
+        dead_player.alpha = 0;
+        
+        Dead_Player();
 
         //audio
         gameAudio();
@@ -127,6 +133,23 @@ demo.state2.prototype = {
         wep4 = game.input.keyboard.addKey(Phaser.Keyboard.FOUR);
         wep5 = game.input.keyboard.addKey(Phaser.Keyboard.FIVE);
         
+        // tutorial text
+        WASDText =  game.add.text(16, 16, 'Use WASD keys to MOVE', {fontSize: '15px', fontWeight: 'bold', fill: '#FFF97B', stroke: '#000000', strokeThickness: '1'});
+        WASDText.alpha = 1;
+        game.add.tween(WASDText).to( { alpha: 0 }, 5000, "Linear", true);
+
+        MouseText =  game.add.text(16, 16, 'Use MOUSE to SHOOT', {fontSize: '15px', fontWeight: 'bold', fill: '#FFF97B', stroke: '#000000', strokeThickness: '1'});
+        MouseText.alpha = 1;
+        game.add.tween(MouseText).to( { alpha: 0 }, 5000, "Linear", true);
+
+        AmmoText = game.add.text(16, 16, 'Keep Track of Ammo', {fontSize: '15px', fontWeight: 'bold', fill: '#FFF97B', stroke: '#000000', strokeThickness: '1'});
+        AmmoText.alpha = 1;
+        game.add.tween(AmmoText).to( { alpha: 0 }, 6000, "Linear", true);
+
+        WeaponText = game.add.text(16, 16, 'Switch Between Weapons with Number Keys', {fontSize: '15px', fontWeight: 'bold', fill: '#FFF97B', stroke: '#000000', strokeThickness: '1'});
+        WeaponText.alpha = 1;
+        game.add.tween(WeaponText).to( { alpha: 0 }, 6000, "Linear", true);
+        
     },
     
     
@@ -136,7 +159,6 @@ demo.state2.prototype = {
         
         PlayerControls();
         playerHUDUpdate();
-        
         
         
         game.physics.arcade.overlap(player, ammos, collectAmmo, null, this);
@@ -181,7 +203,19 @@ demo.state2.prototype = {
         game.physics.arcade.overlap(mines, broccolis, GcollisionHandler, null, this);
         game.physics.arcade.overlap(flamefuel, broccolis, FcollisionHandler, null, this);
         game.physics.arcade.overlap(flames, broccolis, FcollisionHandler, null, this);
-    
+        
+        WASDText.fixedToCamera = true;
+        WASDText.cameraOffset.setTo (220, 160);
+
+        MouseText.fixedToCamera = true;
+        MouseText.cameraOffset.setTo (230, 180);
+
+        AmmoText.fixedToCamera = true;
+        AmmoText.cameraOffset.setTo (440, 340);
+
+        WeaponText.fixedToCamera = true;
+        WeaponText.cameraOffset.setTo (0, 310);
+
 
     }
 };

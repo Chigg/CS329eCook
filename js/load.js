@@ -1,6 +1,7 @@
 var scoreText;
 var score = 0;
 var player;
+var dead_player;
 var bullets;
 
 var ammos;
@@ -69,6 +70,7 @@ var attackDistance = 250;
 var attackTimer = 0;
 var attackButton;
 var timer;
+var gameover_timer;
 var music;
 
 var demo = {};
@@ -99,6 +101,7 @@ demo.load.prototype = {
         game.load.spritesheet('health_bar', 'assets/health_bar.png', 124, 20);
         game.load.spritesheet('explosion', 'assets/blender-grenade/explosion.png', 100, 102);
         game.load.spritesheet('flaming', 'assets/fire.png', 50, 50);
+        game.load.spritesheet('dead_player', 'assets/Chef_dead.png', 62, 62);
         
         game.load.image('bullet', 'assets/knife.png', 25, 25);
         game.load.image('assault_round', 'assets/assault.png', 10, 10);
