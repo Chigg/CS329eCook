@@ -172,8 +172,10 @@ demo.state2.prototype = {
         game.physics.arcade.overlap(player, grocery_store, goToMedCenter);
         
         game.physics.arcade.collide(player, blockedLayer);
+        //do carrots, blocked layer collision need to be removed?
         game.physics.arcade.collide(carrots, blockedLayer);
-        game.physics.arcade.collide(carrots, blockedLayer);
+        game.physics.arcade.collide(broccolis, blockedLayer);
+        game.physics.arcade.collide(onions, blockedLayer);
         console.log(game.physics.arcade.collide(player, blockedLayer));
         
         
