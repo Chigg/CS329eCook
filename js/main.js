@@ -14,7 +14,7 @@ game.state.start('load');
 //
 function collectHP (player, HPDrop) {
     
-    if (playerHP < 50) {
+    if (playerHP < 45) {
         
         HPDrop.kill();
         playerHP += 5;
@@ -466,6 +466,7 @@ function resetGame() {
     }
     
     game.add.tween(GameOverText).to( { alpha: 1 }, 1000, "Linear", true);
+    game.add.tween(FinalScoreText).to( { alpha: 1 }, 1000, "Linear", true);
     
     game.time.events.add(Phaser.Timer.SECOND * 1, GameOver, this);
     
@@ -537,6 +538,9 @@ function playerHUD(){
     GameOverText = game.add.text(16, 16, 'GAME OVER',{fontSize: '50px', fill: '#000'});
     GameOverText.alpha = 0;
     
+    FinalScoreText = game.add.text(16, 16, 'FINAL SCORE: ' + score,{fontSize: '50px', fill: '#000'});
+    FinalScoreText.alpha = 0;
+    
 
 
     //difficultyText = game.add.text(16, 16, 'difficulty: ' + difficulty, {fontSize: '15px', fill: '#000'});  
@@ -600,6 +604,9 @@ function playerHUDUpdate(){
     
     GameOverText.fixedToCamera = true;
     GameOverText.cameraOffset.setTo(130, 160);
+    
+    FinalScoreText.fixedToCamera = true;
+    FinalScoreText.cameraOffset.setTo(130, 200);
 
     k_ui.fixedToCamera = true;
     k_ui.cameraOffset.setTo(5, 350);

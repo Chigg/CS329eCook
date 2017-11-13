@@ -33,7 +33,6 @@ var Wep5nextFire = 0;
 var FfireRate = 60;
 
 var meleeSound;
-var gameOverText;
 var HPText
 var playerHP = 50;
 
@@ -42,6 +41,9 @@ var WASDText;
 var MouseText;
 var AmmoText;
 var WeaponText;
+
+var gameOverText;
+var FinalScoreText;
 
 //ammo
 var ammo1 = 25;
