@@ -163,7 +163,7 @@ function explode (x, y) {
     explosion.animations.play('explode');
     explosion_sound.play()
     explosion.animations.getAnimation('explode').delay = 120;
-    
+    explosion.reset(explosion.x, explosion.y);
     explosion.play()
     //controls how long the explosion exists
     explosion.lifespan = 2000;
