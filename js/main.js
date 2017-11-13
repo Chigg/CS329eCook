@@ -126,11 +126,12 @@ function FcollisionHandler (flame, carrot) {
     scoreText.text = 'Score: ' + score;
 }
 
-function BLcollisionHandler (bullet) {
 
-    //  When a bullet hits a wall we kill bullet
-    bullet.kill();
-}
+function BLcollisionHandler (bullet) {
+ 
+     //  When a bullet hits a wall we kill bullet
+     bullet.kill();
+ }
 
 function particleBurst(x, y) {
 
@@ -454,6 +455,8 @@ function meleeRight(){
 }
 
 function resetGame() {
+    console.log(score);
+    
     player_x = player.x;
     player_y = player.y;
     
@@ -471,10 +474,15 @@ function resetGame() {
         dead_player.animations.play ('dead_right', false, true);
     }
     
+    
+    FinalScoreText.text = "Final Score: " + score;
     game.add.tween(GameOverText).to( { alpha: 1 }, 1000, "Linear", true);
+    
     game.add.tween(FinalScoreText).to( { alpha: 1 }, 1000, "Linear", true);
     
-    game.time.events.add(Phaser.Timer.SECOND * 1, GameOver, this);
+    console.log(score);
+    
+    game.time.events.add(Phaser.Timer.SECOND * 4, GameOver, this);
     
 //    gameover_timer.add(10000, game.state.start('gameover'));
 //    gameover_timer.start();
@@ -544,7 +552,7 @@ function playerHUD(){
     GameOverText = game.add.text(16, 16, 'GAME OVER',{fontSize: '50px', fill: '#000'});
     GameOverText.alpha = 0;
     
-    FinalScoreText = game.add.text(16, 16, 'FINAL SCORE: ' + score,{fontSize: '50px', fill: '#000'});
+    FinalScoreText = game.add.text(16, 16, 'FINAL SCORE: ' + score, {fontSize: '50px', fill: '#000'});
     FinalScoreText.alpha = 0;
     
 
