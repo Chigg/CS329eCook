@@ -126,6 +126,12 @@ function FcollisionHandler (flame, carrot) {
     scoreText.text = 'Score: ' + score;
 }
 
+function BLcollisionHandler (bullet) {
+
+    //  When a bullet hits a wall we kill bullet
+    bullet.kill();
+}
+
 function particleBurst(x, y) {
 
      //  Position the emitter where the mouse/touch event was

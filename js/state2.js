@@ -197,8 +197,11 @@ demo.state2.prototype = {
         //
         //
         game.physics.arcade.overlap(bullets, carrots, collisionHandler, null, this);
+        game.physics.arcade.collide(bullets, blockedLayer);
         game.physics.arcade.overlap(AR, carrots, ARcollisionHandler, null, this);
+        game.physics.arcade.collide(AR, blockedLayer);
         game.physics.arcade.overlap(grenades, carrots, GcollisionHandler, null, this);
+        game.physics.arcade.collide(grenades, blockedLayer);
         game.physics.arcade.overlap(explosions, carrots, explosionCollisionHandler, null, this);
         game.physics.arcade.overlap(mines, carrots, GcollisionHandler, null, this);
         game.physics.arcade.overlap(flamefuel, carrots, FcollisionHandler, null, this);
@@ -224,6 +227,7 @@ demo.state2.prototype = {
         game.physics.arcade.overlap(mines, onions, GcollisionHandler, null, this);
         game.physics.arcade.overlap(flamefuel, onions, FcollisionHandler, null, this);
         game.physics.arcade.overlap(flames, onions, FcollisionHandler, null, this);
+        
         
         WASDText.fixedToCamera = true;
         WASDText.cameraOffset.setTo (220, 160);
