@@ -102,7 +102,7 @@ demo.load.prototype = {
         game.load.spritesheet('broccoli', 'assets/broccoli.png', 50, 50); game.load.spritesheet('onion', 'assets/onion.png', 30, 45);
         game.load.spritesheet('health_bar', 'assets/health_bar.png', 124, 20);
         game.load.spritesheet('explosion', 'assets/blender-grenade/explosion.png', 100, 102);
-        game.load.spritesheet('flaming', 'assets/fire.png', 50, 50);
+        game.load.spritesheet('flaming', 'assets/Fire.png', 50, 50);
         game.load.spritesheet('dead_player', 'assets/Chef_dead.png', 62, 62);
         
         game.load.image('bullet', 'assets/knife.png', 25, 25);
