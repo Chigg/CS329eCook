@@ -137,7 +137,9 @@ demo.state2.prototype = {
         wep2 = game.input.keyboard.addKey(Phaser.Keyboard.TWO);
         wep3 = game.input.keyboard.addKey(Phaser.Keyboard.THREE);
         wep4 = game.input.keyboard.addKey(Phaser.Keyboard.FOUR);
-        wep5 = game.input.keyboard.addKey(Phaser.Keyboard.FIVE);
+        wep5 = game.input.keyboard.addKey(Phaser.Keyboard.FIVE)
+        
+        weaponToggle = game.input.keyboard.addKey(Phaser.Keyboard.Q);
         
         // tutorial text
         WASDText =  game.add.text(16, 16, 'Use WASD keys to MOVE', {fontSize: '15px', fontWeight: 'bold', fill: '#FFF97B', stroke: '#000000', strokeThickness: '1'});
@@ -152,7 +154,7 @@ demo.state2.prototype = {
         AmmoText.alpha = 1;
         game.add.tween(AmmoText).to( { alpha: 0 }, 6000, "Linear", true);
 
-        WeaponText = game.add.text(16, 16, 'Switch Between Weapons with Number Keys', {fontSize: '15px', fontWeight: 'bold', fill: '#FFF97B', stroke: '#000000', strokeThickness: '1'});
+        WeaponText = game.add.text(16, 16, 'Toggle Through Weapons with Q', {fontSize: '15px', fontWeight: 'bold', fill: '#FFF97B', stroke: '#000000', strokeThickness: '1'});
         WeaponText.alpha = 1;
         game.add.tween(WeaponText).to( { alpha: 0 }, 6000, "Linear", true);
         
@@ -196,7 +198,7 @@ demo.state2.prototype = {
         //collision detection for carrots
         //
         //
-        game.physics.arcade.collide(bullets, blockedLayer);
+        game.physics.arcade.collide(bullets, blockedLayer, BLcollisionHandler);
         game.physics.arcade.collide(AR, blockedLayer);
         game.physics.arcade.collide(grenades, blockedLayer);
         game.physics.arcade.overlap(bullets, carrots, collisionHandler, null, this);

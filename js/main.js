@@ -455,7 +455,12 @@ function meleeRight(){
 }
 
 function resetGame() {
-    console.log(score);
+    carrots.setAll('body.velocity.x',0);
+    carrots.setAll('body.velocity.y',0);
+    broccolis.setAll('body.velocity.x',0);
+    broccolis.setAll('body.velocity.y',0);
+    onions.setAll('body.velocity.x',0);
+    onions.setAll('body.velocity.y',0);
     
     player_x = player.x;
     player_y = player.y;
@@ -545,9 +550,9 @@ function Dead_Player() {
 function playerHUD(){
     
     HPText = game.add.text(16, 16, 'Health: ' + playerHP, {font: '15px', fill: '#000'});
-    scoreText = game.add.text(16, 16, 'Score: ' + score, {fontSize: '15px', fill: '#000'});    
+    scoreText = game.add.text(16, 16, 'Score: ' + score, {font: '20px', fill: '#000'});    
     ammoText = game.add.text(16, 16, 'Ammo: ' + '∞', {fontSize: '15px', fill: '#000'});
-    weaponsText = game.add.text(16, 16, '   1         2         3         4         5', {fontSize: '15px', fill: '#000'});
+    //weaponsText = game.add.text(16, 16, '   1         2         3         4         5', {fontSize: '15px', fill: '#000'});
     
     GameOverText = game.add.text(16, 16, 'GAME OVER',{fontSize: '50px', fill: '#000'});
     GameOverText.alpha = 0;
@@ -613,8 +618,8 @@ function playerHUDUpdate(){
     ammoText.fixedToCamera = true;
     ammoText.cameraOffset.setTo(470, 370);
 
-    weaponsText.fixedToCamera = true;
-    weaponsText.cameraOffset.setTo(10, 325);
+    //weaponsText.fixedToCamera = true;
+    //weaponsText.cameraOffset.setTo(10, 325);
     
     GameOverText.fixedToCamera = true;
     GameOverText.cameraOffset.setTo(130, 160);
@@ -734,44 +739,68 @@ function PlayerControls() {
 
     //if number one is pressed, it pulls the knife out and puts away the other weapons
 
-    if (wep1.isDown){
-        knifeOut = true;
-        wep2Out = false;
-        wep3Out = false;
-        wep4Out = false;
-        wep5Out = false;  
-    }
-
-    if (wep2.isDown){
-        knifeOut = false;
-        wep2Out = true;
-        wep3Out = false;
-        wep4Out = false;
-        wep5Out = false;           
-    }
-
-    if (wep3.isDown){
-        knifeOut = false;
-        wep2Out = false;
-        wep3Out = true;
-        wep4Out = false;
-        wep5Out = false;
-    }
-
-    if (wep4.isDown){
-        knifeOut = false;
-        wep2Out = false;
-        wep3Out = false;
-        wep4Out = true;
-        wep5Out = false;
-    }
-
-    if (wep5.isDown){
-        knifeOut = false;
-        wep2Out = false;
-        wep3Out = false;
-        wep4Out = false;
-        wep5Out = true;
+//    if (wep1.isDown){
+//        knifeOut = true;
+//        wep2Out = false;
+//        wep3Out = false;
+//        wep4Out = false;
+//        wep5Out = false;  
+//    }
+//
+//    if (wep2.isDown){
+//        knifeOut = false;
+//        wep2Out = true;
+//        wep3Out = false;
+//        wep4Out = false;
+//        wep5Out = false;           
+//    }
+//
+//    if (wep3.isDown){
+//        knifeOut = false;
+//        wep2Out = false;
+//        wep3Out = true;
+//        wep4Out = false;
+//        wep5Out = false;
+//    }
+//
+//    if (wep4.isDown){
+//        knifeOut = false;
+//        wep2Out = false;
+//        wep3Out = false;
+//        wep4Out = true;
+//        wep5Out = false;
+//    }
+//
+//    if (wep5.isDown){
+//        knifeOut = false;
+//        wep2Out = false;
+//        wep3Out = false;
+//        wep4Out = false;
+//        wep5Out = true;
+    
+//    }
+    
+    if (weaponToggle.isDown) {
+        if (knifeOut) {
+            knifeOut = false;
+            wep2Out = true;
+            
+        } else if (wep2Out) {
+            wep2Out = false;
+            wep3Out = true;
+            
+        } else if (wep3Out) {
+            wep3Out = false;
+            wep4Out = true;
+            
+        } else if (wep4Out) {
+            wep4Out = false;
+            wep5Out = true;
+            
+        } else if (wep5Out) {
+            wep5Out = false;
+            knifeOut = true;
+        }
     }
 
     if (knifeOut){
