@@ -50,7 +50,7 @@ var ammo1 = 25;
 var ammo2 = 0;
 var ammo3 = 10;
 var ammo4 = 5;
-var ammo5 = 200000000;
+var ammo5 = 10;
 
 //weapon states
 //true determines whether the weapon is currently out
@@ -85,7 +85,8 @@ demo.load.prototype = {
         
         
         // JSON TILE MAP PRELOAD
-        game.load.tilemap ('garden', 'assets/garden.json', null, Phaser.Tilemap.TILED_JSON);
+        //desert, ruins, garden
+        game.load.tilemap ('garden', 'assets/ruins.json', null, Phaser.Tilemap.TILED_JSON);
         game.load.image('terrain', 'assets/terrain_atlas.png');
         
         //menu buttons for difficulty

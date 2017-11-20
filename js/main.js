@@ -942,7 +942,7 @@ function PlayerControls() {
     }
     
     if(wep5Out){
-        ammoText.text = 'Gas: ' + ammo4;
+        ammoText.text = 'Gas: ' + ammo5;
         if (ammo1 == 0){
             k_ui.animations.play('na');
         }
