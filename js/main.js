@@ -781,25 +781,29 @@ function PlayerControls() {
 //    }
     
     if (weaponToggle.isDown) {
-        if (knifeOut) {
-            knifeOut = false;
-            wep2Out = true;
-            
-        } else if (wep2Out) {
-            wep2Out = false;
-            wep3Out = true;
-            
-        } else if (wep3Out) {
-            wep3Out = false;
-            wep4Out = true;
-            
-        } else if (wep4Out) {
-            wep4Out = false;
-            wep5Out = true;
-            
-        } else if (wep5Out) {
-            wep5Out = false;
-            knifeOut = true;
+        if(game.time.now > nextSwitch) {
+            nextSwitch = game.time.now + switchRate;
+
+            if (knifeOut) {
+                knifeOut = false;
+                wep2Out = true;
+
+            } else if (wep2Out) {
+                wep2Out = false;
+                wep3Out = true;
+
+            } else if (wep3Out) {
+                wep3Out = false;
+                wep4Out = true;
+
+            } else if (wep4Out) {
+                wep4Out = false;
+                wep5Out = true;
+
+            } else if (wep5Out) {
+                wep5Out = false;
+                knifeOut = true;
+            }
         }
     }
 

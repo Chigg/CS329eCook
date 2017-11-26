@@ -32,6 +32,10 @@ var GfireRate = 1000;
 var Wep5nextFire = 0;
 var FfireRate = 60;
 
+// for weapon switching
+var switchRate = 100;
+var nextSwitch = 0;
+
 var meleeSound;
 var HPText
 var playerHP = 50;
