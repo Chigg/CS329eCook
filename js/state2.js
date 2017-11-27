@@ -16,6 +16,7 @@ demo.state2.prototype = {
         gameover_timer = game.time.create(false);
         weapon_timer = game.time.create(false);
         tutorial_timer = game.time.create(false);
+        speed_timer = game.time.create(false);
 
         // JSON TILE MAP
         map = game.add.tilemap('garden');

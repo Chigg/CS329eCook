@@ -29,6 +29,7 @@ function collectHP (player, HPDrop) {
         //HPText.text = 'Health: ' + playerHP;
       }
 }
+
 // player loses health when hit by enemy
 function loseHealth (player, carrots) {
     playerHP -= .25;
@@ -69,12 +70,18 @@ function collectAmmo (player, ammo) {
 
 }
 function collectSpeed (player, powerUp) {
+    if (playerSpeed <= 4) {
+        // Removes the pu from the screen
+        powerUp.kill();
+        playerSpeed += 3;
+        speed_timer.add(20000, backToNormal);
+        speed_timer.start();
+    }
 
-    // Removes the pu from the screen
-    powerUp.kill();
-    playerSpeed += 1;
+}
 
-
+function backToNormal () {
+    playerSpeed -= 3;
 }
 
 
@@ -587,7 +594,7 @@ function playerHUD(){
     AmmoText.alpha = 1;
 
 
-    WeaponText = game.add.text(16, 16, 'Toggle Through Weapons with Q', {fontSize: '15px', fontWeight: 'bold', fill: '#FFF97B', stroke: '#000000', strokeThickness: '1'});
+    WeaponText = game.add.text(16, 16, 'Toggle Through Weapons with Q & E', {fontSize: '15px', fontWeight: 'bold', fill: '#FFF97B', stroke: '#000000', strokeThickness: '1'});
     WeaponText.alpha = 1;
     
     
