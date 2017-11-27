@@ -68,6 +68,14 @@ function collectAmmo (player, ammo) {
 
 
 }
+function collectSpeed (player, powerUp) {
+
+    // Removes the pu from the screen
+    powerUp.kill();
+    playerSpeed += 1;
+
+
+}
 
 
 
@@ -682,7 +690,7 @@ function PlayerControls() {
     {
 
         if (d.isDown){
-            player.body.x += 4;
+            player.body.x += playerSpeed;
             if(wep2Out){
                 player.animations.play('AR_right');
             }
@@ -696,7 +704,7 @@ function PlayerControls() {
         }
 
         if (a.isDown){
-            player.body.x -= 4;
+            player.body.x -= playerSpeed;
             if(wep2Out){
                 player.animations.play('AR_left');
             }
@@ -710,7 +718,7 @@ function PlayerControls() {
         }
 
         if (s.isDown){
-            player.body.y += 4;
+            player.body.y += playerSpeed;
             if(wep2Out){
                 if(look_left){player.animations.play('AR_left');}
                 else{player.animations.play('AR_right');}
@@ -726,7 +734,7 @@ function PlayerControls() {
         }
 
         if (w.isDown){
-            player.body.y -= 4;
+            player.body.y -= playerSpeed;
             if(wep2Out){
                 if(look_left){player.animations.play('AR_left');}
                 else{player.animations.play('AR_right');}

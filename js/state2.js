@@ -83,14 +83,21 @@ demo.state2.prototype = {
         HPDrops = game.add.group();
         HPDrops.enableBody = true;
         
-        //  Here we'll create 5 of them evenly spaced apart
+        //powerups
+        pu_speed = game.add.group();
+        pu_speed.enableBody = true;
+        
+        // Here we'll create 5 of them evenly spaced apart
         for (var i = 0; i < 5; i++)
         {
-        //  Create a star inside of the 'stars' group
+        //consumables
             var ammo = ammos.create(game.world.randomX, game.world.randomY, 'grocery_bag');
             var HPDrop = HPDrops.create(game.world.randomX, game.world.randomY, 'extra_life');
+            var speed = pu_speed.create(game.world.randomX, game.world.randomY, 'powerUp_speed');
 
         }
+        
+        game.time.events.repeat(Phaser.Timer.SECOND * 5, 100, createDrops, this);
         
         //blood display for low health
         blood = game.add.sprite(0,0, 'blood');
@@ -99,20 +106,6 @@ demo.state2.prototype = {
         //calling all weapon groups in main.js
         weaponGroups();
         
-//        trees = game.add.group();
-//        trees.enableBody = true;
-//        game.physics.arcade.enable(trees);
-//        xCoord = Math.random(0, 1920);
-//        yCoord = Math.random(0, 1920);
-//
-//        for (var i = 0; i < 5; i++)
-//            {
-//
-//                tree = game.add.sprite(game.world.centerX * xCoord, game.world.centerY * yCoord, 'tree');
-//                xCoord = Math.random(0, xCoord + 100)
-//                yCoord = Math.random(0, yCoord + 100)
-//                
-//            }
         //calling the player HUD
         playerHUD();
 
@@ -138,12 +131,6 @@ demo.state2.prototype = {
         attackButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
         //weapon selection goes here
-        wep1 = game.input.keyboard.addKey(Phaser.Keyboard.ONE);
-        wep2 = game.input.keyboard.addKey(Phaser.Keyboard.TWO);
-        wep3 = game.input.keyboard.addKey(Phaser.Keyboard.THREE);
-        wep4 = game.input.keyboard.addKey(Phaser.Keyboard.FOUR);
-        wep5 = game.input.keyboard.addKey(Phaser.Keyboard.FIVE)
-        
         weaponToggle = game.input.keyboard.addKey(Phaser.Keyboard.Q);
         weaponToggleB = game.input.keyboard.addKey(Phaser.Keyboard.E);
         
@@ -174,7 +161,8 @@ demo.state2.prototype = {
            notDead = false;
         }
         game.physics.arcade.overlap(player, ammos, collectAmmo, null, this);
-        game.physics.arcade.overlap(player, HPDrops, collectHP, null, this);      
+        game.physics.arcade.overlap(player, HPDrops, collectHP, null, this);
+        game.physics.arcade.overlap(player, pu_speed, collectSpeed, null, this); 
 //        game.physics.arcade.overlap(player, grocery_store, goToMedCenter);
         
         game.physics.arcade.collide(player, blockedLayer);
@@ -256,6 +244,12 @@ demo.state2.prototype = {
 //STATE SPECIFIC FUNCTIONS
 //
 //
+function createDrops(){
+    
+    var ammo = ammos.create(game.world.randomX, game.world.randomY, 'grocery_bag');
+    var HPDrop = HPDrops.create(game.world.randomX, game.world.randomY, 'extra_life');
+    
+}
 function goToMedCenter () {
     game.state.start ('state3');
 }

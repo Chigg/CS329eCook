@@ -57,6 +57,8 @@ var ammo5 = 10;
 
 var notDead = true;
 
+var playerSpeed = 4;
+
 //weapon states
 //true determines whether the weapon is currently out
 //therefore, the player starts with the knife out
@@ -120,6 +122,7 @@ demo.load.prototype = {
         game.load.image('flame', 'assets/flame.png', 50, 51)
         game.load.image('grocery_bag', 'assets/grocery_bag.png');
         game.load.image('extra_life', 'assets/extra_life.png');
+        game.load.image('powerUp_speed', 'assets/pu_speed.png')
         game.load.image('tree', 'assets/tree.png', 50, 100);
         game.load.image('crosshair', 'assets/crosshair.png', 1, 1);
         game.load.image('startscreen','assets/game_start_screen.jpg');
