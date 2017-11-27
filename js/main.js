@@ -465,6 +465,12 @@ function resetGame() {
     player_x = player.x;
     player_y = player.y;
     
+    var ammo1 = 25;
+    var ammo2 = 100;
+    var ammo3 = 10;
+    var ammo4 = 5;
+    var ammo5 = 10;
+    
     dead_player.x = player_x;
     dead_player.y = player_y;
     
@@ -804,10 +810,9 @@ function PlayerControls() {
     
 //    }
     
-    if (weaponToggle.isDown) {
-        if(game.time.now > nextSwitch) {
-            nextSwitch = game.time.now + switchRate;
-
+    if (weaponToggleB.isDown) {
+        if(game.time.now > togg){
+            togg= game.time.now + 125; 
             if (knifeOut) {
                 knifeOut = false;
                 wep2Out = true;
@@ -830,7 +835,31 @@ function PlayerControls() {
             }
         }
     }
+    if (weaponToggle.isDown) {
+        if(game.time.now > togg){
+            togg= game.time.now + 125;
+            if (knifeOut) {
+                knifeOut = false;
+                wep5Out = true;
 
+            } else if (wep2Out) {
+                wep2Out = false;
+                knifeOut = true;
+
+            } else if (wep3Out) {
+                wep3Out = false;
+                wep2Out = true;
+
+            } else if (wep4Out) {
+                wep4Out = false;
+                wep3Out = true;
+
+            } else if (wep5Out) {
+                wep5Out = false;
+                wep4Out = true;
+            }
+        }
+    }
     if (knifeOut){
         ammoText.text = 'Knives: ' + ammo1;
         if (ammo1 == 0){
