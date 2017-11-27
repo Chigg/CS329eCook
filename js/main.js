@@ -20,13 +20,13 @@ function collectHP (player, HPDrop) {
         playerHP += 5;
         HPFrame -= 5;
         health_bar.frame = HPFrame;
-        HPText.text = 'Health: ' + playerHP;
+        //HPText.text = 'Health: ' + playerHP;
     } else if ((playerHP > 45) && (playerHP < 50)) {
         HPDrop.kill();
         playerHP = 50;
         HPFrame = 0;
         health_bar.frame = HPFrame;
-        HPText.text = 'Health: ' + playerHP;
+        //HPText.text = 'Health: ' + playerHP;
       }
 }
 // player loses health when hit by enemy
@@ -37,7 +37,7 @@ function loseHealth (player, carrots) {
         HPFrame += 1;
         health_bar.frame = HPFrame;
     }
-    HPText.text = 'Health: ' + playerHP;
+    //HPText.text = 'Health: ' + playerHP;
     
 }
 
@@ -553,9 +553,9 @@ function Dead_Player() {
 
 function playerHUD(){
     
-    HPText = game.add.text(16, 16, 'Health: ' + playerHP, {font: '15px', fill: '#000'});
-    scoreText = game.add.text(16, 16, 'Score: ' + score, {font: '20px', fill: '#000'});    
-    ammoText = game.add.text(16, 16, 'Ammo: ' + '∞', {fontSize: '15px', fill: '#000'});
+    //HPText = game.add.text(16, 16, 'Health: ' + playerHP, {font: '15px', fill: '#000'});
+    scoreText = game.add.text(16, 16, 'Score: ' + score, {font: '30px', fill: '#000'});    
+    ammoText = game.add.text(16, 16, 'Ammo: ' + '∞', {fontSize: '25px', fill: '#000'});
     //weaponsText = game.add.text(16, 16, '   1         2         3         4         5', {fontSize: '15px', fill: '#000'});
     
     GameOverText = game.add.text(16, 16, 'GAME OVER',{fontSize: '50px', fill: '#000'});
@@ -626,17 +626,17 @@ function playerHUD(){
 }
 function playerHUDUpdate(){
     // text is locked in upper left corner
-    HPText.fixedToCamera = true;
-    HPText.cameraOffset.setTo(135, 15);
+    //HPText.fixedToCamera = true;
+    //HPText.cameraOffset.setTo(135, 15);
 
     health_bar.fixedToCamera = true;
     health_bar.cameraOffset.setTo(0, 15);
 
     scoreText.fixedToCamera = true;
-    scoreText.cameraOffset.setTo(0,40);
+    scoreText.cameraOffset.setTo(250,15);
 
     ammoText.fixedToCamera = true;
-    ammoText.cameraOffset.setTo(470, 370);
+    ammoText.cameraOffset.setTo(350, 355);
 
     //weaponsText.fixedToCamera = true;
     //weaponsText.cameraOffset.setTo(10, 325);
