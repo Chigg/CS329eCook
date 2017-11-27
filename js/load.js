@@ -64,6 +64,7 @@ wep3Out = false;
 wep4Out = false;
 wep5Out = false;
 
+var blood;
 var trees;
 var tree;
 var look_left = false;
@@ -109,6 +110,7 @@ demo.load.prototype = {
         game.load.spritesheet('flaming', 'assets/Fire.png', 50, 50);
         game.load.spritesheet('dead_player', 'assets/Chef_dead.png', 62, 62);
         
+        game.load.image('blood', 'assets/blood.png', 600, 400);
         game.load.image('bullet', 'assets/knife.png', 25, 25);
         game.load.image('assault_round', 'assets/assault.png', 10, 10);
         game.load.image('grenade', 'assets/blender-grenade/blender_grenade.png', 30, 30);
