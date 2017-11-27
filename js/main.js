@@ -473,21 +473,19 @@ function resetGame() {
     dead_player.alpha = 1;
     
     if (look_left) {
-        dead_player.animations.play('dead_left', false, true);
+        dead_player.animations.play('dead_left');
         
     } else {
-        dead_player.animations.play ('dead_right', false, true);
+        dead_player.animations.play ('dead_right');
     }
     
     
-    FinalScoreText.text = "Final Score: " + score;
-    game.add.tween(GameOverText).to( { alpha: 1 }, 1000, "Linear", true);
-    
-    game.add.tween(FinalScoreText).to( { alpha: 1 }, 1000, "Linear", true);
-    
-    console.log(score);
-    
-    game.time.events.add(Phaser.Timer.SECOND * 4, GameOver, this);
+//    FinalScoreText.text = "Final Score: " + score;
+//    game.add.tween(GameOverText).to( { alpha: 1 }, 1000, "Linear", true);
+//    
+//    game.add.tween(FinalScoreText).to( { alpha: 1 }, 1000, "Linear", true);
+        
+    game.time.events.add(Phaser.Timer.SECOND * 3, GameOver, this);
     
 //    gameover_timer.add(10000, game.state.start('gameover'));
 //    gameover_timer.start();
@@ -535,9 +533,9 @@ function Dead_Player() {
     dead_player.enableBody = true;
     dead_player.physicsBodyType = Phaser.Physics.ARCADE;
 
-    dead_player.animations.add('dead_right', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 13, false);
+    dead_player.animations.add('dead_right', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 13);
 
-    dead_player.animations.add('dead_left', [11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21], 13, false);
+    dead_player.animations.add('dead_left', [11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21], 13);
     
     game.physics.arcade.enable(dead_player);
     dead_player.body.bounce.y = 0;
@@ -560,7 +558,23 @@ function playerHUD(){
     FinalScoreText = game.add.text(16, 16, 'FINAL SCORE: ' + score, {fontSize: '50px', fill: '#000'});
     FinalScoreText.alpha = 0;
     
+    // tutorial text
+    WASDText =  game.add.text(16, 16, 'Use WASD keys to MOVE', {fontSize: '15px', fontWeight: 'bold', fill: '#FFF97B', stroke: '#000000', strokeThickness: '1'});
+    WASDText.alpha = 1;
 
+
+    MouseText =  game.add.text(16, 16, 'Use MOUSE to SHOOT', {fontSize: '15px', fontWeight: 'bold', fill: '#FFF97B', stroke: '#000000', strokeThickness: '1'});
+    MouseText.alpha = 1;
+
+
+    AmmoText = game.add.text(16, 16, 'Keep Track of Ammo', {fontSize: '15px', fontWeight: 'bold', fill: '#FFF97B', stroke: '#000000', strokeThickness: '1'});
+    AmmoText.alpha = 1;
+
+
+    WeaponText = game.add.text(16, 16, 'Toggle Through Weapons with Q', {fontSize: '15px', fontWeight: 'bold', fill: '#FFF97B', stroke: '#000000', strokeThickness: '1'});
+    WeaponText.alpha = 1;
+    
+    
 
     //difficultyText = game.add.text(16, 16, 'difficulty: ' + difficulty, {fontSize: '15px', fill: '#000'});  
 
@@ -642,6 +656,16 @@ function playerHUDUpdate(){
     f_ui.fixedToCamera = true;
     f_ui.cameraOffset.setTo(185, 350);
     
+    tutorial_timer.add(5000, TutorialFade);
+    tutorial_timer.start();
+    
+}
+
+function TutorialFade() {
+    game.add.tween(WASDText).to( { alpha: 0 }, 300, "Linear", true);
+    game.add.tween(MouseText).to( { alpha: 0 }, 300, "Linear", true);
+    game.add.tween(AmmoText).to( { alpha: 0 }, 300, "Linear", true);
+    game.add.tween(WeaponText).to( { alpha: 0 }, 300, "Linear", true);
 }
 
 function PlayerControls() {

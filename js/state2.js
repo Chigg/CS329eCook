@@ -14,6 +14,8 @@ demo.state2.prototype = {
         timer.start();
         
         gameover_timer = game.time.create(false);
+        weapon_timer = game.time.create(false);
+        tutorial_timer = game.time.create(false);
 
         // JSON TILE MAP
         map = game.add.tilemap('garden');
@@ -81,8 +83,8 @@ demo.state2.prototype = {
         HPDrops = game.add.group();
         HPDrops.enableBody = true;
         
-        //  Here we'll create 12 of them evenly spaced apart
-        for (var i = 0; i < 12; i++)
+        //  Here we'll create 5 of them evenly spaced apart
+        for (var i = 0; i < 5; i++)
         {
         //  Create a star inside of the 'stars' group
             var ammo = ammos.create(game.world.randomX, game.world.randomY, 'grocery_bag');
@@ -141,22 +143,6 @@ demo.state2.prototype = {
         
         weaponToggle = game.input.keyboard.addKey(Phaser.Keyboard.Q);
         
-        // tutorial text
-        WASDText =  game.add.text(16, 16, 'Use WASD keys to MOVE', {fontSize: '15px', fontWeight: 'bold', fill: '#FFF97B', stroke: '#000000', strokeThickness: '1'});
-        WASDText.alpha = 1;
-        game.add.tween(WASDText).to( { alpha: 0 }, 5000, "Linear", true);
-
-        MouseText =  game.add.text(16, 16, 'Use MOUSE to SHOOT', {fontSize: '15px', fontWeight: 'bold', fill: '#FFF97B', stroke: '#000000', strokeThickness: '1'});
-        MouseText.alpha = 1;
-        game.add.tween(MouseText).to( { alpha: 0 }, 5000, "Linear", true);
-
-        AmmoText = game.add.text(16, 16, 'Keep Track of Ammo', {fontSize: '15px', fontWeight: 'bold', fill: '#FFF97B', stroke: '#000000', strokeThickness: '1'});
-        AmmoText.alpha = 1;
-        game.add.tween(AmmoText).to( { alpha: 0 }, 6000, "Linear", true);
-
-        WeaponText = game.add.text(16, 16, 'Toggle Through Weapons with Q', {fontSize: '15px', fontWeight: 'bold', fill: '#FFF97B', stroke: '#000000', strokeThickness: '1'});
-        WeaponText.alpha = 1;
-        game.add.tween(WeaponText).to( { alpha: 0 }, 6000, "Linear", true);
         
     },
     
