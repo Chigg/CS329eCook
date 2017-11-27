@@ -92,6 +92,9 @@ demo.state2.prototype = {
 
         }
         
+        //blood display for low health
+        blood = game.add.sprite(0,0, 'blood');
+        blood.alpha = 0;
         
         //calling all weapon groups in main.js
         weaponGroups();
@@ -142,6 +145,7 @@ demo.state2.prototype = {
         wep5 = game.input.keyboard.addKey(Phaser.Keyboard.FIVE)
         
         weaponToggle = game.input.keyboard.addKey(Phaser.Keyboard.Q);
+        weaponToggleB = game.input.keyboard.addKey(Phaser.Keyboard.E);
         
         
     },
@@ -154,7 +158,17 @@ demo.state2.prototype = {
         PlayerControls();
         playerHUDUpdate();
         
+        // low health display
         
+        if (playerHP <= 5){
+           game.add.tween(blood).to( { alpha: .6 }, 200, "Linear", true);
+        }
+        else if (playerHP <= 15 && playerHP >5){
+           game.add.tween(blood).to( { alpha: .3 }, 200, "Linear", true);
+        }
+        else{
+           game.add.tween(blood).to( { alpha: 0 }, 500, "Linear", true);
+        }
         game.physics.arcade.overlap(player, ammos, collectAmmo, null, this);
         game.physics.arcade.overlap(player, HPDrops, collectHP, null, this);      
 //        game.physics.arcade.overlap(player, grocery_store, goToMedCenter);
@@ -215,6 +229,9 @@ demo.state2.prototype = {
         game.physics.arcade.overlap(mines, onions, GcollisionHandler, null, this);
         game.physics.arcade.overlap(flamefuel, onions, FcollisionHandler, null, this);
         game.physics.arcade.overlap(flames, onions, FcollisionHandler, null, this);
+        
+        blood.fixedToCamera = true;
+        blood.cameraOffset.setTo(0,0);
         
         WASDText.fixedToCamera = true;
         WASDText.cameraOffset.setTo (220, 160);
