@@ -94,6 +94,7 @@ function collisionHandler (bullet, carrot) {
     //  When a bullet hits an carrot we kill them both
     bullet.kill();
     carrot.kill();
+    enemiesKilled += 1;
     particleBurst(carrot.x,carrot.y);
     score += 10;
     scoreText.text = 'Score: ' + score;
@@ -103,6 +104,7 @@ function explosionCollisionHandler (explosion, carrot) {
     
     //  When a bullet hits an carrot we kill them both
     carrot.kill();
+    enemiesKilled += 1;
     particleBurst(carrot.x,carrot.y);
     score += 10;
     scoreText.text = 'Score: ' + score;
@@ -113,6 +115,7 @@ function ARcollisionHandler (carrotAmmo, carrot) {
     //  When a bullet hits a carrot we kill them both
     carrotAmmo.kill();
     carrot.kill();
+    enemiesKilled += 1;
     particleBurst(carrot.x,carrot.y);
     score += 10;
     scoreText.text = 'Score: ' + score;
@@ -123,6 +126,7 @@ function GcollisionHandler (grenade, carrot) {
     //  When a bullet hits an carrot we kill them both
     grenade.kill();
     carrot.kill();
+    enemiesKilled += 1;
     particleBurst(carrot.x,carrot.y);
     explode(carrot.x,carrot.y);
     score += 10;
@@ -134,6 +138,7 @@ function FcollisionHandler (flame, carrot) {
     //  When a bullet hits an carrot we kill them both
     flame.kill();
     carrot.kill();
+    enemiesKilled += 1;
     igniteSound.play()
     //particleBurst(carrot.x,carrot.y);
     enflame(carrot.x,carrot.y);
@@ -412,8 +417,80 @@ function o_move (onion) {
        }
     }
 }
-function spawnEnemy() {
+
+function roundOver(){
+    //when round over, reset enemies killed and spawned
+    //timer only works to show ROUND COMPLETE, doesn't stop spawning
+    enemiesKilled = 0;
+    enemiesSpawned = 0;
+    round_over_timer.add(3000, resetwave);
+    round_over_timer.start();
+    health = 50;
+    roundText.text = "ROUND COMPLETE";
+    //3s break
     
+}
+function resetwave(){
+    // increase in number of enemies spawned
+    enemiesLeft = (10*dif) + (round*15);
+    
+    //update round text
+    roundText.text = "ROUND: " + round;
+}
+
+function spawnEnemy() {
+    // commented out old spawn
+    // Keeps count of spawned enemies, spawns one by one
+    // Spawns until the round limit is reached (enemiesLeft)
+    // 2/5 carrots, 2/5 broccoli, 1/5 onions random
+    enemiesLeft = 15 + (10*dif) + (round*15) ;
+    enemyType = Math.random()
+    if (enemiesSpawned+1 <= enemiesLeft){
+    if (enemyType < .4)
+                {
+                    var carrot = carrots.create(game.world.randomX, game.world.randomY, 'carrot');
+                    //carrot animations
+                    carrot.animations.add('bRight',[5,6,7], 16, true);
+                    carrot.animations.add('bLeft',[8,9,10], 16, true);
+                    carrot.animations.add('meleeRight', [0,1,2], true);
+                    carrot.animations.add('meleeLeft', [13,14,15], true);
+
+                    carrot.body.setSize(30, 50, 10, 0);
+                    carrot.animations.play("bRight");
+                    enemiesSpawned+= 1;
+                }
+
+     else if (enemyType >= .4 && enemyType < .8)
+            {
+                var broccoli = broccolis.create(game.world.randomX, game.world.randomY, 'broccoli');
+//                var broccoli = broccolis.create(game.world.randomX, game.world.randomY, 'broccoli');
+                //broccoli animations
+                broccoli.animations.add('broRight', [4,5,6,7], 0, true);
+                broccoli.animations.add('broLeft', [0,1,2,3], 0, true);
+
+
+                broccoli.animations.play("broRight");
+                enemiesSpawned+= 1;
+            }
+
+     else
+            {
+                var onion = onions.create(game.world.randomX, game.world.randomY, 'onion');
+//                var onions = onions.create(game.world.randomX, game.world.randomY, 'onions');
+                //onions animations
+                onion.animations.add('ORight', [0,1,2,3,4,5], 0, true);
+                onion.animations.add('OLeft', [8,9,10,11,12,13], 0, true);
+
+                onion.animations.play("ORight");
+                enemiesSpawned+= 1;
+            }
+
+
+
+        spawning = false;
+    }
+}
+    /*
     for (var i = 0; i < Math.random(0,100); i++)
             {
                 var carrot = carrots.create(game.world.randomX, game.world.randomY, 'carrot');
@@ -453,8 +530,8 @@ function spawnEnemy() {
     
     
     spawning = false;
-    
 }
+    */
 
 //GAMEOVER / MISC.
 //
@@ -571,6 +648,8 @@ function Dead_Player() {
 function playerHUD(){
     
     //HPText = game.add.text(16, 16, 'Health: ' + playerHP, {font: '15px', fill: '#000'});
+    roundText = game.add.text(16, 16, 'ROUND: '+ round, {font: '15px', fill: '#000'}); 
+    enemiesText = game.add.text(16, 16, 'Enemies Left: '+ (enemiesLeft - 15 - enemiesKilled), {font: '15px', fill: '#000'});
     scoreText = game.add.text(16, 16, 'Score: ' + score, {font: '30px', fill: '#000'});    
     ammoText = game.add.text(16, 16, 'Ammo: ' + '∞', {fontSize: '25px', fill: '#000'});
     //weaponsText = game.add.text(16, 16, '   1         2         3         4         5', {fontSize: '15px', fill: '#000'});
@@ -646,11 +725,17 @@ function playerHUDUpdate(){
     //HPText.fixedToCamera = true;
     //HPText.cameraOffset.setTo(135, 15);
 
-    health_bar.fixedToCamera = true;
-    health_bar.cameraOffset.setTo(0, 15);
-
+    scoreText.anchor.setTo(0.5, 0.5);
     scoreText.fixedToCamera = true;
-    scoreText.cameraOffset.setTo(250,15);
+    scoreText.cameraOffset.setTo(300,30);
+    
+    enemiesText.fixedToCamera = true;
+    enemiesText.cameraOffset.setTo(450,20);
+    enemiesText.text = 'Enemies Left: '+ (enemiesLeft - 15 - enemiesKilled);
+    
+    roundText.anchor.setTo(0.5, 0.5);
+    roundText.fixedToCamera = true;
+    roundText.cameraOffset.setTo(300,50);
 
     ammoText.fixedToCamera = true;
     ammoText.cameraOffset.setTo(350, 355);
