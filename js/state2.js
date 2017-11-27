@@ -13,6 +13,8 @@ demo.state2.prototype = {
         timer.loop(difficulty, spawnEnemy, this);
         timer.start();
         
+        
+        round_over_timer = game.time.create(false);
         gameover_timer = game.time.create(false);
         weapon_timer = game.time.create(false);
         tutorial_timer = game.time.create(false);
@@ -142,6 +144,11 @@ demo.state2.prototype = {
     
     
     update: function(){
+        // go to next round once you kill the enemies in the round
+        // there are 15 extra enemies per round so player doesn't have to look for them
+        if ((enemiesKilled == enemiesLeft - 15) && enemiesKilled != 0){
+            round += 1;
+            roundOver();}
         
         PlayerControls();
         playerHUDUpdate();
