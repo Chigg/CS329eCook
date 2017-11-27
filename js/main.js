@@ -479,9 +479,11 @@ function resetGame() {
     dead_player.alpha = 1;
     
     if (look_left) {
+        notDead = false;
         dead_player.animations.play('dead_left');
         
     } else {
+        notDead = false;
         dead_player.animations.play ('dead_right');
     }
     
@@ -1035,24 +1037,24 @@ function PlayerControls() {
 
     if (game.input.activePointer.isDown)
     {   
-        if(knifeOut & ammo1 > 0){
+        if(knifeOut & ammo1 > 0 & notDead){
             throwKnife();
         }
 
-        if(wep2Out & ammo2 > 0){
+        if(wep2Out & ammo2 > 0 & notDead){
             ARFire();
             //weapon 2 function
         }
 
-        if(wep3Out & ammo3 > 0){
+        if(wep3Out & ammo3 > 0 & notDead){
             //weapon 3 function
             throwGrenade();
         }
-        if(wep4Out & ammo4 > 0){
+        if(wep4Out & ammo4 > 0 & notDead){
             //weapon 3 function
             throwMine();
         }
-        if(wep5Out & ammo5 > 0){
+        if(wep5Out & ammo5 > 0 & notDead){
             //weapon 3 function
             FTFire();
         }

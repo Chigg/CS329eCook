@@ -3,7 +3,7 @@
 demo.state2 = function(){};
 demo.state2.prototype = {
     preload: function(){
-
+        var notDead = true; 
         
     },
     
@@ -168,6 +168,10 @@ demo.state2.prototype = {
         }
         else{
            game.add.tween(blood).to( { alpha: 0 }, 500, "Linear", true);
+        }
+        
+        if (playerHP == 0){
+           notDead = false;
         }
         game.physics.arcade.overlap(player, ammos, collectAmmo, null, this);
         game.physics.arcade.overlap(player, HPDrops, collectHP, null, this);      

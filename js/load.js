@@ -55,6 +55,8 @@ var ammo3 = 10;
 var ammo4 = 5;
 var ammo5 = 10;
 
+var notDead = true;
+
 //weapon states
 //true determines whether the weapon is currently out
 //therefore, the player starts with the knife out
