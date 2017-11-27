@@ -1,3 +1,11 @@
+//Rounds
+//remember to resert
+var round = 1; //round counter
+var enemiesSpawned = 0; //counts enemies spawned 
+var enemiesKilled = 0; // enemies killed counter
+var dif; // multiplier for spawned enemies based on difficulty
+var enemiesLeft; // Total enemies that will spawn that round
+
 var scoreText;
 var score = 0;
 var player;
