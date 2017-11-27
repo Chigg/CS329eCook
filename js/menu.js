@@ -39,17 +39,21 @@ function startGame(i, stateNum){
 
 function easyClick() {
     difficulty = 2000;
+    dif = 1;
     game.state.start('state2');
+    
     
 }
 
 function mediumClick() {
     difficulty = 1000;
+    dif = 4;
     game.state.start('state2');
     
 }
 function hardClick() {
     difficulty = 250;
+    dif = 6
     game.state.start('state2');
     
 }
