@@ -10,7 +10,8 @@ demo.state2.prototype = {
     create: function(){
         
         timer = game.time.create(false);
-        timer.loop(difficulty, spawnEnemy, this);
+        //spawn enemies one by one 
+        timer.loop(25, spawnEnemy, this);
         timer.start();
         
         
