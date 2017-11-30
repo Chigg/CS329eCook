@@ -16,6 +16,7 @@ demo.state2.prototype = {
         
         round_over_timer = game.time.create(false);
         gameover_timer = game.time.create(false);
+        note_timer = game.time.create(false);
         weapon_timer = game.time.create(false);
         tutorial_timer = game.time.create(false);
         speed_timer = game.time.create(false);
@@ -136,6 +137,8 @@ demo.state2.prototype = {
         //weapon selection goes here
         weaponToggle = game.input.keyboard.addKey(Phaser.Keyboard.Q);
         weaponToggleB = game.input.keyboard.addKey(Phaser.Keyboard.E);
+        
+        
         
         
     },

@@ -16,12 +16,23 @@ function collectHP (player, HPDrop) {
     
     if (playerHP < 45) {
         
+        noteText = game.add.text(HPDrop.x, HPDrop.y , '+HP', {font: '17px', fill: '#000'});
+        noteText.anchor.setTo(0.5,0.5);
+        note_timer.add(1000, killnote);
+        note_timer.start();
+        
         HPDrop.kill();
         playerHP += 5;
         HPFrame -= 5;
         health_bar.frame = HPFrame;
         //HPText.text = 'Health: ' + playerHP;
     } else if ((playerHP > 45) && (playerHP < 50)) {
+        
+        noteText = game.add.text(HPDrop.x, HPDrop.y , '+HP', {font: '17px', fill: '#000'});
+        noteText.anchor.setTo(0.5,0.5);
+        note_timer.add(1000, killnote);
+        note_timer.start();
+        
         HPDrop.kill();
         playerHP = 50;
         HPFrame = 0;
@@ -42,36 +53,59 @@ function loseHealth (player, carrots) {
     
 }
 
+function killnote(){
+    noteText.kill();
+}
+
 function collectAmmo (player, ammo) {
 
     // Removes the ammo from the screen
-    ammo.kill();
     
     if(knifeOut){
         ammo1 += 10;
+        noteText = game.add.text(ammo.x, ammo.y, 'Knives +10', {font: '17px', fill: '#000'});
+        noteText.anchor.setTo(0.5,0.5);
+        
     }
         
     if(wep2Out){
         ammo2 += 10;
+        noteText = game.add.text(ammo.x, ammo.y, 'Ammo +10', {font: '17px', fill: '#000'});
+        noteText.anchor.setTo(0.5,0.5);
     }   
     
     if(wep3Out){
         ammo3 += 5;
+        noteText = game.add.text(ammo.x, ammo.y, 'Grenades +5', {font: '17px', fill: '#000'});
+        noteText.anchor.setTo(0.5,0.5);
     }
     
     if(wep4Out){
         ammo4 += 5;
+        noteText = game.add.text(ammo.x, ammo.y, 'Mines +5', {font: '17px', fill: '#000'});
+        noteText.anchor.setTo(0.5,0.5);
     }
     
     if(wep5Out){
         ammo5 += 5;
+        noteText = game.add.text(ammo.x, ammo.y, 'Fuel +5', {font: '17px', fill: '#000'});
+        noteText.anchor.setTo(0.5,0.5);
     }
+    note_timer.add(1000, killnote);
+    note_timer.start();
+    ammo.kill();
 
 
 }
 function collectSpeed (player, powerUp) {
     if (playerSpeed <= 4) {
         // Removes the pu from the screen
+        
+        noteText = game.add.text(powerUp.x, powerUp.y , 'Speed Boost', {font: '17px', fill: '#000'});
+        noteText.anchor.setTo(0.5,0.5);
+        note_timer.add(1000, killnote);
+        note_timer.start();
+        
         powerUp.kill();
         playerSpeed += 3;
         speed_timer.add(20000, backToNormal);
