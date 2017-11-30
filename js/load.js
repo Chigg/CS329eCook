@@ -6,6 +6,10 @@ var enemiesKilled = 0; // enemies killed counter
 var dif; // multiplier for spawned enemies based on difficulty
 var enemiesLeft; // Total enemies that will spawn that round
 var startSpawn = true;
+var enemyX;
+var enemyY;
+var enemyX1;
+var enemyY1;
 
 var scoreText;
 var score = 0;
