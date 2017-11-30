@@ -421,6 +421,7 @@ function o_move (onion) {
 function roundOver(){
     //when round over, reset enemies killed and spawned
     //timer only works to show ROUND COMPLETE, doesn't stop spawning
+    startSpawn = false;
     enemiesKilled = 0;
     enemiesSpawned = 0;
     round_over_timer.add(3000, resetwave);
@@ -433,6 +434,7 @@ function roundOver(){
 function resetwave(){
     // increase in number of enemies spawned
     enemiesLeft = (10*dif) + (round*15);
+    startSpawn = true;
     
     //update round text
     roundText.text = "ROUND: " + round;
@@ -445,10 +447,18 @@ function spawnEnemy() {
     // 2/5 carrots, 2/5 broccoli, 1/5 onions random
     enemiesLeft = 15 + (10*dif) + (round*15) ;
     enemyType = Math.random()
-    if (enemiesSpawned+1 <= enemiesLeft){
+    enemyX = game.world.randomX;
+    enemyY = game.world.randomY;
+    while (enemyX < (player.X + 300) && enemyX > (player.X - 300)){
+        enemyX = game.world.randomX;
+    }
+    while (enemyY < (player.Y + 200) && enemyY > (player.Y - 200)){
+        enemyY = game.world.randomY;
+    }
+    if (startSpawn && enemiesSpawned+1 <= enemiesLeft){
     if (enemyType < .4)
                 {
-                    var carrot = carrots.create(game.world.randomX, game.world.randomY, 'carrot');
+                    var carrot = carrots.create(enemyX, enemyY, 'carrot');
                     //carrot animations
                     carrot.animations.add('bRight',[5,6,7], 16, true);
                     carrot.animations.add('bLeft',[8,9,10], 16, true);
@@ -462,7 +472,7 @@ function spawnEnemy() {
 
      else if (enemyType >= .4 && enemyType < .8)
             {
-                var broccoli = broccolis.create(game.world.randomX, game.world.randomY, 'broccoli');
+                var broccoli = broccolis.create(enemyX, enemyY, 'broccoli');
 //                var broccoli = broccolis.create(game.world.randomX, game.world.randomY, 'broccoli');
                 //broccoli animations
                 broccoli.animations.add('broRight', [4,5,6,7], 0, true);
@@ -475,7 +485,7 @@ function spawnEnemy() {
 
      else
             {
-                var onion = onions.create(game.world.randomX, game.world.randomY, 'onion');
+                var onion = onions.create(enemyX, enemyY, 'onion');
 //                var onions = onions.create(game.world.randomX, game.world.randomY, 'onions');
                 //onions animations
                 onion.animations.add('ORight', [0,1,2,3,4,5], 0, true);
@@ -725,6 +735,9 @@ function playerHUDUpdate(){
     //HPText.fixedToCamera = true;
     //HPText.cameraOffset.setTo(135, 15);
 
+    health_bar.fixedToCamera = true;
+    health_bar.cameraOffset.setTo(15,15);
+    
     scoreText.anchor.setTo(0.5, 0.5);
     scoreText.fixedToCamera = true;
     scoreText.cameraOffset.setTo(300,30);
@@ -998,7 +1011,7 @@ function PlayerControls() {
 
     }
     if(wep2Out){
-        ammoText.text = 'AR Ammo: ' + ammo2;
+        ammoText.text = 'Ammo: ' + ammo2;
         if (ammo1 == 0){
             k_ui.animations.play('na');
         }
@@ -1101,7 +1114,7 @@ function PlayerControls() {
     }
     
     if(wep5Out){
-        ammoText.text = 'Gas: ' + ammo5;
+        ammoText.text = 'Fuel: ' + ammo5;
         if (ammo1 == 0){
             k_ui.animations.play('na');
         }

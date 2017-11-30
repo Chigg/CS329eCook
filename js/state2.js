@@ -10,8 +10,7 @@ demo.state2.prototype = {
     create: function(){
         
         timer = game.time.create(false);
-        //spawn enemies one by one 
-        timer.loop(25, spawnEnemy, this);
+        timer.loop(50, spawnEnemy, this);
         timer.start();
         
         
@@ -149,6 +148,9 @@ demo.state2.prototype = {
         // there are 15 extra enemies per round so player doesn't have to look for them
         if ((enemiesKilled == enemiesLeft - 15) && enemiesKilled != 0){
             round += 1;
+            carrots.callAll('kill');
+            broccolis.callAll('kill');
+            onions.callAll('kill');
             roundOver();}
         
         PlayerControls();

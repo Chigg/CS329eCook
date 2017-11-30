@@ -47,13 +47,13 @@ function easyClick() {
 
 function mediumClick() {
     difficulty = 1000;
-    dif = 4;
+    dif = 3;
     game.state.start('state2');
     
 }
 function hardClick() {
     difficulty = 250;
-    dif = 6
+    dif = 5
     game.state.start('state2');
     
 }
