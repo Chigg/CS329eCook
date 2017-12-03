@@ -8,6 +8,20 @@ game.state.add('gameover', demo.gameover);
 
 game.state.start('load');
 
+WebFontConfig = {
+
+    //  'active' means all requested fonts have finished loading
+    //  We set a 1 second delay before calling 'createText'.
+    //  For some reason if we don't the browser cannot render the text the first time it's created.
+//    active: function() { game.time.events.add(Phaser.Timer.SECOND, createText, this); },
+
+    //  The Google Fonts we want to load (specify as many as you like in the array)
+    google: {
+      families: ['Bungee']
+    }
+
+};
+
 
 //MATERIALS / HP / ITEM COLLECTION
 //
@@ -696,10 +710,20 @@ function playerHUD(){
     
     //HPText = game.add.text(16, 16, 'Health: ' + playerHP, {font: '15px', fill: '#000'});
     roundText = game.add.text(16, 16, 'ROUND: '+ round, {font: '15px', fill: '#000'}); 
+    
+    roundText.font = 'Bungee';
+    
     enemiesText = game.add.text(16, 16, 'Enemies Left: '+ (enemiesLeft - 15 - enemiesKilled), {font: '15px', fill: '#000'});
-    scoreText = game.add.text(16, 16, 'Score: ' + score, {font: '30px', fill: '#000'});    
+    
+    enemiesText.font = 'Bungee';
+   
+    scoreText = game.add.text(16, 16, 'SCORE: ' + score, {font: '30px', fill: '#000'});    
+    
+    scoreText.font = 'Bungee';
+   
     ammoText = game.add.text(16, 16, 'Ammo: ' + '∞', {fontSize: '25px', fill: '#000'});
-    //weaponsText = game.add.text(16, 16, '   1         2         3         4         5', {fontSize: '15px', fill: '#000'});
+    
+    ammoText.font = 'Bungee';
     
     GameOverText = game.add.text(16, 16, 'GAME OVER',{fontSize: '50px', fill: '#000'});
     GameOverText.alpha = 0;
@@ -708,19 +732,23 @@ function playerHUD(){
     FinalScoreText.alpha = 0;
     
     // tutorial text
-    WASDText =  game.add.text(16, 16, 'Use WASD keys to MOVE', {fontSize: '15px', fontWeight: 'bold', fill: '#FFF97B', stroke: '#000000', strokeThickness: '1'});
+    WASDText =  game.add.text(16, 16, 'Use WASD keys to MOVE', {fontSize: '15px', fontWeight: 'bold', fill: '#FFA316', stroke: '#000000', strokeThickness: '1'});
+    WASDText.font = 'Bungee';
     WASDText.alpha = 1;
 
 
-    MouseText =  game.add.text(16, 16, 'Use MOUSE to SHOOT', {fontSize: '15px', fontWeight: 'bold', fill: '#FFF97B', stroke: '#000000', strokeThickness: '1'});
+    MouseText =  game.add.text(16, 16, 'Use MOUSE to SHOOT', {fontSize: '15px', fontWeight: 'bold', fill: '#FFA316', stroke: '#000000', strokeThickness: '1'});
+    MouseText.font = 'Bungee';
     MouseText.alpha = 1;
 
 
-    AmmoText = game.add.text(16, 16, 'Keep Track of Ammo', {fontSize: '15px', fontWeight: 'bold', fill: '#FFF97B', stroke: '#000000', strokeThickness: '1'});
+    AmmoText = game.add.text(16, 16, 'Keep Track of Ammo', {fontSize: '15px', fontWeight: 'bold', fill: '#FFA316', stroke: '#000000', strokeThickness: '1'});
+    AmmoText.font = 'Bungee';
     AmmoText.alpha = 1;
 
 
-    WeaponText = game.add.text(16, 16, 'Toggle Through Weapons with Q & E', {fontSize: '15px', fontWeight: 'bold', fill: '#FFF97B', stroke: '#000000', strokeThickness: '1'});
+    WeaponText = game.add.text(16, 16, 'Toggle Through Weapons with Q & E', {fontSize: '15px', fontWeight: 'bold', fill: '#FFA316', stroke: '#000000', strokeThickness: '1'});
+    WeaponText.font = 'Bungee';
     WeaponText.alpha = 1;
     
     
@@ -789,7 +817,7 @@ function playerHUDUpdate(){
     roundText.cameraOffset.setTo(300,50);
 
     ammoText.fixedToCamera = true;
-    ammoText.cameraOffset.setTo(350, 355);
+    ammoText.cameraOffset.setTo(400, 355);
 
     //weaponsText.fixedToCamera = true;
     //weaponsText.cameraOffset.setTo(10, 325);

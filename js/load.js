@@ -161,6 +161,8 @@ demo.load.prototype = {
         game.load.spritesheet('mine_ui', 'assets/Mine_UI.png', 40, 40);
         game.load.spritesheet('flamethrower_ui', 'assets/Flamethrower_UI.png', 40, 40);
         
+        game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js')
+        
     },
     
     create: function(){

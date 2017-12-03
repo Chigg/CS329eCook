@@ -246,10 +246,10 @@ demo.state2.prototype = {
         MouseText.cameraOffset.setTo (230, 180);
 
         AmmoText.fixedToCamera = true;
-        AmmoText.cameraOffset.setTo (440, 340);
+        AmmoText.cameraOffset.setTo (420, 330);
 
         WeaponText.fixedToCamera = true;
-        WeaponText.cameraOffset.setTo (0, 310);
+        WeaponText.cameraOffset.setTo (0, 330);
 
 
     }
