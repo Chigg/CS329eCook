@@ -153,6 +153,7 @@ demo.load.prototype = {
         game.load.audio('splat', 'assets/audio/splat.mp3');
         game.load.audio('whack', 'assets/audio/whack.mp3');
         game.load.audio('grunt', 'assets/audio/grunt.mp3');
+        game.load.audio('speed_up', 'assets/audio/speed_up.mp3');
         // unselected, selected, out of ammo, out of ammo and selected, locked
         game.load.spritesheet('knife_ui', 'assets/Knife_UI.png', 40, 40);
         game.load.spritesheet('ar_ui', 'assets/AR_UI.png', 40, 40);

@@ -120,6 +120,7 @@ function collectSpeed (player, powerUp) {
         note_timer.add(1000, killnote);
         note_timer.start();
         
+        speed.play();
         powerUp.kill();
         playerSpeed += 3;
         speed_timer.add(15000, backToNormal);
@@ -1332,4 +1333,5 @@ function gameAudio(){
         grunt = game.add.audio('grunt');
         whack = game.add.audio('whack');
         splat = game.add.audio('splat');
+        speed = game.add.audio('speed_up');
 }
