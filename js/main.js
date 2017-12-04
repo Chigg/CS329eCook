@@ -2,8 +2,10 @@ var game = new Phaser.Game(600, 400, Phaser.CANVAS);
 
 game.state.add('load', demo.load);
 game.state.add('menu', demo.menu);
-game.state.add('state2', demo.state2);
-game.state.add('state3', demo.state3);
+game.state.add('mapmenu', demo.mapmenu);
+game.state.add('garden', demo.garden);
+game.state.add('desert', demo.desert);
+game.state.add('ruins', demo.ruins);
 game.state.add('gameover', demo.gameover);
 
 game.state.start('load');

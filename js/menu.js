@@ -7,7 +7,6 @@ demo.menu.prototype = {
     create: function(){
         
         game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-        game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR).onDown.add(startGame, null, null, 2);
         
         music = game.add.audio('music');
         music.play()
@@ -33,14 +32,10 @@ demo.menu.prototype = {
     }    
 };
 
-function startGame(i, stateNum){
-    game.state.start('state2');
-}
-
 function easyClick() {
     difficulty = 2000;
     dif = 1;
-    game.state.start('state2');
+    game.state.start('mapmenu')
     
     
 }
@@ -48,13 +43,14 @@ function easyClick() {
 function mediumClick() {
     difficulty = 1000;
     dif = 3;
-    game.state.start('state2');
+    game.state.start('mapmenu')
     
 }
 function hardClick() {
     difficulty = 250;
     dif = 5
-    game.state.start('state2');
+    game.state.start('mapmenu')
+    
     
 }
 

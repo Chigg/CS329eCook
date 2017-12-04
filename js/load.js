@@ -95,6 +95,7 @@ var attackButton;
 var timer;
 var gameover_timer;
 var music;
+var mapSelected = "garden"
 
 var demo = {};
 demo.load = function(){};
@@ -107,13 +108,20 @@ demo.load.prototype = {
         
         // JSON TILE MAP PRELOAD
         //desert, ruins, garden
-        game.load.tilemap ('garden', 'assets/ruins.json', null, Phaser.Tilemap.TILED_JSON);
+        game.load.tilemap ('ruins', 'assets/ruins.json', null, Phaser.Tilemap.TILED_JSON);
+        game.load.tilemap ('garden', 'assets/garden.json', null, Phaser.Tilemap.TILED_JSON);
+        game.load.tilemap ('desert', 'assets/desert.json', null, Phaser.Tilemap.TILED_JSON);
         game.load.image('terrain', 'assets/terrain_atlas.png');
         
         //menu buttons for difficulty
         game.load.spritesheet('easy', 'assets/menu/easy_button_sprite_sheet.png',193,71);
         game.load.spritesheet('medium', 'assets/menu/medium_button_sprite_sheet.png',193,71);
         game.load.spritesheet('hard', 'assets/menu/hard_button_sprite_sheet.png',193,71);
+        
+        //menu buttons for maps
+        game.load.spritesheet('desert', 'assets/menu/desert_button.png',193,71);
+        game.load.spritesheet('ruins', 'assets/menu/ruins_button.png',193,71);
+        game.load.spritesheet('garden', 'assets/menu/garden_button.png',193,71);
         
         
         game.load.image('grass', 'assets/grass.png');
