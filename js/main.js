@@ -17,7 +17,7 @@ WebFontConfig = {
 
     //  The Google Fonts we want to load (specify as many as you like in the array)
     google: {
-      families: ['Bungee']
+      families: ['Bungee', 'Roboto']
     }
 
 };
@@ -31,9 +31,9 @@ function collectHP (player, HPDrop) {
     if (playerHP < 45) {
         
         noteText = game.add.text(HPDrop.x, HPDrop.y , '+HP', {font: '17px', fill: '#000'});
+        noteText.font = 'Bungee';
+        noteText.alpha = 1;
         noteText.anchor.setTo(0.5,0.5);
-        note_timer.add(1000, killnote);
-        note_timer.start();
         
         HPDrop.kill();
         playerHP += 5;
@@ -43,33 +43,21 @@ function collectHP (player, HPDrop) {
     } else if ((playerHP > 45) && (playerHP < 50)) {
         
         noteText = game.add.text(HPDrop.x, HPDrop.y , '+HP', {font: '17px', fill: '#000'});
+        noteText.font = 'Bungee';
+        noteText.alpha = 1;
         noteText.anchor.setTo(0.5,0.5);
-        note_timer.add(1000, killnote);
-        note_timer.start();
         
         HPDrop.kill();
         playerHP = 50;
         HPFrame = 0;
         health_bar.frame = HPFrame;
         //HPText.text = 'Health: ' + playerHP;
-      }
-}
-
-// player loses health when hit by enemy
-function loseHealth (player, carrots) {
-    playerHP -= .25;
-    grunt.play()
-    if (playerHP % 1 == 0){
-        HPFrame += 1;
-        health_bar.frame = HPFrame;
     }
-    //HPText.text = 'Health: ' + playerHP;
     
+    note_timer.add(1000, killnote);
+    note_timer.start();
 }
 
-function killnote(){
-    noteText.kill();
-}
 
 function collectAmmo (player, ammo) {
 
@@ -78,6 +66,8 @@ function collectAmmo (player, ammo) {
     if(knifeOut){
         ammo1 += 10;
         noteText = game.add.text(ammo.x, ammo.y, 'Knives +10', {font: '17px', fill: '#000'});
+        noteText.font = 'Bungee';
+        noteText.alpha = 1;
         noteText.anchor.setTo(0.5,0.5);
         
     }
@@ -85,24 +75,32 @@ function collectAmmo (player, ammo) {
     if(wep2Out){
         ammo2 += 10;
         noteText = game.add.text(ammo.x, ammo.y, 'Ammo +10', {font: '17px', fill: '#000'});
+        noteText.font = 'Bungee';
+        noteText.alpha = 1;
         noteText.anchor.setTo(0.5,0.5);
     }   
     
     if(wep3Out){
         ammo3 += 5;
         noteText = game.add.text(ammo.x, ammo.y, 'Grenades +5', {font: '17px', fill: '#000'});
+        noteText.font = 'Bungee';
+        noteText.alpha = 1;
         noteText.anchor.setTo(0.5,0.5);
     }
     
     if(wep4Out){
         ammo4 += 5;
         noteText = game.add.text(ammo.x, ammo.y, 'Mines +5', {font: '17px', fill: '#000'});
+        noteText.font = 'Bungee';
+        noteText.alpha = 1;
         noteText.anchor.setTo(0.5,0.5);
     }
     
     if(wep5Out){
         ammo5 += 5;
         noteText = game.add.text(ammo.x, ammo.y, 'Fuel +5', {font: '17px', fill: '#000'});
+        noteText.font = 'Bungee';
+        noteText.alpha = 1;
         noteText.anchor.setTo(0.5,0.5);
     }
     note_timer.add(1000, killnote);
@@ -116,13 +114,15 @@ function collectSpeed (player, powerUp) {
         // Removes the pu from the screen
         
         noteText = game.add.text(powerUp.x, powerUp.y , 'Speed Boost', {font: '17px', fill: '#000'});
+        noteText.font = 'Bungee';
+        noteText.alpha = 1;
         noteText.anchor.setTo(0.5,0.5);
         note_timer.add(1000, killnote);
         note_timer.start();
         
         powerUp.kill();
         playerSpeed += 3;
-        speed_timer.add(20000, backToNormal);
+        speed_timer.add(15000, backToNormal);
         speed_timer.start();
     }
 
@@ -131,6 +131,12 @@ function collectSpeed (player, powerUp) {
 function backToNormal () {
     playerSpeed -= 3;
 }
+
+function killnote(){
+    game.add.tween(noteText).to( { alpha: 0 }, 1000, "Linear", true);
+    noteText.kill();
+}
+
 
 
 
@@ -466,6 +472,18 @@ function o_move (onion) {
     }
 }
 
+// player loses health when hit by enemy
+function loseHealth (player, carrots) {
+    playerHP -= .25;
+    grunt.play()
+    if (playerHP % 1 == 0){
+        HPFrame += 1;
+        health_bar.frame = HPFrame;
+    }
+    //HPText.text = 'Health: ' + playerHP;
+    
+}
+
 function roundOver(){
     //when round over, reset enemies killed and spawned
     //timer only works to show ROUND COMPLETE, doesn't stop spawning
@@ -732,23 +750,26 @@ function playerHUD(){
     FinalScoreText.alpha = 0;
     
     // tutorial text
-    WASDText =  game.add.text(16, 16, 'Use WASD keys to MOVE', {fontSize: '15px', fontWeight: 'bold', fill: '#FFA316', stroke: '#000000', strokeThickness: '1'});
+    WASDText =  game.add.text(16, 16, 'Use WASD keys to MOVE', {fontSize: '15px', fontWeight: 'bold', fill: '#FFA316'});
     WASDText.font = 'Bungee';
+    WASDText.setShadow(5, 5, 'rgba(0,0,0,0.5)', 5);
     WASDText.alpha = 1;
 
-
-    MouseText =  game.add.text(16, 16, 'Use MOUSE to SHOOT', {fontSize: '15px', fontWeight: 'bold', fill: '#FFA316', stroke: '#000000', strokeThickness: '1'});
+    MouseText =  game.add.text(16, 16, 'Use MOUSE to SHOOT', {fontSize: '15px', fontWeight: 'bold', fill: '#FFA316'});
     MouseText.font = 'Bungee';
+    MouseText.setShadow(5, 5, 'rgba(0,0,0,0.5)', 5);
     MouseText.alpha = 1;
 
 
-    AmmoText = game.add.text(16, 16, 'Keep Track of Ammo', {fontSize: '15px', fontWeight: 'bold', fill: '#FFA316', stroke: '#000000', strokeThickness: '1'});
+    AmmoText = game.add.text(16, 16, 'Keep Track of Ammo', {fontSize: '15px', fontWeight: 'bold', fill: '#FFA316'});
     AmmoText.font = 'Bungee';
+    AmmoText.setShadow(5, 5, 'rgba(0,0,0,0.5)', 5);
     AmmoText.alpha = 1;
 
 
-    WeaponText = game.add.text(16, 16, 'Toggle Through Weapons with Q & E', {fontSize: '15px', fontWeight: 'bold', fill: '#FFA316', stroke: '#000000', strokeThickness: '1'});
+    WeaponText = game.add.text(16, 16, 'Toggle Through Weapons with Q & E', {fontSize: '15px', fontWeight: 'bold', fill: '#FFA316'});
     WeaponText.font = 'Bungee';
+    WeaponText.setShadow(5, 5, 'rgba(0,0,0,0.5)', 5);
     WeaponText.alpha = 1;
     
     
@@ -805,16 +826,17 @@ function playerHUDUpdate(){
     
     scoreText.anchor.setTo(0.5, 0.5);
     scoreText.fixedToCamera = true;
-    scoreText.cameraOffset.setTo(300,30);
+    scoreText.cameraOffset.setTo(300,20);
     
     enemiesText.fixedToCamera = true;
-    enemiesText.cameraOffset.setTo(450,20);
-    //enemiesText.text = 'Enemies Left: '+ (enemiesLeft - 15 - enemiesKilled);
-    enemiesText.text = 'Enemies Left: '+ (enemiesSpawned);
+    enemiesText.cameraOffset.setTo(430,20);
+    
+    enemiesText.text = 'Enemies Left: '+ (enemiesLeft - 15 - enemiesKilled);
+//    enemiesText.text = 'Enemies Left: '+ (enemiesSpawned);
     
     roundText.anchor.setTo(0.5, 0.5);
     roundText.fixedToCamera = true;
-    roundText.cameraOffset.setTo(300,50);
+    roundText.cameraOffset.setTo(300,45);
 
     ammoText.fixedToCamera = true;
     ammoText.cameraOffset.setTo(400, 355);
