@@ -99,7 +99,7 @@ function collectAmmo (player, ammo) {
     }
     
     if(wep5Out){
-        ammo5 += 5;
+        ammo5 += 15;
         noteText = game.add.text(ammo.x, ammo.y, 'Fuel +5', {font: '17px', fill: '#000'});
         noteText.font = 'Bungee';
         noteText.alpha = 1;
@@ -1027,15 +1027,15 @@ function PlayerControls() {
                 wep2Out = false;
                 wep3Out = true;
 
-            } else if (wep3Out && score >= 100) {
+            } else if (wep3Out && score >= 250) {
                 wep3Out = false;
                 wep4Out = true;
 
-            } else if (wep4Out && score >= 250) {
+            } else if (wep4Out && score >= 1000) {
                 wep4Out = false;
                 wep5Out = true;
 
-            } else if (wep5Out && score >= 1000) {
+            } else if (wep5Out) {
                 wep5Out = false;
                 knifeOut = true;
             }
@@ -1044,23 +1044,23 @@ function PlayerControls() {
     if (weaponToggle.isDown) {
         if(game.time.now > togg){
             togg= game.time.now + 125;
-            if (knifeOut && score >= 25) {
+            if (knifeOut && score >= 1000) {
                 knifeOut = false;
                 wep5Out = true;
 
-            } else if (wep2Out && score >= 50) {
+            } else if (wep2Out) {
                 wep2Out = false;
                 knifeOut = true;
 
-            } else if (wep3Out && score >= 100) {
+            } else if (wep3Out && score >= 25) {
                 wep3Out = false;
                 wep2Out = true;
 
-            } else if (wep4Out && score >= 250) {
+            } else if (wep4Out && score >= 50) {
                 wep4Out = false;
                 wep3Out = true;
 
-            } else if (wep5Out && score >= 1000) {
+            } else if (wep5Out && score >= 250) {
                 wep5Out = false;
                 wep4Out = true;
             }
