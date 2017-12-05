@@ -1,7 +1,7 @@
-
 demo.menu = function(){};
 demo.menu.prototype = {
     preload: function(){
+        
         
     },
     create: function(){
@@ -13,11 +13,14 @@ demo.menu.prototype = {
         
         background = game.add.tileSprite(0, 0, 600, 400, 'startscreen')
         
-        easy = game.add.button(game.world.centerX - 295, 300, 'easy', easyClick, this, 2, 1, 0);
+        easy = game.add.button(game.world.centerX - 295, game.world.centerY + 90, 'easy', easyClick, this, 2, 1, 0);
         
-        medium = game.add.button(game.world.centerX - 95, 300, 'medium', mediumClick, this, 2, 1, 0);
         
-        hard = game.add.button(game.world.centerX + 105, 300, 'hard', hardClick, this, 2, 1, 0);
+        medium = game.add.button(game.world.centerX - 95, game.world.centerY + 90, 'medium', mediumClick, this, 2, 1, 0);
+    
+        
+        hard = game.add.button(game.world.centerX + 105, game.world.centerY + 90, 'hard', hardClick, this, 2, 1, 0);
+    
         
         ammo1 = 25;
         ammo2 = 100;
@@ -29,6 +32,14 @@ demo.menu.prototype = {
         score = 0;
     },
     update: function(){
+        easy.fixedToCamera = true;
+        easy.cameraOffset.setTo (10, 290);
+        
+        medium.fixedToCamera = true;
+        medium.cameraOffset.setTo (205, 290);
+        
+        hard.fixedToCamera = true;
+        hard.cameraOffset.setTo (405, 290);
     }    
 };
 

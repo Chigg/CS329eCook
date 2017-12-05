@@ -8,6 +8,8 @@ demo.mapmenu.prototype = {
         
         game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
         
+        background = game.add.tileSprite(0, 0, 600, 400, 'startscreen')
+        
         ruins = game.add.button(game.world.centerX - 295, 300, 'ruins', ruinsClick, this, 2, 1, 0);
         
         garden = game.add.button(game.world.centerX - 95, 300, 'garden', gardenClick, this, 2, 1, 0);
@@ -15,6 +17,14 @@ demo.mapmenu.prototype = {
         desert = game.add.button(game.world.centerX + 105, 300, 'desert', desertClick, this, 2, 1, 0);
             },
     update: function(){
+        ruins.fixedToCamera = true;
+        ruins.cameraOffset.setTo (10, 290);
+        
+        garden.fixedToCamera = true;
+        garden.cameraOffset.setTo (205, 290);
+        
+        desert.fixedToCamera = true;
+        desert.cameraOffset.setTo (405, 290);
     }    
 };
 
