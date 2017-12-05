@@ -1019,23 +1019,23 @@ function PlayerControls() {
     if (weaponToggleB.isDown) {
         if(game.time.now > togg){
             togg= game.time.now + 125; 
-            if (knifeOut) {
+            if (knifeOut && score >= 25) {
                 knifeOut = false;
                 wep2Out = true;
 
-            } else if (wep2Out) {
+            } else if (wep2Out && score >= 50) {
                 wep2Out = false;
                 wep3Out = true;
 
-            } else if (wep3Out) {
+            } else if (wep3Out && score >= 100) {
                 wep3Out = false;
                 wep4Out = true;
 
-            } else if (wep4Out) {
+            } else if (wep4Out && score >= 250) {
                 wep4Out = false;
                 wep5Out = true;
 
-            } else if (wep5Out) {
+            } else if (wep5Out && score >= 1000) {
                 wep5Out = false;
                 knifeOut = true;
             }
@@ -1044,23 +1044,23 @@ function PlayerControls() {
     if (weaponToggle.isDown) {
         if(game.time.now > togg){
             togg= game.time.now + 125;
-            if (knifeOut) {
+            if (knifeOut && score >= 25) {
                 knifeOut = false;
                 wep5Out = true;
 
-            } else if (wep2Out) {
+            } else if (wep2Out && score >= 50) {
                 wep2Out = false;
                 knifeOut = true;
 
-            } else if (wep3Out) {
+            } else if (wep3Out && score >= 100) {
                 wep3Out = false;
                 wep2Out = true;
 
-            } else if (wep4Out) {
+            } else if (wep4Out && score >= 250) {
                 wep4Out = false;
                 wep3Out = true;
 
-            } else if (wep5Out) {
+            } else if (wep5Out && score >= 1000) {
                 wep5Out = false;
                 wep4Out = true;
             }
