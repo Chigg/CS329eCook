@@ -973,48 +973,6 @@ function PlayerControls() {
         resetGame();
     }
 
-    //if number one is pressed, it pulls the knife out and puts away the other weapons
-
-//    if (wep1.isDown){
-//        knifeOut = true;
-//        wep2Out = false;
-//        wep3Out = false;
-//        wep4Out = false;
-//        wep5Out = false;  
-//    }
-//
-//    if (wep2.isDown){
-//        knifeOut = false;
-//        wep2Out = true;
-//        wep3Out = false;
-//        wep4Out = false;
-//        wep5Out = false;           
-//    }
-//
-//    if (wep3.isDown){
-//        knifeOut = false;
-//        wep2Out = false;
-//        wep3Out = true;
-//        wep4Out = false;
-//        wep5Out = false;
-//    }
-//
-//    if (wep4.isDown){
-//        knifeOut = false;
-//        wep2Out = false;
-//        wep3Out = false;
-//        wep4Out = true;
-//        wep5Out = false;
-//    }
-//
-//    if (wep5.isDown){
-//        knifeOut = false;
-//        wep2Out = false;
-//        wep3Out = false;
-//        wep4Out = false;
-//        wep5Out = true;
-    
-//    }
     
     if (weaponToggleB.isDown) {
         if(game.time.now > togg){
@@ -1238,7 +1196,21 @@ function PlayerControls() {
             f_ui.animations.play('s');
         }
     }
-
+    //lock weapon UI
+    if (score < 25){
+        ar_ui.animations.play('l');
+    }
+    if (score < 50){
+        g_ui.animations.play('l');
+    }
+    if (score < 250){
+        m_ui.animations.play('l');
+    }
+    if (score < 1000){
+        f_ui.animations.play('l');
+    }
+    
+    
     if (game.input.activePointer.isDown)
     {   
         if(knifeOut & ammo1 > 0 & notDead){
